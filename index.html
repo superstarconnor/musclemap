@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Muscle Map</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #f4f4f4; }
+    .container { display: flex; justify-content: center; align-items: center; height: 100vh; position: relative; }
+    .viewer { position: relative; }
+    iframe { width: 600px; height: 600px; border: none; }
+    .tooltip {
+      position: absolute; background: rgba(0,0,0,0.7); color: #fff;
+      padding: 5px 10px; border-radius: 5px; display: none;
+      pointer-events: none; font-size: 14px; z-index: 10;
+    }
+    .sidebar {
+      position: absolute; top: 0; right: 0; width: 300px; height: 100%;
+      background: #fff; padding: 20px; box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+      display: none; flex-direction: column; z-index: 5;
+    }
+    .sidebar h2 { margin-top: 0; }
+    #closeSidebar { background: none; border: none; font-size: 24px; cursor: pointer; align-self: flex-end; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="viewer">
+      <iframe id="modelFrame"
+        src="https://sketchfab.com/models/3555abac11c744d29bc4e5e52d8b47f4/embed"
+        title="Muscle Model" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen>
+      </iframe>
+      <div class="tooltip" id="tooltip"></div>
+    </div>
+    <div class="sidebar" id="sidebar">
+      <button id="closeSidebar">×</button>
+      <h2 id="muscleName"></h2>
+      <p id="muscleFunction"></p>
+      <p id="muscleExercises"></p>
+    </div>
+  </div>
+
+  <!-- Sketchfab Viewer SDK -->
+  <script src="https://static.sketchfab.com/api/sketchfab-viewer-1.12.1.js"></script>
+  <script>
+    const iframe = document.getElementById('modelFrame');
+    const tooltip = document.getElementById('tooltip');
+    const sidebar = document.getElementById('sidebar');
+    const closeBtn = document.getElementById('closeSidebar');
+
+    // Basic muscle info map
+    const muscleInfo = {
+      'Biceps Brachii': { name: 'Biceps Brachii', function: 'Flexes the elbow and rotates the forearm.', exercises: 'Bicep curls, hammer curls, chin-ups' }
+    };
+
+    // Initialize Sketchfab Viewer
+    const client = new Sketchfab('1.12.1', iframe);
+    client.init('3555abac11c744d29bc4e5e52d8b47f4', {
+      success: api => {
+        api.start();
+        console.log('Sketchfab viewer initialized.');
+
+        api.addEventListener('hoverNode', nodeId => {
+          console.log('hoverNode event:', nodeId);
+          api.getNodeMap(nodeMap => {
+            const name = nodeMap[nodeId] || 'Unknown';
+            const rect = iframe.getBoundingClientRect();
+            tooltip.innerText = name;
+            tooltip.style.left = rect.left + rect.width/2 + 'px';
+            tooltip.style.top = rect.top + 'px';
+            tooltip.style.display = 'block';
+          });
+        });
+
+        api.addEventListener('clickNode', nodeId => {
+          console.log('clickNode event:', nodeId);
+          api.getNodeMap(nodeMap => {
+            const name = nodeMap[nodeId] || 'Unknown';
+            const data = muscleInfo[name] || { name, function: 'N/A', exercises: 'N/A' };
+            document.getElementById('muscleName').innerText = data.name;
+            document.getElementById('muscleFunction').innerText = 'Function: ' + data.function;
+            document.getElementById('muscleExercises').innerText = 'Exercises: ' + data.exercises;
+            sidebar.style.display = 'flex';
+            tooltip.style.display = 'none';
+          });
+        });
+
+        // Hide tooltip on pointer leave
+        api.addEventListener('hoverNodeOut', () => {
+          console.log('hoverNodeOut');
+          tooltip.style.display = 'none';
+        });
+      },
+      error: () => console.error('Sketchfab API init error')
+    });
+
+    closeBtn.addEventListener('click', () => sidebar.style.display = 'none');
+  </script>
+</body>
+</html>
