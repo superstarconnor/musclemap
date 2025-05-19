@@ -5,46 +5,108 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Muscle Map – Anatomic Muscle Study</title>
   <style>
-    body { margin: 0; font-family: Arial, sans-serif; background: #464343; }
-    .container { display: flex; justify-content: center; align-items: center; height: 100vh; position: relative; }
-    .viewer { position: relative; }
-    iframe { width: 600px; height: 600px; border: none; }
-    .tooltip {
-      position: absolute;
-      background: rgba(0,0,0,0.7);
-      color: #fff;
-      padding: 5px 10px;
-      border-radius: 5px;
-      display: none;
-      pointer-events: none;
-      font-size: 14px;
-      z-index: 10;
-      transform: translateX(-50%);
+    /* Reset & base */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #464343; color: #222; }
+
+    /* Two-column layout */
+    .container {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .viewer {
+      flex: 1;
+      position: relative;
+      background: #464343;
     }
     .sidebar {
-      position: absolute; top: 0; right: 0; width: 300px; height: 100%;
-      background: #fff; padding: 20px; box-shadow: -2px 0 8px rgba(0,0,0,0.1);
-      display: none; flex-direction: column; z-index: 5;
+      width: 350px;
+      background: #e0e0e0;
+      padding: 20px;
+      overflow-y: auto;
     }
-    .sidebar h2 { margin-top: 0; }
-    #closeSidebar { background: none; border: none; font-size: 24px; cursor: pointer; align-self: flex-end; }
+
+    /* Sketchfab iframe fills viewer */
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Quick-view tooltip style */
+    .tooltip {
+      position: absolute;
+      background: #fff;
+      color: #000;
+      border: 2px solid #000;
+      border-radius: 15px;
+      padding: 10px;
+      min-width: 150px;
+      max-width: 200px;
+      display: none;
+      pointer-events: none;
+      z-index: 10;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .tooltip h4 {
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+    .tooltip img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 6px;
+    }
+
+    /* Sidebar details */
+    .sidebar h1 {
+      margin-bottom: 10px;
+      font-size: 24px;
+    }
+    .sidebar img {
+      width: 100%;
+      margin: 10px 0;
+    }
+    .sidebar p {
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    .sidebar ul {
+      list-style: disc inside;
+    }
+    #closeSidebar {
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="viewer">
-      <!-- Embedded Anatomic Muscle Study model -->
       <iframe id="modelFrame"
         src="https://sketchfab.com/models/fad4065844d8403787ea6cf4a2bdb31b/embed"
-        title="Anatomic Muscle Study" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen>
+        title="Anatomic Muscle Study"
+        allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen>
       </iframe>
-      <div class="tooltip" id="tooltip">&nbsp;</div>
+      <div class="tooltip" id="tooltip">
+        <h4 id="tooltipName"></h4>
+        <!-- optional image: <img id="tooltipImg" src="" alt=""> -->
+      </div>
     </div>
+
     <div class="sidebar" id="sidebar">
       <button id="closeSidebar">×</button>
-      <h2 id="muscleName"></h2>
-      <p id="muscleFunction"></p>
-      <p id="muscleExercises"></p>
+      <h1 id="muscleName">Select a Muscle</h1>
+      <img id="muscleImg" src="" alt="Muscle Illustration" style="display:none;">
+      <p id="muscleDesc">Hover over the 3D model to see a quick preview; click to view details here.</p>
+      <h3>Exercises</h3>
+      <ul id="muscleList"><li>No muscle selected</li></ul>
     </div>
   </div>
 
@@ -53,53 +115,71 @@
   <script>
     const iframe = document.getElementById('modelFrame');
     const tooltip = document.getElementById('tooltip');
+    const tooltipName = document.getElementById('tooltipName');
     const sidebar = document.getElementById('sidebar');
     const closeBtn = document.getElementById('closeSidebar');
+    const muscleName = document.getElementById('muscleName');
+    const muscleDesc = document.getElementById('muscleDesc');
+    const muscleList = document.getElementById('muscleList');
 
+    // Map Sketchfab node names to details
     const muscleInfo = {
-      // example mapping: key nodes to details
-      'Anterolateral Abdominal Wall': {
-        name: 'Anterolateral Abdominal Wall',
-        function: 'Supports trunk flexion and rotation.',
-        exercises: 'Planks, crunches, Russian twists'
+      'Pectoralis Major': {
+        name: 'Pectoralis Major',
+        desc: 'Part of the chest. Responsible for arm flexion, adduction, and internal rotation.',
+        img: 'https://i.imgur.com/9nX_OTl.jpg', // placeholder muscle illustration
+        exercises: ['Bench Press', 'Dumbbell Press', 'Incline Fly']
       }
+      // add additional muscles here
     };
 
     const client = new Sketchfab('1.12.1', iframe);
     client.init('fad4065844d8403787ea6cf4a2bdb31b', {
       success(api) {
         api.start();
-        console.log('Sketchfab viewer started');
-
         api.addEventListener('viewerready', () => {
-          console.log('Viewer is ready');
-
+          // Hover preview
           api.addEventListener('hoverNode', event => {
-            console.log('hoverNode:', event.nodeId);
             api.getNodeMap(nodeMap => {
               const name = nodeMap[event.nodeId] || 'Unknown';
-              const rect = iframe.getBoundingClientRect();
-              tooltip.innerText = name;
-              tooltip.style.left = (rect.left + rect.width / 2) + 'px';
-              tooltip.style.top = (rect.top + 10) + 'px';
+              tooltipName.innerText = name;
+              const { left, top, width } = iframe.getBoundingClientRect();
+              tooltip.style.left = (left + width / 2) + 'px';
+              tooltip.style.top = (top + 10) + 'px';
               tooltip.style.display = 'block';
             });
           });
-
-          api.addEventListener('hoverNodeOut', event => {
-            console.log('hoverNodeOut');
+          api.addEventListener('hoverNodeOut', () => {
             tooltip.style.display = 'none';
           });
 
+          // Click for details
           api.addEventListener('clickNode', event => {
-            console.log('clickNode:', event.nodeId);
             api.getNodeMap(nodeMap => {
-              const key = nodeMap[event.nodeId] || 'Unknown';
-              const data = muscleInfo[key] || { name: key, function: 'N/A', exercises: 'N/A' };
-              document.getElementById('muscleName').innerText = data.name;
-              document.getElementById('muscleFunction').innerText = 'Function: ' + data.function;
-              document.getElementById('muscleExercises').innerText = 'Exercises: ' + data.exercises;
-              sidebar.style.display = 'flex';
+              const nodeName = nodeMap[event.nodeId] || 'Unknown';
+              const info = muscleInfo[nodeName];
+              muscleName.innerText = info ? info.name : nodeName;
+              muscleDesc.innerText = info ? info.desc : 'No description available.';
+
+              // image
+              const imgEl = document.getElementById('muscleImg');
+              if (info && info.img) {
+                imgEl.src = info.img;
+                imgEl.style.display = 'block';
+              } else {
+                imgEl.style.display = 'none';
+              }
+
+              // exercises list
+              muscleList.innerHTML = '';
+              const items = info ? info.exercises : ['No exercises available'];
+              items.forEach(ex => {
+                const li = document.createElement('li');
+                li.innerText = ex;
+                muscleList.appendChild(li);
+              });
+
+              sidebar.style.display = 'block';
               tooltip.style.display = 'none';
             });
           });
@@ -111,6 +191,4 @@
     closeBtn.addEventListener('click', () => { sidebar.style.display = 'none'; });
   </script>
 </body>
-</html>
-
 </html>
