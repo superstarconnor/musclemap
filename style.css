@@ -1,48 +1,140 @@
+/* reset */
+* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-}
-
-.container {
-  display: flex;
+  background: #c4c4c4cb; /* dark grey background */
+  color: #fff;
   height: 100vh;
   overflow: hidden;
 }
 
-.viewer {
-  flex: 1;
-  position: relative;
+/* 2-column layout (left controls + center) */
+.container {
+  display: flex;
+  height: 100%;
 }
 
-.tooltip {
-  position: absolute;
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  display: none;
-  pointer-events: none;
+/* left controls */
+.controls {
+  width: 140px;
+  background: #faf9f7;
+  color: #222;
+  padding: 20px;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+}
+.controls label {
+  display: block;
+  margin-bottom: 16px;
   font-size: 14px;
 }
+.controls input { margin-right: 6px; }
 
-.sidebar {
-  width: 300px;
-  background-color: white;
+/* center viewer & slides */
+.viewer {
+  flex: 1;
+  overflow-y: auto;
   padding: 20px;
-  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+/* the rounded 3D viewer box */
+.viewer-box {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  height: 450px;
+  margin: 0 auto;
+  background: #222;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.viewer-box iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+/* tooltip bubble */
+.tooltip {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 6px 12px;
+  background: rgba(255,255,255,0.9);
+  color: #000;
+  border-radius: 12px;
+  pointer-events: none;
+  font-size: 13px;
   display: none;
-  flex-direction: column;
 }
 
-.sidebar h2 {
-  margin-top: 0;
+/* slide content below the model */
+.slides {
+  max-width: 700px;
+  margin: 30px auto 0;
+  color: #1b1b1bd7;
 }
+.slides h1, .slides h2 {
+  text-align: center;
+}
+.slides h1 {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+.slides h2 {
+  font-size: 20px;
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+.slides p {
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+.slides strong { color: #ffecb3; } /* accent color */
+.slides em { font-style: italic; }
 
-#closeSidebar {
+/* detail sidebar overlay */
+.detail-sidebar {
+  position: absolute;
+  top: 8%;
+  right: 8%;
+  width: 280px;
+  max-height: 84%;
+  background: #faf9f7;
+  color: #292929e4;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  padding: 18px;
+  overflow-y: auto;
+  display: none;
+  z-index: 10;
+}
+.detail-sidebar .close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
   background: none;
   border: none;
-  font-size: 24px;
-  align-self: flex-end;
+  font-size: 22px;
   cursor: pointer;
+  color: #555;
+}
+.detail-sidebar h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+.detail-sidebar img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.detail-sidebar p {
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+.detail-sidebar h3 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+.detail-sidebar ul {
+  list-style: disc inside;
+  margin-bottom: 0;
 }
