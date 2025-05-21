@@ -33,24 +33,25 @@ body {
 .viewer {
   flex: 1;
   overflow-y: auto;
-  padding: 20px;
+  padding: 80px 20px 20px;
 }
 
 /* the rounded 3D viewer box */
 .viewer-box {
   position: relative;
   width: 100%;
-  max-width: 800px;
-  height: 450px;
+  max-width: 900px;
+  height: 600px;
   margin: 0 auto;
   background: #c9c9c97c;
   border-radius: 20px;
   overflow: hidden;
 }
-.viewer-box iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
+  .sketchfab-embed-wrapper,
+  .sketchfab-embed-wrapper iframe {
+    width: 100%;
+    height: 90%;
+    display: block;
 }
 /* tooltip bubble */
 .tooltip {
@@ -68,24 +69,27 @@ body {
 
 /* slide content below the model */
 .slides {
-  max-width: 700px;
+  max-width: 900px;
   margin: 30px auto 0;
   color: #1b1b1bd7;
+  padding: 70px;
 }
 .slides h1, .slides h2 {
   text-align: center;
 }
 .slides h1 {
-  font-size: 24px;
-  margin-bottom: 12px;
+  font-size: 35px;
+  margin-bottom: 30px;
 }
 .slides h2 {
-  font-size: 20px;
+  font-size: 25px;
   margin-top: 24px;
   margin-bottom: 12px;
 }
 .slides p {
-  line-height: 1.5;
+  font-size: 18px;
+  text-align: center;
+  line-height: 1.8;
   margin-bottom: 16px;
 }
 .slides strong { color: #ffffff; } /* accent color */
