@@ -2,88 +2,88 @@
 <html lang="en">
 <head>
 
+  <link rel="stylesheet" href="style.css">
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
   <title>Muscle Map (Prototype)</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    body 
+    .viewer-box {
+      width: 90%;
+      height: 500px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    label {
+      cursor: pointer;
+    }
+
+    .slides {
+      text-align: center;
+      max-width: 800px;
+      margin: auto;
+    }
+  </style>
 </head>
 <body>
 
-  <div class="container">
-    <!-- 1) Left controls -->
+  <!-- Top navigation -->
+  <nav class="top-nav">
+    <a href="#">Contact</a>
+    <a href="#">SSM</a>
+    <a href="#">Citations</a>
+  </nav>
+
+  <!-- Viewer Container -->
+  <div class="viewer-container">
+
+
+    <!-- Viewer Box -->
+    <div class="viewer-box">
+      <iframe
+        title="SSM"
+        allow="autoplay; fullscreen; xr-spatial-tracking"
+        src="https://sketchfab.com/models/fad4065844d8403787ea6cf4a2bdb31b/embed?autospin=1&autostart=1&camera=0&preload=1&transparent=1">
+      </iframe>
+    </div>
+
+    <!-- Controls moved below the viewer-box -->
     <div class="controls">
-        <p> View </p>
-      <label><input type="checkbox" /> Basic</label>
-      <label><input type="checkbox" /> Advanced</label>
-      <label><input type="checkbox" /> Breakdown</label>
-
-      <p> Sex </p>
-      <label><input type="checkbox" checked /> Male</label>
-      <label><input type="checkbox" /> Female</label>
-      
-
+    
+      <label><input type="checkbox" checked> Male</label>
+      <label><input type="checkbox"> Female</label>
     </div>
 
-    <!-- 2) Center scrollable viewer & slides -->
-    <div class="viewer">
-      <!-- 2a) 3D model box -->
-      <div class="viewer-box" id="viewerBox">
-        <div class="sketchfab-embed-wrapper"> <iframe title="Anatomic Muscle study" frameborder="0" allowfullscreen mozallowfullscreen="false" webkitallowfullscreen="false" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/fad4065844d8403787ea6cf4a2bdb31b/embed?autospin=1&autostart=1&camera=0&preload=1&transparent=1"> </iframe> </div>
-        <div id="tooltip" class="tooltip">Placeholder name...…</div>
-      </div>
-      <!-- 2b) Slides content -->
+    <!-- Slides content -->
+    <section class="ssm-section">
       <div class="slides">
-        <!-- Slide 1 -->
         <h1>Skeletal Muscle Mass (SSM)</h1>
-          <p>
-          Skeletal muscles are a huge part of daily function. They are responsible for all types of movement in the body, both voluntary and involuntary.
-          Unlike Lean Body Mass (LBM), and Lean Muscle Mass (LMM), which include cardiac and smooth muscle tissue, SSM is only muscle tissue that gan be grown through regular exercise. 
-          </p>
-
-          <p>
-          The name "skeletal muscle" comes from the fact that they attach to bones via tendons. Visible in the model, the  fibers of skeletal muscles have distinct red and white lines called striations. In the average human being, SSM comprises roughly 30% to 40% of total body mass. Like all muscles, caring for your skeletal muscle mass is crucial to maintain your health.
-         </p>
-
+        <p>
+          Your skeletal muscles are a huge part of daily function. They are responsible for all types of movement in the body, both voluntary and involuntary. Unlike Lean Body Mass (LBM), and Lean Muscle Mass (LMM), which include cardiac and smooth muscle tissue, SSM is only muscle tissue that can be grown through regular exercise.
+        </p>
+        <p>
+          The name "skeletal muscle" comes from the fact that they attach to bones via tendons. Visible in the model, the fibers of skeletal muscles have distinct red and white lines called striations. In the average human being, SSM comprises roughly 30% to 40% of total body mass. Like all muscles, caring for your skeletal muscle mass is crucial to maintain your health.
+        </p>
       </div>
-    </div>
-  </div>
-
-  <!-- 3) Detail sidebar overlay -->
-  <div id="detailSidebar" class="detail-sidebar">
-    <button id="closeDetail" class="close-btn">x</button>
-    <h2>Pectoralis Major</h2>
-    <img 
-      src=IMG_4191.PNG Screenshot 2025-05-20 at 10.30.0 2AM.png 
-      alt="Pectoralis Major illustration"
-    />
-      <p>
-      Located beneath the breast tissue, your pectoralis major, often called the pec, is your superior most muscle of the anterior chest.
-      </p>
-
-      </p>
-      It is responsible for the flexion, adduction, and internal rotation of the arm in the shoulder joint.
-     </p>
-  
-      <img 
-      src=Pectoralis-Major-1-1.png
-      alt="Pectoralis Major Heads"
-
-    />
-      The pectoralis major is comprised of two heads, the clavicular head (yellow), and the sternocostal head (green).
-     </p>
-
-    </p>
-    <h3>Exercises that work the Pectoralis Major:</h3>
-    <ul>
-      <li>Bench Press</li>
-      <li>Dumbbell Press</li>
-      <li>Incline Fly</li>
-      <li>Push Ups</li>
-    </ul>
-  </div>
-
-  <script src="script.js"></script>
+    </section>
 </body>
 </html>
-
