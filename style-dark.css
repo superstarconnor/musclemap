@@ -10,15 +10,13 @@ body {
   color: #fff;
 }
 
+/* Top navigation */
 .top-nav {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  align-items: center;
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 2.1rem 0;
+  border-top: 20px solid #1d1d1d;
   background: #090909;
-  padding-inline: 
-    max(1rem, env(safe-area-inset-left))
-    max(1rem, env(safe-area-inset-right));
   border-top: 20px solid #1d1d1d; 
   border-bottom: 1px solid #303030;
   .top-nav {
@@ -26,12 +24,13 @@ body {
     padding-inline: 1rem;      /* left/right */
   }
 }
-top-nav a {
-  justify-self: center;     /* center each link in its grid cell */
-  white-space: nowrap;      /* no wrapping */
+.top-nav a {
+  flex: 1;
+  text-align: center;
+  padding: 0.3rem;
+  white-space: nowrap;
   color: #bababa;
   text-decoration: none;
-  font-size: 1rem;  
 }
 
 @media (max-width: 480px) {
