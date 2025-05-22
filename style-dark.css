@@ -6,7 +6,7 @@
 }
 body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #000000;
+  background: #151515;
   color: #fff;
 }
 
@@ -16,25 +16,24 @@ body {
   justify-content: center;
   gap: 8rem;
   padding: 2.1rem 0;
-  background: #111111;
-  border-bottom: 1px solid #727272;
+  background: #090909;
+  border-bottom: 1px solid #303030;
+  border-top: 20px solid #1d1d1d; 
+
 }
 .top-nav a {
   color: #bababa;
   text-decoration: none;
 }
 
+
 /* Main content wrapper */
 .main-content {
   transition: margin-left 0.3s ease;
   margin-left: 0;
+
   position: relative; /* anchor for toggle button */
   padding: 1 rem 0;
-}
-
-/* When sidebar is open */
-.main-content.shift {
-  margin-left: 280px; /* same width as sidebar */
 }
 
 /* Viewer */
@@ -42,19 +41,19 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  
 }
 .viewer-box {
-  width: 90%;
-  height: 70%;
-  max-width: 900px;
-  height: 650px;
-  background: #000000;
+  width: 100%;
+  height: 100%;
+  background: #00000045;
   overflow: hidden;
+  
 }
 .viewer-box iframe {
   width: 100%;
   height: 70%;
-    border: none;
+  border: none;
 }
 /* Controls */
 .controls {
@@ -63,7 +62,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 2rem;
-  margin: 1.5 rem 0;
+  margin: 1.5;
 }
 .controls p {
   font-weight: bold;
@@ -95,13 +94,6 @@ body {
   font-weight: 300;
 
 }
-/* ─── TEMP HIDE SIDEBAR ─── */
-.sidebar {
-  display: none !important;
-}
-
-/* ─── RESTORE VERTICAL GUTTERS ─── */
-/* between nav and viewer */
 .viewer-container {
   padding-top: 0rem;  
   padding-bottom: 0rem;
@@ -109,7 +101,8 @@ body {
 
 /* between checkboxes and SSM text */
 .controls {
-  margin-bottom: 0rem; /* puts space under the row of checkboxes */
+  margin-bottom: 0rem;
+  margin-top: 2rem; 
 }
 
 /* add breathing room around the slide block */
@@ -118,9 +111,9 @@ body {
 }
 /* ─── SSM SECTION ─── */
 .ssm-section {
-  background-color: #151515;       
-  border-top: 1px solid #727272;   
-  padding: 4.5rem 0rem;           
+  background-color: #1d1d1d;       
+  border-top: 1px solid #303030;   
+  padding: 2.5rem 0rem;           
   margin-top: 2rem;    
   width: 100%;
   height: 100%;
@@ -134,17 +127,8 @@ body {
 }
 .ssm-section .slides p {
   margin-bottom: 1rem;
-  line-height: 2;
+  line-height: 2.5;
 }
-
-.top-nav {
-  /* your existing rules… */
-
-  /* add a small dark bar above the nav */
-  border-top: 30px solid #1d1d1d; 
- 
-}
-
 .theme-toggle {
   position: fixed;
   top: 1rem;
@@ -155,4 +139,15 @@ body {
   cursor: pointer;
   color: var(--text-color); /* if you’re using variables */
 }
-
+.citation {
+  font-size: 0.8em;        /* shrink the superscript a bit */
+  vertical-align: super;   /* keep it floating above the line */
+  margin-left: 2px;
+}
+.citation a {
+  color: #00aaff;             /* or whatever link color you prefer */
+  text-decoration: none;   /* remove underline if you like */
+}
+.citation a:hover {
+  text-decoration: underline;
+}
