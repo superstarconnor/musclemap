@@ -14,15 +14,11 @@ body {
 .top-nav {
   display: flex;
   justify-content: center;
-  padding: 2.1rem 0;
+  padding: 2.1rem;
   border-top: 20px solid #1d1d1d;
   background: #090909;
   border-top: 20px solid #1d1d1d; 
   border-bottom: 1px solid #303030;
-  .top-nav {
-    padding-block: 1rem;       /* top/bottom */
-    padding-inline: 1rem;      /* left/right */
-  }
 }
 .top-nav a {
   flex: 1;
@@ -36,9 +32,10 @@ body {
 @media (max-width: 480px) {
   .top-nav {
     font-size: 0.9rem;
-    padding: 0.5rem 0;
+    padding: 0.5rem 4;
     gap: 0.5rem;
   }
+}
 }
 
 
