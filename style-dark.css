@@ -14,16 +14,30 @@ body {
 .top-nav {
   display: flex;
   justify-content: center;
-  gap: 8rem;
-  padding: 2.1rem 0;
+  flex-wrap: wrap; 
   background: #090909;
   border-bottom: 1px solid #303030;
   border-top: 20px solid #1d1d1d; 
-
+  padding: 1rem 0;
 }
 .top-nav a {
   color: #bababa;
   text-decoration: none;
+  flex: 1 1 auto;
+  text-align: center;
+  padding: 0.3rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .top-nav {
+    padding: 0.5rem 0;
+    gap: 0.5rem;
+  }
+  .top-nav a {
+    padding: 0.5rem 0.5rem;
+    font-size: 0.9rem;
+  }
 }
 
 
