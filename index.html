@@ -1,26 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-  <!-- theme stylesheet; default to dark -->
-  <link id="theme-link" rel="stylesheet" href="style-dark.css">
-
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
-
   <title>Muscle Map (Prototype)</title>
+  <!-- Theme stylesheet -->
+  <link id="theme-link" rel="stylesheet" href="style-dark.css">
+</head>
+<body>
 
   <style>
     body 
     .viewer-box {
-      width: 90%;
-      height: 650px;
+      width: 100%;
+      height: 100%;
+      height: 500px;
       overflow: hidden;
       margin-bottom: 0rem;
       display: flex;
@@ -30,39 +24,41 @@
     label {
       cursor: pointer;
     }
-
     .slides {
       text-align: center;
     }
+    .top-nav {
+    display: flex;
+    justify-content: center;
+    gap: 8rem;
+    padding: 2.1rem 0;
+ solid-border-top: 20px 
+    }
+.top-nav a {
+  color: #bababa;
+  text-decoration: none;
+}
   </style>
 </head>
 
-<button id="theme-toggle" class="theme-toggle">
-    <!-- your page content… -->
-
-  <!-- at the very end of the body: -->
-  <script src="script.js"></script>
-</body>
-</html>
-
-  🌙 / ☀️
-</button>
+  <!-- Theme toggle button -->
+  <button id="theme-toggle" class="theme-toggle">🌙 / ☀️</button>
 
 
 <body>
 
   <!-- Top navigation -->
   <nav class="top-nav">
-    <a href="#">Contact</a>
-    <a href="#">SSM</a>
-    <a href="#">Refrences</a>
+    <a href="Contact.html">Contact</a>
+    <a href="index.html">Home</a>
+    <a href="references.html">References</a>
   </nav>
 
-  <!-- Viewer Container -->
   <div class="viewer-container">
 
 
-    <!-- Viewer Box -->
+   <!-- 3D Viewer -->
+   <div class="viewer-container">
     <div class="viewer-box">
       <iframe
         title="SSM"
@@ -70,28 +66,53 @@
         src="https://sketchfab.com/models/fad4065844d8403787ea6cf4a2bdb31b/embed?autospin=1&autostart=1&camera=0&preload=1&transparent=1">
       </iframe>
     </div>
-
-    <!-- Controls moved below the viewer-box -->
-    <div class="controls">
-    
-      <label><input type="checkbox" checked> Male</label>
-      <label><input type="checkbox"> Female</label>
-    </div>
+ 
+   <!-- Controls -->
+   <div class="controls">
+    <label><input type="checkbox" checked> Male</label>
+    <label><input type="checkbox"> Female</label>
+  </div>
 
     <!-- Slides content -->
     <section class="ssm-section">
       <div class="slides">
         <h1>Skeletal Muscle Mass (SSM)</h1>
         <p>
-          Your skeletal muscles are a huge part of daily function. They are responsible for all types of movement in the body, both voluntary and involuntary. Unlike Lean Body Mass (LBM), and Lean Muscle Mass (LMM), which include cardiac and smooth muscle tissue, SSM is only muscle tissue that can be grown through regular exercise.
+          Skeletal muscle serves a huge biological purpose. These miracles muscles contract and relax to produce every single one of our movements. <sup class="citation">
+            <a href="https://www.britannica.com/science/skeletal-muscle"
+               target="_blank" rel="noopener noreferrer">1,</a>
+          </sup>
+          <sup class="citation">
+            <a href="https://www.ncbi.nlm.nih.gov/books/NBK537236/"
+               target="_blank" rel="noopener noreferrer">2</a>
+          </sup>
+          The average SSM of a healthy adult comprises a considerable 30% to 40% of total body mass. <sup class="citation">
+            <a href="https://my.clevelandclinic.org/health/body/21787-skeletal-muscle"
+               target="_blank" rel="noopener noreferrer">5</a>
+          </sup>
         </p>
-        <p>
-          The name "skeletal muscle" comes from the fact that they attach to bones via tendons. Visible in the model, the fibers of skeletal muscles have distinct red and white lines called striations. In the average human being, SSM comprises roughly 30% to 40% of total body mass. Like all muscles, caring for your skeletal muscle mass is crucial to maintain your health.
+        <p>  
+          The fibers of skeletal muscles pattern red and white lines called striations that give them a distinct look. Unlike Lean Body Mass (LBM) and Lean Muscle Mass (LMM), SSM is only the muscle tissue that can be grown through an exercise stimulus.
+          <sup class="citation">
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8075408/"
+               target="_blank" rel="noopener noreferrer">3</a>
+          </sup>The name "skeletal muscle" is in refrence to these muscles attatching to bones via tendons. 
+          <sup class="citation">
+            <a href="https://www.britannica.com/video/muscles-bones-tendons/-153042#:~:text=Most%20of%20them%20are%20called,by%20whitish%20fibers%20called%20tendons."
+               target="_blank" rel="noopener noreferrer">4,</a>
+          </sup>
+
+          <sup class="citation">
+            <a href="https://www.britannica.com/science/skeletal-muscle"
+               target="_blank" rel="noopener noreferrer">1</a>
+          </sup> 
+         </p>
+          <p>
+          Caring for your skeletal muscles is crucial to maintain proper bodily health.
         </p>
       </div>
     </section>
-
   </div>
-
+  <script src="script.js"></script>
 </body>
 </html>
