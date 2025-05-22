@@ -15,7 +15,7 @@ body {
   display: flex;
   justify-content: space-between;
   flex-wrap: nowrap; 
-  padding: 1rem 0;
+  padding: 1rem 1rem;
   background: #090909;
   border-bottom: 1px solid #303030;
   border-top: 20px solid #1d1d1d; 
