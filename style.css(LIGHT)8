@@ -6,8 +6,8 @@
 }
 body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #000000;
-  color: #fff;
+  background: #ffffff;
+  color: #000000;
 }
 
 /* Top navigation */
@@ -15,11 +15,12 @@ body {
   display: flex;
   justify-content: center;
   gap: 8rem;
-  padding: 2rem 0;
-  background: #171717;
+  padding: 2.1rem 0;
+  background: #111111;
+  border-bottom: 1px solid #727272;
 }
 .top-nav a {
-  color: #fff;
+  color: #bababa;
   text-decoration: none;
 }
 
@@ -28,7 +29,7 @@ body {
   transition: margin-left 0.3s ease;
   margin-left: 0;
   position: relative; /* anchor for toggle button */
-  padding: 1rem 0;
+  padding: 1 rem 0;
 }
 
 /* When sidebar is open */
@@ -44,25 +45,25 @@ body {
 }
 .viewer-box {
   width: 90%;
+  height: 70%;
   max-width: 900px;
-  height: 500px;
-  background: #000000;
-  border-radius: 12px;
+  height: 900px;
+  background: #ffffff;
   overflow: hidden;
 }
 .viewer-box iframe {
   width: 100%;
-  height: 100%;
+  height: 70%;
     border: none;
 }
-
 /* Controls */
 .controls {
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 2rem;
-  margin: 1.5rem 0;
+  margin: 1.5 rem 0;
 }
 .controls p {
   font-weight: bold;
@@ -77,16 +78,18 @@ body {
 
 /* Slides */
 .slides {
-  max-width: 700px;
+  width: 75%;
   margin: 0 auto 2rem;
   text-align: center;
+
 }
 .slides h1 {
-  margin-top: 6;
+  margin-top: 0;
   margin-bottom: 1rem;
   font-weight: 400;
 }
 .slides p {
+  color: #535353;
   line-height: 1.6;
   margin-bottom: 1rem;
   font-weight: 300;
@@ -97,17 +100,11 @@ body {
   display: none !important;
 }
 
-/* ─── NAV BAR SEPARATOR & SPACING ─── */
-.top-nav {
-  /* you already have your gap & padding here, we just add: */
-  border-bottom: 1px solid #8b8b8b;
-  /* if you want to tweak the color, use something lighter or darker: #ddd, #aaa, etc */
-}
 
 /* ─── RESTORE VERTICAL GUTTERS ─── */
 /* between nav and viewer */
 .viewer-container {
-  padding-top: 6rem;  
+  padding-top: 0rem;  
   padding-bottom: 0rem;
 }
 
@@ -122,23 +119,40 @@ body {
 }
 /* ─── SSM SECTION ─── */
 .ssm-section {
-  background-color: #171717;       
-  border-top: 1px solid #8b8b8b;   
-  padding: 3rem 1rem;           
+  background-color: #eeeeee;       
+  border-top: 1px solid #8e8e8e;   
+  padding: 4.5rem 0rem;           
   margin-top: 2rem;    
   width: 100%;
+  height: 100%;
 }
 
 .ssm-section .slides {
-  margin: 0 auto;
   text-align: center;
 }
 .ssm-section .slides h1 {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 .ssm-section .slides p {
   margin-bottom: 1rem;
-  line-height: 1.6;
+  line-height: 2;
 }
 
+.top-nav {
+  /* your existing rules… */
 
+  /* add a small dark bar above the nav */
+  border-top: 30px solid #1d1d1d; 
+ 
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--text-color); /* if you’re using variables */
+}
