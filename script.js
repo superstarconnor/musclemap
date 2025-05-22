@@ -1,29 +1,21 @@
 window.addEventListener('DOMContentLoaded', () => {
-  const viewerBox   = document.getElementById('viewerBox');
-  const tooltip     = document.getElementById('tooltip');
-  const detailPanel = document.getElementById('detailSidebar');
-  const closeBtn    = document.getElementById('closeDetail');
+  const themeLink = document.getElementById('theme-link');
+  const toggleBtn = document.getElementById('theme-toggle');
 
-  // 1) Show a tooltip placeholder on hover
-  viewerBox.addEventListener('mousemove', e => {
-    tooltip.style.display = 'block';
-    // position it top-right of the box
-    tooltip.style.top  = '12px';
-    tooltip.style.left = `${e.clientX - viewerBox.getBoundingClientRect().left + 10}px`;
-    tooltip.textContent = 'Muscle name…';
-  });
-  viewerBox.addEventListener('mouseleave', () => {
-    tooltip.style.display = 'none';
-  });
+  // 1) On load, if user chose a theme last time, apply it
+  const stored = localStorage.getItem('theme');
+  if (stored) {
+    themeLink.href = stored;
+    toggleBtn.textContent = stored === 'style-dark.css' ? '☀️' : '🌙';
+  }
 
-  // 2) Click anywhere in the model to open the detail sidebar
-  viewerBox.addEventListener('click', () => {
-    detailPanel.style.display = 'block';
-    tooltip.style.display     = 'none';
-  });
-
-  // 3) Close button hides it
-  closeBtn.addEventListener('click', () => {
-    detailPanel.style.display = 'none';
+  // 2) Switch themes on click
+  toggleBtn.addEventListener('click', () => {
+    const isDark = themeLink.getAttribute('href') === 'style-dark.css';
+    const next  = isDark ? 'style-light.css' : 'style-dark.css';
+    themeLink.href = next;
+    localStorage.setItem('theme', next);
+    // update the icon too
+    toggleBtn.textContent = isDark ? '☀️' : '🌙';
   });
 });
