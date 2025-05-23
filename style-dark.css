@@ -129,7 +129,7 @@ body {
 /* Tighter line-height on small screens */
 @media (max-width: 600px) {
   .ssm-section .slides p {
-    line-height: 1;
+    line-height: 2;
   }
 }
 }
