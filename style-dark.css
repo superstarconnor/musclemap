@@ -112,7 +112,7 @@ body {
       border-radius: 0.5rem; 
       padding: 3rem; 
       margin: 1.2rem 0; 
-      box-shadow: 0 2px 6px rgba(44, 68, 85, 0.763);
+      box-shadow: 0 2px 5px rgba(57, 55, 69, 0.763);
       animation: hue-spin 20s linear infinite;
     }
     .ssm-section {
@@ -124,11 +124,11 @@ body {
     .ssm-section .slides h1 {
       margin-bottom: 2rem;
       font-weight: 500;
-      color: #c5c5c5;
+      color: #dddddd;
       }
     .ssm-section .slides p {
       line-height: 2;
-      color: #a8a8a8;
+      color: #adadad;
       font-weight: 250;
       }
         @media (max-width: 600px) {
