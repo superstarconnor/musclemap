@@ -95,6 +95,7 @@ body {
 .slides {
   width: 85%;
   margin: 1rem auto 2rem;
+  text-align: left;
 }
 .ssm-section {
   background-color: #191e21;       
@@ -139,3 +140,4 @@ body {
 .citation a:hover {
   text-decoration: underline;
 }
+
