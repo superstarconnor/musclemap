@@ -109,6 +109,7 @@ body {
   margin-bottom: 2.2rem;
   font-weight: 500;
   color: #e2e2e2;
+  text-align: left;
 }
 .ssm-section .slides p {
   margin-bottom: 0rem;
@@ -116,6 +117,7 @@ body {
   color: #a8a8a8;
   margin-bottom: 1rem;
   font-weight: 250;
+  text-align: left;
 }
 
 .theme-toggle {
