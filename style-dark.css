@@ -29,8 +29,8 @@ body {
 @media (max-width: 480px) {
   .top-nav {
     font-size: 1rem;
-    padding: 2.1rem 4;
-    gap: 0.5rem;
+    padding: 2.1rem 2;
+    gap: 4rem;
     text-align: left;
   }
 }
@@ -150,4 +150,3 @@ body {
 .citation a:hover {
   text-decoration: underline;
 }
-
