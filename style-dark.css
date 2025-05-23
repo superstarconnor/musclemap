@@ -121,7 +121,7 @@ body {
 /* Paragraphs inside your slides */
 .ssm-section .slides p {
   margin-bottom: 1rem;         /* removed the duplicate 0 then 1rem */
-  line-height: 1.6;
+  line-height: 2;
   color: #a8a8a8;
   font-weight: 250;
 }
@@ -129,8 +129,9 @@ body {
 /* Tighter line-height on small screens */
 @media (max-width: 600px) {
   .ssm-section .slides p {
-    line-height: 2;
+    line-height: 1;
   }
+}
 }
 
 .theme-toggle {
