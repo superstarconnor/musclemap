@@ -29,9 +29,9 @@ body {
 @media (max-width: 480px) {
   .top-nav {
     font-size: 1rem;
-    padding: 2.1rem 2;
+    padding: 2rem 2;
     gap: 4rem;
-    text-align: left;
+    text-align: center;
   }
 }
 
@@ -99,35 +99,65 @@ body {
 
   .slides {
     width: 90%;
-    margin: 0rem auto 6rem;
+    margin: 0rem auto 2rem;
     text-align: left;   
   }
     .ssm-card {
-      background-color: #1e2428;
+      background: linear-gradient(
+        135deg,
+        #20303c 0%,
+        #262428 50%,
+        #2a2c2e 100%); /*1e2428*/
       border: 1px solid #303030; 
       border-radius: 0.5rem; 
       padding: 3rem; 
       margin: 1.2rem 0; 
-      box-shadow: 0 2px 6px rgba(14, 14, 14, 0.763);
+      box-shadow: 0 2px 6px rgba(44, 68, 85, 0.763);
+      animation: hue-spin 20s linear infinite;
     }
     .ssm-section {
       background-color: #191e21;
       border-top: 1px solid #303030;
-      padding: 2.5rem 0;             /* shorthand for top/bottom + left/right */
+      padding: 2.5rem 0;   
       margin-top: 2rem;
       }
     .ssm-section .slides h1 {
       margin-bottom: 2rem;
       font-weight: 500;
-      color: #e2e2e2;
+      color: #c5c5c5;
       }
     .ssm-section .slides p {
       line-height: 2;
       color: #a8a8a8;
       font-weight: 250;
       }
-
-      
+        @media (max-width: 600px) {
+          .ssm-section {
+           padding: 0.5rem;   
+            margin-left: 0;
+          }
+          .ssm-section .slides p {
+            line-height: 2;
+            color: #969696;
+            font-weight: 250;
+            width: 100%; }
+           }
+            .slides {
+              width: 95%;
+            }
+            .ssm-card {
+              padding: 2rem;    
+            }
+            .ssm-card h1 {
+              font-size: 1.75rem; 
+              margin: 1.2rem 0; 
+            }
+            .ssm-card p {
+              font-size: 1rem; 
+              line-height: 1.5;  
+            }
+          
+          
 .theme-toggle {
   position: fixed;
   top: 1rem;
@@ -150,3 +180,13 @@ body {
 .citation a:hover {
   text-decoration: underline;
 }
+
+@keyframes hue-spin {
+  0%   { filter: hue-rotate(0deg); }
+  50% { filter: hue-rotate(0deg); }
+  100%   { filter: hue-rotate(0deg); }
+}
+
+  .ssm-card shadow{
+    animation: hue-pulse 40s ease-in-out infinite;
+  }
