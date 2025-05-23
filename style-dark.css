@@ -69,6 +69,11 @@ body {
   gap: 2rem;
   margin: 1.5;
 }
+.controls input[type="radio"] {
+  transform: scale(1.2);
+  margin-right: 0.5rem; 
+  cursor: pointer;
+}
 .controls p {
   font-weight: bold;
 }
@@ -142,4 +147,3 @@ body {
 .citation a:hover {
   text-decoration: underline;
 }
-
