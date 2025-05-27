@@ -19,16 +19,57 @@ console.log('🔌 script.js loaded as ES module');
     },
     deltoid: {
       title: 'Deltoid',
-      img: 'deltoid.png',
+      img: 'Screenshot 2025-05-27 at 12.16.11 PM.png',
       description:
-        'The deltoid caps the shoulder, enabling arm abduction and stabilization when lifting.',
+        'The deltoid caps the shoulder, enabling arm abduction and stabilization when lifting. It is comprised of three heads: the anterior (front), medial (side/lateral), and posterior (back).',
       function:
         'Abduction, flexion, and extension of the shoulder joint.',
       exercises: ['Lateral Raise', 'Overhead Press', 'Front Raise']
-    }
+    },
     
+    tricep: {
+      title: 'Tricep Brachialis',
+      img: '400px-Long_head_of_triceps_brachii_muscle_-_Kenhub.png',
+      description:
+        'The tricep is comrpised of three heads, the ',
+      function:
+        'Abduction, flexion, and extension of the shoulder joint.',
+      exercises: ['Lateral Raise', 'Overhead Press', 'Front Raise']
+    },
+    bicep: {
+      title: 'Bicep Brachii',
+      img: 'biceps_intro.jpg',
+      description:
+        'The tricep is comrpised of three heads, the ',
+      function:
+        'Abduction, flexion, and extension of the shoulder joint.',
+      exercises: ['Lateral Raise', 'Overhead Press', 'Front Raise']
+    },
+
+    latissimus: {
+      title: 'Latissimus Dorsi',
+      img: 'biceps_intro.jpg',
+      description:
+        'The tricep is comrpised of three heads, the ',
+      function:
+        'Abduction, flexion, and extension of the shoulder joint.',
+      exercises: ['Lateral Raise', 'Overhead Press', 'Front Raise']
+    },
+    trapezius: {
+      title: 'Trapezius',
+      img: 'trapeze.jpg',
+      description:
+        'The trapezius muscle, often called the "traps," ',
+      function:
+        'Abduction, flexion, and extension of the shoulder joint.',
+      exercises: 
+        ['Shoulder Shrugs', 
+        'Face Pulls', 
+        'Bent Rows']
+    },
     // add additional muscles here
   };
+
 
   // 3) Scene setup
   const container = document.getElementById('three-container');
@@ -41,7 +82,7 @@ console.log('🔌 script.js loaded as ES module');
     0.1,
     1000
   );
-  camera.position.set(0, 1.5, 3);
+  camera.position.set(0, 1, 2.2);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(container.clientWidth, container.clientHeight);
