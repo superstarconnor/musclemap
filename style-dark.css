@@ -1,13 +1,78 @@
 /* Reset */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-body {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #181c1d;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #181c1d;
+    }
+
+      /* Sidebar Base */
+    #muscleSidebar {
+      position: relative;
+      top: 0;
+      right: -400px;
+      width: 400px;
+      height: 100%;
+      background: linear-gradient(
+      135deg,
+      rgba(20, 30, 41, 0.8) 0%,
+      rgba(17, 13, 26, 0.8) 50%,
+      rgba(38, 27, 39, 0.8) 100%);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(10px);
+      border-left: 1px solid #303030;
+      box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+      transition: right 0.4s ease-in-out;
+      z-index: 9999;
+      overflow-y: auto;
+    }
+
+    /* Slide-in */
+    #muscleSidebar.active {
+      right: 0;
+    }
+
+    /* Header */
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    #closeSidebarBtn {
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .sidebar-section h3 {
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      color: #dddddd;
+      font-weight: 400;
+    }
+    .sidebar-section p {
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      color: #adadad;
+      font-size: 1rem; 
+      line-height: 1.5; 
+      font-weight: 200;
+    }
+    .sidebar-section li {
+      margin-top: 1rem;
+
+      line-height: 0.4; 
+      color: #adadad;
+      font-size: 1rem; 
+      font-weight: 200;
+    }
+
 
 /* Top navigation */
   .top-nav {
@@ -17,7 +82,6 @@ body {
     width: 100%;
     z-index: 1000;
     justify-content: center;
-    text-align: center;
     padding: 2.1rem;
     border-top: 1px solid #303030;
     border-bottom: 1px solid #303030;
@@ -31,19 +95,17 @@ body {
   }
     .top-nav a {
       flex: 1;
-      text-align: center;
-      padding: 7rem;
+      padding: 1rem;
       white-space: nowrap;
       color: #d1d1d1;
+      text-align: left;
       text-decoration: none;
     }
-    @media (max-width: 480px) {
+    @media (max-width: 300px) {
       .top-nav {
-        font-size: rem;
+        font-size: 1rem;
         padding: 2.1rem;
-        gap: 4rem;
         text-align: center;
-        padding: 0.8rem;
       }
     }
 
@@ -58,7 +120,7 @@ body {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-top: 2.7rem;  
+      padding-top: 5.5rem;  
       padding-bottom: 0rem;
       }
       .viewer-box {
@@ -70,6 +132,8 @@ body {
         height: 100%;
         border: none;
       }
+
+      
 
 /* Controls */
 .controls {
@@ -130,24 +194,22 @@ body {
     .ssm-section .slides h1 {
       margin-bottom: 1.5rem;
       font-size: 1.5rem;
-      font-weight: 500;
+      font-weight: 400;
       color: #dddddd;
       }
     .ssm-section .slides p {
-      line-height: 2;
-      color: #adadad;
+      line-height: 1.5;
+      color: #b4b4b4;
       font-size: 1rem;
-      font-weight: 250;
+      font-weight: 200;
       }
         @media (max-width: 600px) {
           .ssm-section {
            padding: 0.5rem;   
-            margin-left: 0;
+           margin-left: 0;
           }
           .ssm-section .slides p {
-            line-height: 2;
-            color: #969696;
-            font-weight: 250;
+            font-weight: 200;
             width: 100%; }
            }
             .slides {
@@ -162,20 +224,9 @@ body {
             }
             .ssm-card p {
               font-size: 1rem; 
-              line-height: 1.5;  
             }
           
-          
-.theme-toggle {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  background: transparent;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  color: var(--text-color); /* if you’re using variables */
-}
+
 .citation {
   font-size: 0.8em;        /* shrink the superscript a bit */
   vertical-align: super;   /* keep it floating above the line */
@@ -185,7 +236,3 @@ body {
   color: #51d6ff;             /* or whatever link color you prefer */
   text-decoration: none;   /* remove underline if you like */
 }
-
-  .ssm-card shadow{
-    animation: hue-pulse 40s ease-in-out infinite;
-  }
