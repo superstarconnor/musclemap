@@ -1,197 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Muscle Map (Prototype)</title>
-  <!-- Theme stylesheet -->
-  <link id="theme-link" rel="stylesheet" href="style-dark.css">
 
-  <style>
-    /* Viewer styling */
-    .viewer-box {
-      width: 100%;
-      height: 730px;
-      overflow: hidden;
-      margin-bottom: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    /* Sidebar & Layout */
-    #mainContent {
-      transition: margin-right 0.4s ease-in-out; }
-    #muscleSidebar {
-      position: fixed;
-      top: 5.5rem;
-      right: -400px;
-      width: 38%;
-      height: 100%;
-      padding: 1rem;
-      border-bottom: 1px solid #303030;
-      background: linear-gradient(
-      135deg,
-      rgba(20, 30, 41, 0.8) 0%,
-      rgba(17, 13, 26, 0.8) 50%,
-      rgba(38, 27, 39, 0.8) 100%);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(10px);
-      z-index: 9999;
-      transform: translateX(100%);
-      transition: transform 0.4s ease-in-out;
-     
-    }
-    #muscleSidebar.active {
-      transform: translateX(0);
-    }
-    body.sidebar-open #mainContent {
-      margin-right: 38%;
-    }
+  <!-- Stylesheet is now the only source of styles -->
+  <link rel="stylesheet" href="style.css" />
 
-    /* Sidebar card */
-    .sidebar-card {
-      background: linear-gradient(
-        135deg,
-        #1d303f 0%,
-        #252428 50%,
-        #302832 100%);
-      border-radius: 0.5rem;
-      padding: 2rem;
-      margin: 0rem 0rem;
-     /* Sidebar card  height: calc(100% - 4rem); */
-      box-shadow: 0 2px 4px rgba(57, 55, 69, 0.763);
-      color: #e6e6e6;
-      overflow-y: auto;
-    }
-    .sidebar-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-    #closeSidebarBtn {
-      font-size: 1.5rem;
-      background: none;
-      border: none;
-      color: #e6e6e6;
-      cursor: pointer;
-    }
-    .sidebar-section h3 {
-      margin-top: 1rem;
-      margin-bottom: 0.5rem;
-      line-height: 2;
-    }
-     .sidebar-section p {
-      line-height: 1.5;
-      color: #b4b4b4;
-      font-size: 1rem;
-      font-weight: 200;
-    }
-  </style>
+  <!-- Three.js / app code -->
+  <script type="module" src="script.js" defer></script>
 </head>
 <body>
-      <!-- Top navigation -->
-      <nav class="top-nav">
-        <a href="Contact.html">Contact</a>
-        <a href="index.html">Home</a>
-        <a href="references.html">References</a>
-      </nav>  
+  <!-- Top navigation -->
+  <nav class="top-nav">
+    <a href="index.html">Home</a>
+    <a href="references.html">References</a>
+    <a href="Contact.html">Feedback</a>
+  </nav>
 
-  <!-- Main content wrapper -->
-  <div id="mainContent">
-    <!-- 3D Viewer -->
+  <!-- Main: viewer (left) + sidebar (right) -->
+  <div class="main" id="mainContent">
+    <!-- Viewer / content column -->
     <div class="viewer-container">
-      <div class="viewer-box" id="three-container"></div>
+      <!-- 3D Viewer -->
+      <div id="three-container" class="viewer-box"></div>
+
+      <!-- Controls -->
+      <div class="controls">
+        <label>
+          <input type="radio" name="texture" value="basic" checked />
+          Basic
+        </label>
+        <label>
+          <input type="radio" name="texture" value="advanced" />
+          Advanced
+        </label>
+      </div>
     </div>
 
-    <!-- texture toggle -->
-    <div id="texture-controls" style="display:inline-block; margin-left:1rem; color:#fff;">
-      <label style="margin-right:0.5rem">
-        <input type="radio" name="texture" value="advanced">
-        Advanced
-      </label>
-      <label>
-        <input type="radio" name="texture" value="basic" checked>
-        Basic
-      </label>
-    </div>
+    <!-- Sidebar / info panel (the ONLY sidebar) -->
+    <aside id="muscleSidebar" class="sidebar">
 
-    <!-- SSM section -->
-    <section class="ssm-section">
-      <div class="slides">
-        <div class="ssm-card">
-          <h1>Skeletal Muscle Mass (SSM)</h1>
-          <p>
-            Skeletal muscles are one of the most impressive parts of the human body.
-            They're more just the muscles we work in the gym — tens of thousands of contractions
-            a day to produce all of our movements. <sup class="citation">
-              <a href="https://www.britannica.com/science/skeletal-muscle" target="_blank">1</a>,
-            </sup> <sup class="citation">
-              <a href="https://www.ncbi.nlm.nih.gov/books/NBK537236/" target="_blank">2</a>
-            </sup> The average SSM of a healthy adult comprises about 30–40% of total body mass.
-            <sup class="citation">
-              <a href="https://my.clevelandclinic.org/health/body/21787-skeletal-muscle" target="_blank">5</a>
-            </sup>
-          </p>
-          <p> bar</p>
-          <p>
-            Skeletal muscle fibers show striations that give them a distinct look. Unlike Lean Body Mass
-            (LBM) or Lean Muscle Mass (LMM), SSM is the muscle tissue that can be grown through exercise.
-            <sup class="citation">
-              <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8075408/" target="_blank">3</a>
-            </sup> The name "skeletal muscle" refers to how they attach to bones via tendons.
-            <sup class="citation">
-              <a href="https://www.britannica.com/video/muscles-bones-tendons" target="_blank">4</a>
-            </sup>
-          </p>
+      <div class="sidebar-resizer" title="Drag to resize" aria-hidden="true"></div>
+
+      <button class="close-btn" aria-label="Close panel">×</button>
+
+      <div class="sidebar-card">
+        <!-- Muscle Search -->
+        <input
+          type="text"
+          id="muscleSearch"
+          placeholder="Search muscle..."
+          autocomplete="on"
+          style="width:100%;margin-bottom:2rem;padding:0.65rem 1rem;border-radius:0.3rem;border:1px solid #222;font-size:1.1rem;background:#1d1d1d;color:#eee;"
+        />
+        <ul
+          id="muscleResults"
+          style="margin:0 0 0rem 0;padding:0;list-style:none;max-height:140px;overflow-y:auto;background:#191c1e;position:relative;z-index:10;"
+        ></ul>
+
+        <!-- Title + image -->
+        <div class="sidebar-header">
+          <h2 id="muscleName">Muscle Name</h2>
+        </div>
+        <img
+          src=""
+          alt="Selected muscle"
+          style="max-width:260px; height:auto; margin: 0.5rem 0 1rem;"
+        />
+
+        <!-- Description -->
+        <div class="sidebar-section">
+          <p></p>
+        </div>
+
+        <!-- Function -->
+        <div class="sidebar-section">
+          <h3>Function</h3>
+          <p></p>
+        </div>
+
+        <!-- Exercises -->
+        <div class="sidebar-section">
+          <h3>How can I train this muscle?</h3>
+          <ul></ul>
         </div>
       </div>
-    </section>
+    </aside>
   </div>
 
-  <!-- Sidebar markup -->
-  <div id="muscleSidebar">
-    <div class="sidebar-card">
-      <div class="sidebar-header">
-        <h2 id="muscleName">Pectoralis Major</h2>
-        <button id="closeSidebarBtn">×</button>
-      </div>
-      <img src="IMG_4191.PNG" alt="PecPic" width="300" height="300">
-      <div class="sidebar-section">
-        <!-- description goes here (first <p>) -->
-          
-        <p>…</p> 
-      </div>
-      <div class="sidebar-section">
-        <h3>Biomechanical Function</h3>
-        <!-- function goes here (next sibling <p>) -->
-        <p>…</p>
-      </div>
-      <div class="sidebar-section">
-        <h3>How can I train this muscle?</h3>
-        <!-- this <ul> is repopulated dynamically -->
-        <ul>
-          <li>…</li>
-        </ul>
+  <!-- SSM section -->
+  <section class="ssm-section">
+    <div class="slides">
+      <div class="ssm-card">
+        <h1>Skeletal Muscle Mass (SSM)</h1>
+        <p>
+          Skeletal muscles are one of the most impressive parts of the human body.
+          They're more than just the muscles we work in the gym — they contract tens of thousands
+          of times a day to produce all of our movements.
+          <sup class="citation">
+            <a href="https://www.britannica.com/science/skeletal-muscle" target="_blank">1</a>
+          </sup>,
+          <sup class="citation">
+            <a href="https://www.ncbi.nlm.nih.gov/books/NBK537236/" target="_blank">2</a>
+          </sup>
+          The average SSM of a healthy adult comprises about 30–40% of total body mass.
+          <sup class="citation">
+            <a href="https://my.clevelandclinic.org/health/body/21787-skeletal-muscle" target="_blank">5</a>
+          </sup>
+        </p>
+        <p>
+          Skeletal muscle fibers show striations that give them a distinct look. Unlike Lean Body Mass
+          (LBM) or Lean Muscle Mass (LMM), SSM is the muscle tissue that can be grown through exercise.
+          <sup class="citation">
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8075408/" target="_blank">3</a>
+          </sup>
+          The name "skeletal muscle" refers to how they attach to bones via tendons.
+          <sup class="citation">
+            <a href="https://www.britannica.com/video/muscles-bones-tendons" target="_blank">4</a>
+          </sup>
+        </p>
       </div>
     </div>
-  </div>
-  
-  
-
-
-  <script>
-    const sidebar = document.getElementById('muscleSidebar');
-    document.getElementById('openSidebarBtn')
-      .addEventListener('click', () => sidebar.classList.add('active'));
-    document.getElementById('closeSidebarBtn')
-      .addEventListener('click', () => sidebar.classList.remove('active'));
-  </script>
-
-      <script type="module" src="./script.js">
-      </script>
-
+  </section>
 </body>
 </html>
-
