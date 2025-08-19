@@ -1,4 +1,25 @@
+
 console.log('🔌 script.js loaded as ES module');
+
+// Safety guard for DOM lookups in early loads
+document.addEventListener('DOMContentLoaded', () => {
+  // no-op: your existing listeners can stay as-is
+});
+
+
+
+(function(){
+  const key='mmSidebarCollapsed';
+  const body=document.body;
+  const toggle=document.getElementById('mmSidebarToggle');
+  if (!toggle) return;
+  const saved=localStorage.getItem(key);
+  if (saved==='true') body.classList.add('mm-collapsed');
+  toggle.addEventListener('click', ()=>{
+    body.classList.toggle('mm-collapsed');
+    localStorage.setItem(key, body.classList.contains('mm-collapsed'));
+  });
+})();
 
 (async () => {
   // 1) Dynamic ES-module imports
@@ -19,13 +40,81 @@ console.log('🔌 script.js loaded as ES module');
     });
   }
 
+  
+// --- optional theme toggle (guarded) ---
+const darkSheet  = document.getElementById('theme-dark');
+const lightSheet = document.getElementById('theme-light');
+const toggleBtn  = document.getElementById('themeToggle');
+
+if (toggleBtn && darkSheet && lightSheet) {
+  toggleBtn.addEventListener('click', () => {
+    const darkEnabled = !darkSheet.disabled;
+    darkSheet.disabled = darkEnabled;
+    lightSheet.disabled = !darkEnabled;
+    localStorage.setItem('theme', darkEnabled ? 'light' : 'dark');
+  });
+
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'light') {
+    darkSheet.disabled = true;
+    lightSheet.disabled = false;
+  }
+}
+
+  const tabInfo        = document.getElementById('tab-info');
+  const tabExercises  = document.getElementById('tab-exercises');
+  const panelInfo     = document.getElementById('panel-info');
+  const panelExercises= document.getElementById('panel-exercises');
+  const underline     = document.querySelector('.tab-underline');
+
+  function positionUnderline(activeBtn){
+    if (!activeBtn || !underline) return;
+    const x = activeBtn.offsetLeft;
+    const w = activeBtn.offsetWidth;
+    underline.style.width = `${w}px`;
+    underline.style.transform = `translateX(${Math.round(x)}px)`;
+  }
+
+  function showTab(which){
+    const isInfo = which === 'info';
+    tabInfo?.classList.toggle('is-active', isInfo);
+    tabExercises?.classList.toggle('is-active', !isInfo);
+    tabInfo?.setAttribute('aria-selected', String(isInfo));
+    tabExercises?.setAttribute('aria-selected', String(!isInfo));
+    if (panelInfo)      { panelInfo.hidden = !isInfo; panelInfo.classList.toggle('is-hidden', !isInfo); }
+    if (panelExercises) { panelExercises.hidden = isInfo; panelExercises.classList.toggle('is-hidden', isInfo); }
+    positionUnderline(isInfo ? tabInfo : tabExercises);
+  }
+
+  window.addEventListener('load',  () => positionUnderline(tabInfo));
+  window.addEventListener('resize',() => positionUnderline(tabInfo?.classList.contains('is-active') ? tabInfo : tabExercises));
+  tabInfo?.addEventListener('click',      () => showTab('info'));
+  tabExercises?.addEventListener('click', () => showTab('exercises'));
+
+  function renderMuscleInfo(info){
+    document.getElementById('muscleName').textContent = info.title || 'Muscle';
+    const img = document.getElementById('muscleImage');
+    if (img){
+      if (info.img){ img.src = info.img; img.alt = `${info.title} illustration`; img.style.display='block'; }
+      else { img.removeAttribute('src'); img.alt=''; img.style.display='none'; }
+    }
+    const d = document.getElementById('info-desc'); if (d) d.textContent = info.description || '';
+    const f = document.getElementById('info-func'); if (f) f.textContent = info.function || '';
+  }
+
+  function renderMuscleExercises(info){
+    const list = document.getElementById('exerciseList');
+    if (!list) return;
+    list.innerHTML = (info.exercises || []).map(ex => `<li>${ex}</li>`).join('') || `<li>No exercises yet.</li>`;
+  }
+
   // 2) Data map for muscles
   const MUSCLE_INFO = {
     pec: {
       title: 'Pectoralis Major (Pecs)',
       description:
         "Derived from Latin 'pectus,' meaning breast, your pectoralis major(s) are located just beneath the breast tissue. Together with the pectoralis minor, these muscles make up what we call the chest.",
-      img: 'IMG_4191.PNG',
+      img: 'pecpic.jpg',
       function:
         'The pectoralis major(s) have two heads: the clavicular (attaches to the clavicle) and the sternal (attaches to the sternum).',
       head: 'These muscles are responsible for flexion, adduction, and internal rotation of the shoulder joint.',
@@ -84,7 +173,7 @@ console.log('🔌 script.js loaded as ES module');
     },
     abdominis: {
       title: 'Abdominis (Abs)',
-      img: 'hamstrings.png',
+      img: 'abs.jpg',
       description:
         'Three muscles on the back of the thigh: biceps femoris, semitendinosus, and semimembranosus. They cross the hip and knee.',
       function:
@@ -93,7 +182,7 @@ console.log('🔌 script.js loaded as ES module');
     },
     gluteus: {
       title: 'Gluteus Maximus (Glutes)',
-      img: 'gluteus_maximus.png', // swap to your actual asset
+      img: 'glutemax.jpg', // swap to your actual asset
       description:
         'Your glutes are the largest muscle group in the body. The gluteus maximus gives the hips their power for standing up, climbing, and sprinting, while the smaller gluteus medius/minimus help keep the pelvis stable when you walk or stand on one leg.',
       function:
@@ -102,7 +191,7 @@ console.log('🔌 script.js loaded as ES module');
     },
     quadriceps: {
       title: 'Quadriceps Femoris (Quads)',
-      img: 'quadriceps.png',
+      img: 'quads.png',
       description:
         'Four muscles on the front of the thigh: rectus femoris, vastus lateralis, vastus medialis, and vastus intermedius. Big contributors to knee extension and athletic power.',
       function:
@@ -120,32 +209,33 @@ console.log('🔌 script.js loaded as ES module');
     },
     adductors: {
       title: 'Hip Adductors',
-      img: 'adductors.png',
+      img: 'adductors.jpg',
       description:
         'Inner-thigh group (adductor magnus/longus/brevis, gracilis, pectineus). Important for change-of-direction and pelvic control.',
       function:
         'Hip adduction; some fibers assist hip extension/flexion depending on angle.',
       exercises: ['Copenhagen Plank', 'Cable/Band Adductions', 'Sumo Squat']
     },
-    
     // add additional muscles here
   };
 
-  // Helper: open and populate the sidebar for a given key
+  // Helper: open and populate the sidebar for a given key (tabs-aware)
   function openSidebarWith(key) {
     const info = MUSCLE_INFO[key];
     if (!info) return;
+
+    // Fill the two panels
+    renderMuscleInfo(info);       // uses #muscleName, #muscleImage, #info-desc, #info-func
+    renderMuscleExercises(info);  // uses #exerciseList
+
+    // Open sidebar and default to Info tab
     const sidebar = document.getElementById('muscleSidebar');
-    document.getElementById('muscleName').textContent = info.title;
-    sidebar.querySelector('img').src = info.img || '';
-    const descP = sidebar.querySelectorAll('.sidebar-section p')[0];
-    descP.textContent = info.description || '';
-    const funcP = sidebar.querySelectorAll('.sidebar-section h3')[0].nextElementSibling;
-    funcP.textContent = info.function || '';
-    const ul = sidebar.querySelector('.sidebar-section ul');
-    ul.innerHTML = (info.exercises || []).map(ex => `<li>${ex}</li>`).join('');
-    sidebar.classList.add('active');
+    if (sidebar) sidebar.classList.add('active');
     document.body.classList.add('sidebar-open');
+
+    showTab('info');
+    // nudge underline after layout
+    requestAnimationFrame(() => positionUnderline(document.getElementById('tab-info')));
   }
 
   // 3) Scene setup
@@ -203,7 +293,7 @@ console.log('🔌 script.js loaded as ES module');
   let startWidth = 0;
 
   function setSidebarWidth(px){
-    const min = 320;
+    const min = 300;
     const max = Math.floor(window.innerWidth * 0.5); // 50vw
     const w   = Math.max(min, Math.min(max, px));
     const val = `${Math.round(w)}px`;
@@ -360,6 +450,82 @@ console.log('🔌 script.js loaded as ES module');
     });
   });
 
+  // ---------- Selection + Zoom helpers ----------
+  function getMeshForKey(key) {
+    if (!model || !key) return null;
+    const k = key.toLowerCase();
+    let hit = null;
+    model.traverse(ch => {
+      if (hit || !ch.isMesh) return;
+      const name = (ch.name || '').toLowerCase();
+      if (name.includes(k)) hit = ch;
+    });
+    return hit;
+  }
+
+  function highlightMesh(mesh) {
+    // clear previous
+    if (selectedMesh && selectedMesh.material?.emissive) {
+      selectedMesh.material.emissive.setHex(selectedPrevEmissive);
+    }
+    selectedMesh = mesh || null;
+    if (selectedMesh?.material?.emissive) {
+      selectedPrevEmissive = selectedMesh.material.emissive.getHex();
+      selectedMesh.material.emissive.setHex(SELECT_COLOR);
+    }
+  }
+
+  function selectMeshByKey(key) {
+    const m = getMeshForKey(key);
+    if (!m) return false;
+    highlightMesh(m);
+    // ensure hover doesn't override selection
+    if (m && m !== currentHover && currentHover?.material?.emissive) {
+      currentHover.material.emissive.setHex(0x000000);
+    }
+    return true;
+  }
+
+  // Smoothly fit/zoom camera to a mesh (OrbitControls-friendly)
+  function zoomToMesh(mesh, opts = {}) {
+    if (!mesh || !camera) return;
+    const { duration = 900, fitRatio = 1.35 } = opts;
+
+    const box = new THREE.Box3().setFromObject(mesh);
+    const sphere = box.getBoundingSphere(new THREE.Sphere());
+
+    const startPos = camera.position.clone();
+    const startTarget = controls ? controls.target.clone() : new THREE.Vector3();
+
+    const endTarget = sphere.center.clone();
+
+    // keep current viewing direction but set distance to fit sphere
+    const dir = startPos.clone().sub(startTarget).normalize();
+    const dist = sphere.radius * fitRatio / Math.sin(THREE.MathUtils.degToRad(camera.fov * 0.5));
+    const endPos = endTarget.clone().add(dir.multiplyScalar(dist));
+
+    const t0 = performance.now();
+    function animateZoom() {
+      const t = Math.min(1, (performance.now() - t0) / duration);
+      // ease in-out
+      const e = t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t;
+
+      camera.position.lerpVectors(startPos, endPos, e);
+      if (controls) {
+        controls.target.lerpVectors(startTarget, endTarget, e);
+        controls.update();
+      }
+      camera.lookAt(controls ? controls.target : endTarget);
+      if (t < 1) requestAnimationFrame(animateZoom);
+    }
+    animateZoom();
+  }
+
+  function autoZoomToKey(key, opts) {
+    const m = getMeshForKey(key);
+    if (m) zoomToMesh(m, opts);
+  }
+
   // 7) Hover highlight + tooltip (does NOT override a selected mesh)
   let currentHover = null;
   container.addEventListener('pointermove', e => {
@@ -402,7 +568,7 @@ console.log('🔌 script.js loaded as ES module');
   // Hide tooltip when pointer leaves the viewer
   container.addEventListener('pointerleave', hideTip);
 
-  // 8) Click-to-select + open sidebar using MUSCLE_INFO
+  // 8) Click-to-select + open sidebar using MUSCLE_INFO (+ auto-zoom)
   container.addEventListener('pointerdown', e => {
     if (!model) return;
     const rect = container.getBoundingClientRect();
@@ -434,14 +600,18 @@ console.log('🔌 script.js loaded as ES module');
       // Open sidebar with the clicked muscle if we can match it
       const meshName = (mesh.name || '').toLowerCase();
       const key = Object.keys(MUSCLE_INFO).find(k => meshName.includes(k));
-      if (key) openSidebarWith(key);
+      if (key) {
+        openSidebarWith(key);
+        // auto-zoom on click too (consistent with search)
+        autoZoomToKey(key, { duration: 900, fitRatio: 1.35 });
+      }
     }
   });
 
   // 9) Search (simple & reliable)
   const searchInput = document.getElementById('muscleSearch');
   const resultsList = document.getElementById('muscleResults');
-
+  
   // compact index (forgiving contains search)
   const SEARCH_INDEX = Object.entries(MUSCLE_INFO).map(([key, m]) => ({
     key,
@@ -478,20 +648,28 @@ console.log('🔌 script.js loaded as ES module');
       renderResults(matches);
     });
 
-    // Click a result
+    // Click a result (now highlights + zooms)
     resultsList.addEventListener('click', (e) => {
       const li = e.target.closest('li.search-item');
       if (!li || !li.dataset.key) return;
+      // #3 highlight same as click
+      selectMeshByKey(li.dataset.key);
+      // open panel
       openSidebarWith(li.dataset.key);
+      // #4 auto-zoom
+      autoZoomToKey(li.dataset.key, { duration: 900, fitRatio: 1.35 });
       clearResults();
     });
 
-    // Enter opens best match automatically
+    // Enter opens best match automatically (with highlight + zoom)
     searchInput.addEventListener('keydown', (e) => {
       if (e.key !== 'Enter') return;
       const matches = findMatches(searchInput.value);
       if (matches.length) {
-        openSidebarWith(matches[0].key);
+        const key = matches[0].key;
+        selectMeshByKey(key);
+        openSidebarWith(key);
+        autoZoomToKey(key, { duration: 900, fitRatio: 1.35 });
         clearResults();
       }
     });
