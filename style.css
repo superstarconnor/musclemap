@@ -1,280 +1,414 @@
 /* Reset */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #0e0e0e;
-}
-
-/* Top navigation */
-.top-nav {
-  display: flex;
-  justify-content: left;
-  gap: 3rem;
-  padding: 2rem 0;
-  padding-left: 4rem;
-  background: #131313;
-  border-bottom: 1px solid #353535;
-  border-top: 20px solid #1a1a1a; /* dark bar above nav */
-}
-.top-nav a {
-  color: #d2d2d2;
-  text-decoration: none;
-}
-
-/* Main layout: viewer + sidebar */
-.main {
-  display: flex;
-  transition: all 0.3s ease;
-  align-items: flex-start;
-}
-
-/* Optional: smooth push effect if you decide to animate margin/width */
-#mainContent {
-  transition: margin-right 0.4s ease-in-out;
-}
-
+/* --------- Tokens --------- */
 :root{
-  --sidebar-width: 35vw;   /* preferred size */
-  --sidebar-min: 320px;     /* don't go narrower */
-  --sidebar-max: 50vw;      /* don't eat the viewer */
-}
-/* Sidebar */
-.sidebar {
-  flex: 0 0 0; 
-  width: 0;
-  max-width: 550px;
-  position: relative;
-  overflow: hidden;
-  background: #121212;
-  color: #fff;
-  transition: width 0.3s ease, flex-basis 0.3s ease;
-  border-left: 1px solid #353535;
-  padding: 0; /* padding inside .sidebar-card instead */
-}
-.sidebar.active {
-  width: clamp(var(--sidebar-min), var(--sidebar-width), var(--sidebar-max));
-  flex: 0 0 clamp(var(--sidebar-min), var(--sidebar-width), var(--sidebar-max));
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: 89vh;
+  /* Brand + UI */
+  --mm-brand: #00d5ff;            /* used by focus ring */
+  --mm-radius: 0.8rem;            /* unify rounding */
+
+  --mm-elev-1: #00e1ff23;         /* light (controls/nav) */
+  --mm-elev-2: #4585a587;         /* hover/active */
+  --mm-border: #7b8a90;
+  --mm-text: #ffffff;
+
+  --mm-sidebar-w: 185px;
+  --mm-sidebar-w-collapsed: 80px;
+  --mm-transition: 220ms cubic-bezier(.2,.6,.2,1);
+
+  /* Sidebar panel sizing */
+  --sidebar-width: 42vw;   /* preferred size */
+  --sidebar-min: 530px;     /* don't go narrower */
+  --sidebar-max: 48vw;
+
+  --hud-gap: 10px;
+  --hud-size: 15px;
 }
 
-.sidebar-card{
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 100%;
-  padding: 2rem 1.25rem 2rem 2rem;  /* right padding so nothing hugs the edge */
+/* --------- Base --------- */
+body{
+  font-family: 'Your Font Name', sans-serif;
+  background: #001218;
+  color: var(--mm-text);
+}
+.mm-content{
+  margin-left: var(--mm-sidebar-w);
+  transition: margin var(--mm-transition);
+  padding: 16px;
+  padding-block: 0;
 }
 
-.sidebar-card img{ display:block; max-width:100%; height:auto; }
-.sidebar-header h2,
-.sidebar-section p,
-.sidebar-section li{ max-width: 65ch; overflow-wrap:anywhere; }
-
-html, body { overflow-x: hidden; }
-
-/* Ensure the drag handle doesn't add width by sitting outside */
-.sidebar-resizer{
-  position: absolute;
-  left: -6px;               /* inside seam (use negative so it doesn't add width) */
-  top: 0;
-  width: 12px;
-  height: 100%;
-  cursor: col-resize;
-}
-
-#muscleResults { list-style:none; margin:0; padding:0; color:#e6e6e6; }
-#muscleResults .search-item:hover { background:#232323; }
-
-
-.sidebar.resizing { transition: none !important; }
-
-/* Drag handle */
-.sidebar-resizer{
-  position: absolute;
-  left: -6px;            /* overlap the seam a bit */
-  top: 0;
-  width: 12px;
-  height: 100%;
-  cursor: col-resize;
-  z-index: 5;
-  /* a subtle grabber line */
-}
-.sidebar-resizer::after{
-  content: "";
-  position: absolute;
-  right: 4px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 2px;
-  height: 40px;
-  background: #494949;
-  opacity: 0.8;
-}
-
-/* Nice UX while dragging */
-body.resizing{
-  user-select: none;
-  cursor: col-resize;
-}
-
-.sidebar .close-btn {
-  background: none;
-  border: none;
-  padding-right: 10px;
-  font-size: 2rem;
-  cursor: pointer;
-  float: right;
-  color: #dddddd;
-}
-
-/* Sidebar card (moved from inline <style>) */
-.sidebar-card {
-  padding: 2rem;
-  background: #131313;
-  color: #e6e6e6;
-  overflow-y: auto;
-  height: auto; /* let it size to content */
-  max-height: calc(100vh - 160px); /* stops it from forcing huge height */
-}
-
-/* Sidebar header + sections (moved from inline <style>) */
-/* THE ACTUAL NAME OF MUSCLE, IDK WHY ITS NOT H2?? */
-
-.sidebar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  color: #d2d2d2;
-}
-.sidebar-section h3 {
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-  line-height: 2;
-}
-.sidebar-section p {
-  line-height: 1.5;
-  color: #b4b4b4;
-  font-size: 1rem;
-  font-weight: 200;
-}
-/* Optional: hide the border when closed */
-.sidebar:not(.active) {
-  border-left: none;
-}
-/* Hover tooltip */
-.mm-tooltip {
-  position: fixed;
-  pointer-events: none;
-  background: rgba(20,20,20,0.95);
-  color: #e6e6e6;
-  font-size: 0.875rem;
-  padding: 0.4rem 0.6rem;
-  border: 1px solid #333;
-  border-radius: 0.4rem;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-  opacity: 0;
-  transform: translate(12px, 12px);
-  transition: opacity 120ms ease;
+/* --------- App Sidebar (left) --------- */
+.mm-sidebar{
+  position: fixed; inset: 0 auto 0 0;
+  width: var(--mm-sidebar-w);
+  background: var(--mm-elev-1);
+  border-right: 1px solid var(--mm-border);
+  display: flex; flex-direction: column;
+  gap: 8px;
+  padding-top: 1.5rem;
+  font-weight: 310;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.158);
   z-index: 1000;
-}
-.mm-tooltip.show { opacity: 1; }
-
-/* Viewer */
-.viewer-container {
-  flex: 1 1 0;       /* grow, shrink, base 0 */
-  min-width: 700px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 4rem;
-  padding-left: 4rem;
-  padding-right:3rem;
-  padding-bottom: 1rem;
-  transition: flex 0.3s ease;
+  transition: width var(--mm-transition);
 }
 
-/* Unified viewer-box (kept your external CSS values).
-   If you prefer the inline version you were using (height: 730px; width: 100%),
-   swap to the commented block below. */
-.viewer-box {
-  width: 100%;   
-  max-width: 1000px;
-  height: 70vh;
-  background: rgb(8, 8, 8);
-  overflow: hidden;
-  border-radius: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0;
+
+.mm-toggle{
+  width:36px; height:36px;
+  display:grid; place-items:center;
+  border:0; background:transparent; color: var(--mm-text);
+  border-radius: 999px; cursor:pointer;
+  transition: background var(--mm-transition), transform var(--mm-transition);
+}
+body.mm-collapsed .mm-toggle{
+  align-self: center;
+  margin-inline: auto;
+}
+body.mm-collapsed .mm-toggle svg{
+  width: 50px; height: 24px;
 }
 
-/* Controls */
-.controls {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-  margin: 1.5rem 0;
-  color: #b4b4b4;
+.mm-toggle::before,.mm-toggle::after{ content:none !important; }
+.mm-toggle svg{ width:24px; height:24px; display:block; }
+.mm-toggle svg *[stroke]{ stroke: currentColor; }
+.mm-toggle:hover{ background: var(--mm-elev-2); }
+.mm-toggle:focus-visible{ outline:2px solid color-mix(in oklab, var(--mm-brand) 45%, transparent); }
+
+/* Nav */
+.mm-nav{ display:flex; flex-direction:column; gap:4px; margin-top:3px; }
+.mm-item{
+  display:flex; align-items:center; gap:12px;
+  padding: 5px 1px;
+  border-radius: var(--mm-radius);
+  color: var(--mm-text); text-decoration:none;
+  position: relative;
+  transition: background var(--mm-transition), color var(--mm-transition);
+  margin-right:10px; margin-left: 10px; margin-top: 6px;
 }
-.controls p {
-  font-weight: bold;
+.mm-item:hover{ background: var(--mm-elev-2); opacity:1;}
+.mm-item.is-active{ background:#fff; color:#0077ff; }
+.mm-item svg{
+  width:40px; height:40px; flex: 0 0 40px;   /* unified size */
+  fill: currentColor; opacity:0.7; margin-left: 10px; margin-right:10px;
 }
-.controls label {
-  display: flex;
-  align-items: center;
+.mm-label{ white-space: nowrap; }
+
+/* Separator */
+.mm-sep{ height:3px; background:#365762; margin: 10px 10px; }
+.mm-sep2{ height:3px; background:#365762; margin: 10px 0px; }
+.mm-sep3{ flex: 0 0 3px; 
+  height: 35px; 
+  align-self: center; 
+  background: #365762;
+  margin: 0 0.2rem;}
+
+/* Collapsed state */
+body.mm-collapsed .mm-sidebar{ width: var(--mm-sidebar-w-collapsed); }
+body.mm-collapsed .mm-content{ margin-left: var(--mm-sidebar-w-collapsed); }
+body.mm-collapsed .mm-label{ display:none; }
+body.mm-collapsed .mm-brand{ justify-content: center; }
+
+/* Tooltips when collapsed */
+body.mm-collapsed .mm-item[data-tooltip]::after{
+  content: attr(data-tooltip);
+  position: absolute; left: calc(100% + 8px); top: 50%; transform: translateY(-50%);
+  background: #000000; color:#fff; padding:6px 8px; border-radius:10px;
+  font-size: 12px; white-space: nowrap; opacity:0; pointer-events:none;
+  transition: opacity var(--mm-transition);
 }
-.controls input {
-  margin-right: 0.5rem;
+body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
+
+/* Responsive: auto-collapse on narrow viewports */
+@media (max-width: 1024px){
+  body:not(.mm-collapsed) .mm-sidebar{ width: var(--mm-sidebar-w-collapsed); }
+  body:not(.mm-collapsed) .mm-content{ margin-left: var(--mm-sidebar-w-collapsed); }
 }
 
-/* BOTTOM HALF OF WEBSITE */
-.slides {
-  width: 85%;
-  max-width: 1200px;
-  margin: 2rem auto 3rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #353535;
-}
-.slides h1 {
-  margin-top: 0;
-  margin-bottom: 1rem;
-  font-weight: 400;
-}
-.slides p {
-  color: #999999;
-  line-height: 1.5;
-  margin-bottom: 1rem;
-  font-weight: 200;
-}
+/* --------- Main Layout --------- */
+.main{ display:flex; align-items:flex-start; transition: all .3s ease; }
+#mainContent{ transition: margin-right .4s ease-in-out; }
 
-/* SSM Section */
-.ssm-section {
-  background-color: #131313;
-  border-top: 1px solid #353535;
-  border-bottom:20px solid #1d1d1d;
-  padding-top: 2rem;
+/* Search */
+.search-wrap{ position:relative; }
+#muscleSearch{
   width: 100%;
+  padding: 1rem 3rem 1rem 2.75rem;
+  margin: 1rem 0 1rem;
+  border: none;
+  border-radius: 1rem;
+  background-color: #3c80916e;
+  font-family: inherit; font-size: 1rem; font-weight: 250;
+  box-shadow: 0 0 15px rgba(0,0,0,0);
+  transition:
+    transform 1s ease,
+    box-shadow .2s ease,
+    border-color .5s ease,
+    padding .3s ease;              /* merged duplicate transitions */
 }
-.ssm-section .slides {
-  text-align: left;
+#muscleSearch:hover,
+#muscleSearch:focus{
+  outline: none;
+  border: 2px solid transparent;
+  padding: 1rem 3rem 2.5rem 2.75rem;
+  background-image:
+    radial-gradient(#000000, #000000),
+    radial-gradient(#325bffc2, #00b7ff);
+  box-shadow: 0 0 8px rgba(0, 162, 255, .612);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: 400% 400%;
+  animation: glowingBorder 7s ease infinite;
 }
-.ssm-section .slides h1 {
-  margin-bottom: 1.5rem;
-  color: #d2d2d2;
+@keyframes glowingBorder{
+  0%{ background-position: 0% 50%; }
+  50%{ background-position: 100% 50%; }
+  100%{ background-position: 0% 50%; }
 }
-.ssm-section .slides p {
-  margin-bottom: 1rem;
-  line-height: 1.5;
-  color: #b4b4b4;
+.search-icon{
+  position:absolute; left:48px; top:56px; width:20px; height:20px;
+  transform:translateY(-50%); color:#fefefe; pointer-events:none;
+}
+.search-wrap:focus-within .search-icon{ color:#fff; opacity:.95; }
+::placeholder{ color:#b4b4b4; font-size:1rem; font-weight:250; }
+
+#muscleResults{ list-style:none; margin:0; padding:0; color:#ffffff; }
+#muscleResults .search-item:hover{
+  background:#a4a4a4;
+  margin:0; padding:0; list-style:none;
+  max-height:140px; overflow-y:auto;
+  position:relative; z-index:10;
+} /* removed stray 's0' token */
+
+
+/* Hover tooltip */
+.mm-tooltip{
+  position: fixed; pointer-events:none;
+  background: rgba(255,255,255,.95); color:#000;
+  font-size:.875rem; font-weight:250; padding:.7rem;
+  border:1px solid #333; border-radius:2rem;
+  box-shadow:0 6px 18px rgba(0,0,0,.35);
+  opacity:0; transform: translate(12px,12px);
+  transition: opacity 120ms ease; z-index:1000;
+}
+.mm-tooltip.show{ opacity:.85; }
+
+/* --------- Viewer --------- */
+.viewer-container{
+  flex: 1 1 0; min-width: 600px;
+  display:flex; flex-direction:column; align-items:center;
+  padding:3rem 2rem 1rem 1rem; transition:flex .3s ease;
+}
+.viewer-box{
+  position: relative;
+  width: 100%; max-width: 1000px; height: 80vh;
+  background: radial-gradient(#050505, #020202 );
+  overflow: hidden;
+  border-radius: 2rem;
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:0;
+}
+.viewer-box > .viewer-hud{
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  gap: 10px;
+  pointer-events: none;
+  z-index: 5;
+}
+.viewer-frame{
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: calc(var(--hud-size) + 2 * var(--hud-gap));
+}
+.viewer-hud.hud-outside{
+  position: absolute;
+  right: var(--hud-gap);
+  top: calc(100% + var(--hud-gap));
+  display: flex;
+  gap: var(--hud-gap);
+  z-index: 5;
+
+  left: auto;
+  bottom: auto;
+  pointer-events: auto;
+  z-index: 5;
+}
+.viewer-hud .hud-btn{
+  pointer-events: auto;
+  width:40px; height:50px; border-radius:999px;
+  border:none; background:none; color:#cfcfcf;
+  display:grid; place-items:center;
+  transition: transform 1s ease, box-shadow .5s ease, border-color 1s ease;
 }
 
+/* compact tooltip */
+.viewer-hud .hud-btn[aria-label]::after{
+  content: attr(aria-label);
+  position: absolute; right:50%; bottom:48px; transform: translateX(50%) scale(.98);
+  background:#000000; color:#eaeaea; border:1px solid #2f2f2f; border-radius:8px;
+  padding:4px 8px; font-size:.75rem; white-space:nowrap;
+  opacity:0; pointer-events:none; transition:opacity .15s ease, transform .15s ease;
+}
+.viewer-hud .hud-btn:hover::after{ opacity:1; transform: translateX(50%) scale(1); }
+
+/* --------- Controls --------- */
+.controls{
+  display:flex; flex-direction:row; justify-content:center; align-items:center;
+  gap:2rem; margin:1.5rem 0; color:#ffffff; font-weight:200;
+}
+.controls label{ display:flex; align-items:center; }
+.controls input{ margin-right:.5rem; }
+
+.sidebar{
+    flex: 0 0 0;
+    position: relative;
+    overflow: hidden;
+    color: #ffffff;
+    background-color: #01171e;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.158);
+    background-color: #00e1ff07;
+    transition: width .3s ease, flex-basis .4s ease;
+    border-left: 1px solid var(--mm-border);
+  }
+  .sidebar.active{
+    width: clamp(var(--sidebar-min), var(--sidebar-width), var(--sidebar-max));
+    flex: 0 0 clamp(var(--sidebar-min), var(--sidebar-width), var(--sidebar-max));
+    overflow-y: auto; overflow-x: hidden;
+    height:102vh;
+    container-type: inline-size; container-name: panel;
+  }
+  .info-columns{ display:grid; gap:1.25rem; }
+  #muscleImage{
+    display:block; max-width:340px; width:100%; height:auto;
+    margin:.5rem 0 1rem; padding-bottom:1rem;
+  }
+  @container panel (min-width: 36vw){
+    .info-columns{ grid-template-columns: min(340px, 40%) 1fr; align-items:start; }
+    #muscleImage{ margin:0; padding-bottom:0; justify-self:start; }
+    .info-right{ min-width:0; }
+    .sidebar-header h2{ margin-top:.25rem; }
+  }
+  .sidebar-card img{ display:block; max-width:100%; height:auto; }
+  .sidebar-header h2,
+  .sidebar-section p,
+  .sidebar-section li{ max-width:65ch; overflow-wrap:anywhere; }
+  html, body { overflow-x: hidden; }
+  .sidebar .close-btn{
+    position: absolute; z-index:6;
+    background:none; border:0; font-size:1.8rem; line-height:1;
+    color:inherit; cursor:pointer;
+  }
+
+  /* Resize handle + drag UX */
+  .sidebar.resizing{ transition: none !important; }
+  .sidebar-resizer{
+    position: absolute; left:-6px; top:0; width:12px; height:100%;
+    cursor: col-resize; z-index:5;
+  }
+  .sidebar-resizer::after{
+    content:""; position:absolute; right:4px; top:50%; transform:translateY(-50%);
+    width:2px; height:40px; background:#ffffff; opacity:.8;
+  }
+  body.resizing{ user-select:none; cursor: col-resize; }
+
+  .sidebar-header{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom: 1.5rem; color:#d2d2d2;
+  }
+  .sidebar-section h3{ margin-top:1rem; margin-bottom:.5rem; line-height:2; }
+  .sidebar-section p{
+    line-height:1.5; color:#cacaca; font-size:1rem; font-weight:250; margin-bottom:1.5rem;
+  }
+  /* Optional: hide border when closed */
+  .sidebar:not(.active){ border-left:none; }
+  .sidebar-search{
+    background: #032f37;
+    padding-left:2rem;
+    padding-right:2rem;
+    padding-top:1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #365762;
+  }
+  .sidebar-tabs {
+    background: #032f377f;   /* lighter strip, same as nav */
+    border-bottom: 1px solid #365762;
+    display: flex;
+    justify-content: center;
+    gap: 0%;
+    display: block;            /* switch from flex → block */
+    text-align: center;        /* center inline content */
+  }
+  .tabs {
+    position: relative;
+    width: auto;
+    display: inline-flex;
+    justify-content: center;
+    margin-inline: auto;
+    align-items: center;
+    gap: 0;  
+  }
+  .tabs .tab{
+    all: unset;
+    display:flex; cursor:pointer;
+    align-items: center; 
+    gap: 0.5rem; 
+    color:#ffffff; opacity:0.7;
+    font: inherit; font-size:1rem; line-height:1; font-weight:400;
+    font-size:1.2rem;
+    border-radius: 0.7rem;
+    padding: 0.8rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-weight: 400;
+    margin:1.1rem;
+  }
+
+  .tabs .tab svg {
+    width: 1.6em;  /* scale with font size */
+    height:1.6em;
+    flex-shrink: 0; /* keep icon size fixed */
+  }
+  .tabs .tab:is(:hover,:focus-visible),
+  .tabs .tab.is-active{ background:#fff; opacity:1;color:#0077ff;}
+
+  
+.panel{
+  padding: 2rem;
+  color:#fff;
+  margin-top: 1rem;
+  min-height: 0;
+  overflow: visible;    /* single, intentional choice */
+}
+.panel.is-hidden{
+  display:block; visibility:hidden; opacity:0; height:0; padding:0; overflow:hidden;
+}
+.panel[hidden]{ display:none; }
+
+/* --------- Exercise list --------- */
+#exerciseList{ list-style:none; margin:0; padding:0; }
+#exerciseList li{
+  background:#ffffff; border-radius:14px; padding:10px 12px; font-size:18px;
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;
+}
+#exerciseList li a{ color:#000000; text-decoration:none; }
+#exerciseList li a:hover{ text-decoration:underline; }
+
+/* --------- Bottom section --------- */
+.slides{
+  width:85%; max-width:1200px; margin:.5rem auto 1.5rem;
+  padding: 2rem 0 1rem; border-bottom:1px solid #353535;
+}
+.ssm-section{
+  background-color:#161616;
+  border-top:1px solid #7b8a90;
+  border-bottom:20px solid #1d1d1d;
+  width:100%;
+}
+.ssm-section .slides{ text-align:center; }
+.ssm-section .slides h1{ margin-bottom:1.4rem; color:#d4d4d4; }
+.ssm-section .slides p{
+  margin-bottom:.5rem; font-weight:200; font-size:.8rem; line-height:1rem; color:#b4b4b4;
+}
