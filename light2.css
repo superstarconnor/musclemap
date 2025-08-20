@@ -21,7 +21,12 @@
   --sidebar-min: 530px;     /* don't go narrower */
   --sidebar-max: 48vw;
 
-  --hud-gap: 10px;
+  --mm-bubble-hover-bg: #0d5b67;         /* the blue-ish hover fill */
+  --mm-bubble-hover-ring: rgba(120,200,255,.45); /* subtle outline glow */
+  --mm-icontext-base: #cacaca;           /* current gray */
+  --mm-icontext-on-bubble: #ffffff;      /* true white on hover */
+
+  --hud-gap: 5px;
   --hud-size: 15px;
 }
 
@@ -78,29 +83,30 @@ body.mm-collapsed .mm-toggle svg{
 /* Nav */
 .mm-nav{ display:flex; flex-direction:column; gap:4px; margin-top:3px; }
 .mm-item{
-  display:flex; align-items:center; gap:12px;
-  padding: 5px 1px;
+  display:flex; align-items:center; gap:7px;
+  padding: 7px;
   border-radius: var(--mm-radius);
   color: var(--mm-text); text-decoration:none;
   position: relative;
-  transition: background var(--mm-transition), color var(--mm-transition);
-  margin-right:10px; margin-left: 10px; margin-top: 6px;
+  justify-content: center;
+  transition: background var(--mm-transition); color: #cacaca;
+  margin-top: 2px;
 }
-.mm-item:hover{ background: var(--mm-elev-2); opacity:1;}
-.mm-item.is-active{ background:#fff; color:#0077ff; }
-.mm-item svg{
-  width:40px; height:40px; flex: 0 0 40px;   /* unified size */
-  fill: currentColor; opacity:0.7; margin-left: 10px; margin-right:10px;
+.mm-item:hover{ background: var(--mm-elev-2); opacity:1; color: #ffffff}
+.mm-item.is-active{ background:#fff; color:#0077ff; margin:10px;}
+.mm-item svg{ 
+  width:0px; height:40px; flex: 0 0 40px;   /* unified size */
+  fill: #ffffff;
 }
 .mm-label{ white-space: nowrap; }
 
 /* Separator */
-.mm-sep{ height:3px; background:#365762; margin: 10px 10px; }
-.mm-sep2{ height:3px; background:#365762; margin: 10px 0px; }
+.mm-sep{ height:3px; background:#375862; margin: 10px 10px; }
+.mm-sep2{ height:3px; background:#375862; margin: 10px 0px; }
 .mm-sep3{ flex: 0 0 3px; 
-  height: 35px; 
+  height: 40px; 
   align-self: center; 
-  background: #365762;
+  background: #375862;
   margin: 0 0.2rem;}
 
 /* Collapsed state */
@@ -136,6 +142,7 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
   padding: 1rem 3rem 1rem 2.75rem;
   margin: 1rem 0 1rem;
   border: none;
+  color: #fff;
   border-radius: 1rem;
   background-color: #3c80916e;
   font-family: inherit; font-size: 1rem; font-weight: 250;
@@ -150,7 +157,7 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
 #muscleSearch:focus{
   outline: none;
   border: 2px solid transparent;
-  padding: 1rem 3rem 2.5rem 2.75rem;
+  padding: 1rem 3rem 1.rem 2.75rem;
   background-image:
     radial-gradient(#000000, #000000),
     radial-gradient(#325bffc2, #00b7ff);
@@ -166,11 +173,11 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
   100%{ background-position: 0% 50%; }
 }
 .search-icon{
-  position:absolute; left:48px; top:56px; width:20px; height:20px;
+  position:absolute; left:48px; top:97px; width:20px; height:20px;
   transform:translateY(-50%); color:#fefefe; pointer-events:none;
 }
 .search-wrap:focus-within .search-icon{ color:#fff; opacity:.95; }
-::placeholder{ color:#b4b4b4; font-size:1rem; font-weight:250; }
+::placeholder{ color:#cacaca; font-size:1rem; font-weight:250; }
 
 #muscleResults{ list-style:none; margin:0; padding:0; color:#ffffff; }
 #muscleResults .search-item:hover{
@@ -197,7 +204,7 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
 .viewer-container{
   flex: 1 1 0; min-width: 600px;
   display:flex; flex-direction:column; align-items:center;
-  padding:3rem 2rem 1rem 1rem; transition:flex .3s ease;
+  padding:4rem 2rem 4rem 1rem; transition:flex .3s ease;
 }
 .viewer-box{
   position: relative;
@@ -206,7 +213,7 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
   overflow: hidden;
   border-radius: 2rem;
   display:flex; align-items:center; justify-content:center;
-  margin-bottom:0;
+  margin-bottom: 1.3rem;
 }
 .viewer-box > .viewer-hud{
   position: absolute;
@@ -238,7 +245,7 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
 }
 .viewer-hud .hud-btn{
   pointer-events: auto;
-  width:40px; height:50px; border-radius:999px;
+  width:40px; height:30px; border-radius:999px;
   border:none; background:none; color:#cfcfcf;
   display:grid; place-items:center;
   transition: transform 1s ease, box-shadow .5s ease, border-color 1s ease;
@@ -256,8 +263,10 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
 
 /* --------- Controls --------- */
 .controls{
+  position: absolute;
+  left: 16px;
   display:flex; flex-direction:row; justify-content:center; align-items:center;
-  gap:2rem; margin:1.5rem 0; color:#ffffff; font-weight:200;
+  gap:2rem; margin:1rem 0; color:#cacaca; font-weight:200;
 }
 .controls label{ display:flex; align-items:center; }
 .controls input{ margin-right:.5rem; }
@@ -277,7 +286,7 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
     width: clamp(var(--sidebar-min), var(--sidebar-width), var(--sidebar-max));
     flex: 0 0 clamp(var(--sidebar-min), var(--sidebar-width), var(--sidebar-max));
     overflow-y: auto; overflow-x: hidden;
-    height:102vh;
+    height:103vh;
     container-type: inline-size; container-name: panel;
   }
   .info-columns{ display:grid; gap:1.25rem; }
@@ -289,7 +298,7 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
     .info-columns{ grid-template-columns: min(340px, 40%) 1fr; align-items:start; }
     #muscleImage{ margin:0; padding-bottom:0; justify-self:start; }
     .info-right{ min-width:0; }
-    .sidebar-header h2{ margin-top:.25rem; }
+    .sidebar-header h2{ margin-top:.25rem;color:#fff; }
   }
   .sidebar-card img{ display:block; max-width:100%; height:auto; }
   .sidebar-header h2,
@@ -298,6 +307,7 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
   html, body { overflow-x: hidden; }
   .sidebar .close-btn{
     position: absolute; z-index:6;
+    position:absolute; left:10px; top:20px;
     background:none; border:0; font-size:1.8rem; line-height:1;
     color:inherit; cursor:pointer;
   }
@@ -328,16 +338,17 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
     background: #032f37;
     padding-left:2rem;
     padding-right:2rem;
-    padding-top:1rem;
-    padding-bottom: 0.5rem;
+    padding-top:3.5rem;
+    padding-bottom: 1rem;
     border-bottom: 1px solid #365762;
   }
   .sidebar-tabs {
     background: #032f377f;   /* lighter strip, same as nav */
     border-bottom: 1px solid #365762;
     display: flex;
-    justify-content: center;
-    gap: 0%;
+    justify-content: left;
+    padding-left: 1rem;
+    padding-right:1rem;
     display: block;            /* switch from flex → block */
     text-align: center;        /* center inline content */
   }
@@ -348,22 +359,20 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
     justify-content: center;
     margin-inline: auto;
     align-items: center;
-    gap: 0;  
+    gap: 2%;
   }
   .tabs .tab{
     all: unset;
     display:flex; cursor:pointer;
     align-items: center; 
-    gap: 0.5rem; 
-    color:#ffffff; opacity:0.7;
+    color:#cacaca;
     font: inherit; font-size:1rem; line-height:1; font-weight:400;
-    font-size:1.2rem;
+    font-size:1rem;
     border-radius: 0.7rem;
-    padding: 0.8rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    font-weight: 400;
-    margin:1.1rem;
+    padding: 0.5rem;
+    font-weight: 200;
+    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
   }
 
   .tabs .tab svg {
@@ -371,7 +380,7 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
     height:1.6em;
     flex-shrink: 0; /* keep icon size fixed */
   }
-  .tabs .tab:is(:hover,:focus-visible),
+  .tabs .tab:is(:hover ,:focus-visible),
   .tabs .tab.is-active{ background:#fff; opacity:1;color:#0077ff;}
 
   
@@ -390,7 +399,7 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
 /* --------- Exercise list --------- */
 #exerciseList{ list-style:none; margin:0; padding:0; }
 #exerciseList li{
-  background:#ffffff; border-radius:14px; padding:10px 12px; font-size:18px;
+  color: #cacaca; font-size:18px;
   display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;
 }
 #exerciseList li a{ color:#000000; text-decoration:none; }
@@ -408,7 +417,7 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
   width:100%;
 }
 .ssm-section .slides{ text-align:center; }
-.ssm-section .slides h1{ margin-bottom:1.4rem; color:#d4d4d4; }
+.ssm-section .slides h1{ margin-bottom:1.4rem; color:#ffffff; }
 .ssm-section .slides p{
   margin-bottom:.5rem; font-weight:200; font-size:.8rem; line-height:1rem; color:#b4b4b4;
 }
