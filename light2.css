@@ -18,8 +18,8 @@
 
   /* Sidebar panel sizing */
   --sidebar-width: 42vw;   /* preferred size */
-  --sidebar-min: 530px;     /* don't go narrower */
-  --sidebar-max: 48vw;
+  --sidebar-min: 570px;     /* don't go narrower */
+  --sidebar-max: 60vw;
 
   --mm-bubble-hover-bg: #0d5b67;         /* the blue-ish hover fill */
   --mm-bubble-hover-ring: rgba(120,200,255,.45); /* subtle outline glow */
@@ -104,7 +104,7 @@ body.mm-collapsed .mm-toggle svg{
 .mm-sep{ height:3px; background:#375862; margin: 10px 10px; }
 .mm-sep2{ height:3px; background:#375862; margin: 10px 0px; }
 .mm-sep3{ flex: 0 0 3px; 
-  height: 40px; 
+  height: 45px; 
   align-self: center; 
   background: #375862;
   margin: 0 0.2rem;}
@@ -140,8 +140,8 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
 #muscleSearch{
   width: 100%;
   padding: 1rem 3rem 1rem 2.75rem;
-  margin: 1rem 0 1rem;
-  border: none;
+  margin: 1rem 0.3rem;
+  border:none;
   color: #fff;
   border-radius: 1rem;
   background-color: #3c80916e;
@@ -157,7 +157,7 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
 #muscleSearch:focus{
   outline: none;
   border: 2px solid transparent;
-  padding: 1rem 3rem 1.rem 2.75rem;
+  padding: 1rem 3rem 1rem 2.75rem;
   background-image:
     radial-gradient(#000000, #000000),
     radial-gradient(#325bffc2, #00b7ff);
@@ -202,7 +202,7 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
 
 /* --------- Viewer --------- */
 .viewer-container{
-  flex: 1 1 0; min-width: 600px;
+  flex: 1 1 0; min-width: 500px;
   display:flex; flex-direction:column; align-items:center;
   padding:4rem 2rem 4rem 1rem; transition:flex .3s ease;
 }
@@ -246,7 +246,7 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
 .viewer-hud .hud-btn{
   pointer-events: auto;
   width:40px; height:30px; border-radius:999px;
-  border:none; background:none; color:#cfcfcf;
+  border:none; background:none; color:#cacaca;
   display:grid; place-items:center;
   transition: transform 1s ease, box-shadow .5s ease, border-color 1s ease;
 }
@@ -255,7 +255,7 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
 .viewer-hud .hud-btn[aria-label]::after{
   content: attr(aria-label);
   position: absolute; right:50%; bottom:48px; transform: translateX(50%) scale(.98);
-  background:#000000; color:#eaeaea; border:1px solid #2f2f2f; border-radius:8px;
+  background:#000000; color:#fff; border:1px solid #2f2f2f; border-radius:8px;
   padding:4px 8px; font-size:.75rem; white-space:nowrap;
   opacity:0; pointer-events:none; transition:opacity .15s ease, transform .15s ease;
 }
@@ -266,7 +266,7 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
   position: absolute;
   left: 16px;
   display:flex; flex-direction:row; justify-content:center; align-items:center;
-  gap:2rem; margin:1rem 0; color:#cacaca; font-weight:200;
+  gap:1.2rem; margin:0.6rem 0; color:#cacaca; font-weight:200;
 }
 .controls label{ display:flex; align-items:center; }
 .controls input{ margin-right:.5rem; }
@@ -307,9 +307,9 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
   html, body { overflow-x: hidden; }
   .sidebar .close-btn{
     position: absolute; z-index:6;
-    position:absolute; left:10px; top:20px;
-    background:none; border:0; font-size:1.8rem; line-height:1;
-    color:inherit; cursor:pointer;
+    position:absolute; left:15px; top:20px;
+    background:none; border:0; font-size:2rem;
+    color:#cacaca; cursor:pointer;
   }
 
   /* Resize handle + drag UX */
@@ -326,7 +326,7 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
 
   .sidebar-header{
     display:flex; justify-content:space-between; align-items:center;
-    margin-bottom: 1.5rem; color:#d2d2d2;
+    margin-bottom: 1.5rem;
   }
   .sidebar-section h3{ margin-top:1rem; margin-bottom:.5rem; line-height:2; }
   .sidebar-section p{
@@ -339,15 +339,16 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
     padding-left:2rem;
     padding-right:2rem;
     padding-top:3.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #365762;
+    padding-bottom: 0.6rem;
+    border-bottom: 7px solid #3c80916e;
   }
   .sidebar-tabs {
-    background: #032f377f;   /* lighter strip, same as nav */
-    border-bottom: 1px solid #365762;
+    background: #032f377f; 
+    border-top: 1px solid #375862;
+    border-bottom: 1px solid #7b8a90;
     display: flex;
-    justify-content: left;
-    padding-left: 1rem;
+    justify-content: center;
+    padding-left: 3rem;
     padding-right:1rem;
     display: block;            /* switch from flex → block */
     text-align: center;        /* center inline content */
@@ -359,7 +360,7 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
     justify-content: center;
     margin-inline: auto;
     align-items: center;
-    gap: 2%;
+    gap: 4%;
   }
   .tabs .tab{
     all: unset;
@@ -367,17 +368,17 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
     align-items: center; 
     color:#cacaca;
     font: inherit; font-size:1rem; line-height:1; font-weight:400;
-    font-size:1rem;
+    font-size:1.2rem;
     border-radius: 0.7rem;
-    padding: 0.5rem;
+    padding: 0.6rem;
     font-weight: 200;
-    margin-top: 0.8rem;
-    margin-bottom: 0.8rem;
+    margin-top: 1.1rem;
+    margin-bottom: 1.1rem;
   }
 
   .tabs .tab svg {
-    width: 1.6em;  /* scale with font size */
-    height:1.6em;
+    width: 1.7em;  /* scale with font size */
+    height:1.7em;
     flex-shrink: 0; /* keep icon size fixed */
   }
   .tabs .tab:is(:hover ,:focus-visible),
@@ -419,5 +420,5 @@ body.mm-collapsed .mm-item:hover::after{ opacity:.7; }
 .ssm-section .slides{ text-align:center; }
 .ssm-section .slides h1{ margin-bottom:1.4rem; color:#ffffff; }
 .ssm-section .slides p{
-  margin-bottom:.5rem; font-weight:200; font-size:.8rem; line-height:1rem; color:#b4b4b4;
+  margin-bottom:.5rem; font-weight:200; font-size:.8rem; line-height:1rem; color:#cacaca;
 }
