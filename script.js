@@ -139,7 +139,7 @@ if (toggleBtn && darkSheet && lightSheet) {
       head:
         'The pectoralis major(s) are made up of two heads: the clavicular (attaches to the clavicle) and the sternal (attaches to the sternum).',
       function: 'These muscles are responsible for flexion, adduction, and internal rotation of the shoulder joint.',
-      exercises: ['Bench Press', 'Push-Ups', 'Chest Fly']
+      exercises: ['- Bench press; flat or incline.', '- Traditional push-ups.', '- Fly variations -  such as the cable fly, dumbell fly, or pec-dec machine.']
     },
     deltoid: {
       title: 'Deltoid',
@@ -157,6 +157,7 @@ if (toggleBtn && darkSheet && lightSheet) {
       img: '400px-Long_head_of_triceps_brachii_muscle_-_Kenhub.png',
       description:
         'Like the bicep, the tricep is named for its number of heads. It makes up roughly two-thirds of the upper arm mass—crucial for thick arms.',
+        head: 'The triceps are composed of three heads: the long and medial heads, located on the back of the arm, and the lateral head, which is the only head to cross the arm laterally.',
       function: 'Elbow extension; the long head also assists in shoulder extension and adduction.',
       exercises: ['Overhead Cable Extension', 'Skullcrushers', 'Cable Pulldown']
     },
@@ -165,6 +166,7 @@ if (toggleBtn && darkSheet && lightSheet) {
       img: 'biceps_intro.jpg',
       description:
         "Aptly named, the bicep has two heads sitting at the front of the arm. And yes—it looks great during curls.",
+        head:'The bicep has two simply-named heads: the long, making up the outer half of the bicep, and the short head, making up the inner half toward your torso.',
       function: 'Elbow flexion and forearm supination; assists in shoulder flexion.',
       exercises: ['Barbell Curl', 'Dumbbell Curl', 'Hammer Curl']
     },
@@ -717,5 +719,3 @@ if (toggleBtn && darkSheet && lightSheet) {
     renderer.render(scene, camera);
   })();
 })();
-
-
