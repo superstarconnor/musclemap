@@ -93,14 +93,35 @@ if (toggleBtn && darkSheet && lightSheet) {
 
   function renderMuscleInfo(info){
     document.getElementById('muscleName').textContent = info.title || 'Muscle';
+  
     const img = document.getElementById('muscleImage');
     if (img){
       if (info.img){ img.src = info.img; img.alt = `${info.title} illustration`; img.style.display='block'; }
       else { img.removeAttribute('src'); img.alt=''; img.style.display='none'; }
     }
+  
     const d = document.getElementById('info-desc'); if (d) d.textContent = info.description || '';
+  
+    // NEW: Heads
+    const h = document.getElementById('info-head');
+    const headWrap = h ? h.closest('.sidebar-section') : null;
+    const headSep = headWrap ? headWrap.previousElementSibling : null; // the mm-sep2 just above the Heads section
+    if (h){
+      const txt = (info.head || '').trim();
+      if (txt){
+        h.textContent = txt;
+        if (headWrap) headWrap.classList.remove('is-hidden');
+        if (headSep && headSep.classList?.contains('mm-sep2')) headSep.style.display = '';
+      } else {
+        h.textContent = '';
+        if (headWrap) headWrap.classList.add('is-hidden');
+        if (headSep && headSep.classList?.contains('mm-sep2')) headSep.style.display = 'none';
+      }
+    }
+  
     const f = document.getElementById('info-func'); if (f) f.textContent = info.function || '';
   }
+  
 
   function renderMuscleExercises(info){
     const list = document.getElementById('exerciseList');
@@ -115,9 +136,9 @@ if (toggleBtn && darkSheet && lightSheet) {
       description:
         "Derived from Latin 'pectus,' meaning breast, your pectoralis major(s) are located just beneath the breast tissue. Together with the pectoralis minor, these muscles make up what we call the chest.",
       img: 'pecpic.jpg',
-      function:
-        'The pectoralis major(s) have two heads: the clavicular (attaches to the clavicle) and the sternal (attaches to the sternum).',
-      head: 'These muscles are responsible for flexion, adduction, and internal rotation of the shoulder joint.',
+      head:
+        'The pectoralis major(s) are made up of two heads: the clavicular (attaches to the clavicle) and the sternal (attaches to the sternum).',
+      function: 'These muscles are responsible for flexion, adduction, and internal rotation of the shoulder joint.',
       exercises: ['Bench Press', 'Push-Ups', 'Chest Fly']
     },
     deltoid: {
@@ -696,3 +717,5 @@ if (toggleBtn && darkSheet && lightSheet) {
     renderer.render(scene, camera);
   })();
 })();
+
+
