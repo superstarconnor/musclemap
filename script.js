@@ -6,40 +6,45 @@ document.addEventListener('DOMContentLoaded', () => {
   // no-op: your existing listeners can stay as-is
 });
 
-
-
-(function(){
-  const key='mmSidebarCollapsed';
-  const body=document.body;
-  const toggle=document.getElementById('mmSidebarToggle');
-  if (!toggle) return;
-  const saved=localStorage.getItem(key);
-  if (saved==='true') body.classList.add('mm-collapsed');
-  toggle.addEventListener('click', ()=>{
-    body.classList.toggle('mm-collapsed');
-    localStorage.setItem(key, body.classList.contains('mm-collapsed'));
-  });
-})();
-
 (async () => {
   // 1) Dynamic ES-module imports
   const THREE = await import('https://esm.sh/three@0.153.0');
   const { OBJLoader } = await import('https://esm.sh/three@0.153.0/examples/jsm/loaders/OBJLoader.js');
   const { OrbitControls } = await import('https://esm.sh/three@0.153.0/examples/jsm/controls/OrbitControls.js');
 
-  // Small prefs keys
-  const TEX_KEY = 'mm_tex_choice';          // 'basic' | 'advanced'
-  const SIDEBAR_W_KEY = 'mm_sidebar_w';     // e.g., '360px'
+(function () {
+  const body   = document.body;
+  const panel  = document.getElementById('mm-panel');
+  const toggle = document.getElementById('mmPanelToggle');
 
-  // Close button for the info panel
-  const closeBtn = document.querySelector('.sidebar .close-btn');
-  if (closeBtn) {
-    closeBtn.addEventListener('click', () => {
-      document.getElementById('muscleSidebar')?.classList.remove('active');
-      document.body.classList.remove('sidebar-open');
-    });
+  const isOpen = () => !body.classList.contains('panel-closed');
+
+  function setOpen(open) {
+    body.classList.toggle('panel-closed', !open);
+    panel.setAttribute('aria-hidden', String(!open));
+    if (toggle) {
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close muscle info panel' : 'Open muscle info panel');
+    }
+    try { localStorage.setItem('mm.panel.open', open ? '1' : '0'); } catch {}
   }
 
+  // initial state: honor saved pref or current body class
+  let open = !body.classList.contains('panel-closed');
+  try {
+    const saved = localStorage.getItem('mm.panel.open');
+    if (saved === '0' || saved === '1') open = saved === '1';
+  } catch {}
+  setOpen(open);
+
+  toggle?.addEventListener('click', () => setOpen(!isOpen()));
+  document.querySelector('#mm-panel .close-btn')?.addEventListener('click', () => setOpen(false));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+})();
+
+
+  // Small prefs keys
+  const TEX_KEY = 'mm_tex_choice';          // 'basic' | 'advanced'
   
 // --- optional theme toggle (guarded) ---
 const darkSheet  = document.getElementById('theme-dark');
@@ -104,7 +109,7 @@ if (toggleBtn && darkSheet && lightSheet) {
   
     // NEW: Heads
     const h = document.getElementById('info-head');
-    const headWrap = h ? h.closest('.sidebar-section') : null;
+    const headWrap = h ? h.closest('.mm-panel-section') : null;
     const headSep = headWrap ? headWrap.previousElementSibling : null; // the mm-sep2 just above the Heads section
     if (h){
       const txt = (info.head || '').trim();
@@ -131,7 +136,7 @@ if (toggleBtn && darkSheet && lightSheet) {
 
   // 2) Data map for muscles
   const MUSCLE_INFO = {
-    pec: {
+    pectoralis: {
       title: 'Pectoralis Major (Pecs)',
       description:
         "Derived from Latin 'pectus,' meaning breast, your pectoralis major(s) are located just beneath the breast tissue. Together with the pectoralis minor, these muscles make up what we call the chest.",
@@ -141,23 +146,72 @@ if (toggleBtn && darkSheet && lightSheet) {
       function: 'These muscles are responsible for flexion, adduction, and internal rotation of the shoulder joint.',
       exercises: ['- Bench press; flat or incline.', '- Traditional push-ups.', '- Fly variations -  such as the cable fly, dumbell fly, or pec-dec machine.']
     },
+    oblique: {
+      title: 'External Obliques',
+      img: 'oblique.jpg',
+      description:
+        'The external obliques run along the sides of the abdomen and aid in trunk rotation and stability.',
+      function: 'Trunk rotation, lateral flexion, and intra-abdominal pressure.',
+      exercises: ['Cable Woodchop', 'Side Plank', 'Pallof Press']
+    },
+    abdominis: {
+      title: 'Rectus Abdominis (Abs)',
+      img: 'abs.jpg',
+      description:
+        'Informally known as just "abs," the rectus abdominis a long muscle of the anterior abdominal wall. It extends from the rib cage all the way to the pubic bone. Unlike other muscles, abs only become visible below a certian body fat percentage.',
+      function:
+        'Hip extension (long heads) and knee flexion; help control tibial rotation.',
+      exercises: ['Romanian Deadlift', 'Nordic Curl', 'Leg Curl']
+    },
+
+    
+    latissimus: {
+      title: 'Latissimus Dorsi (Lats)',
+      img: 'biceps_intro.jpg',
+      description:
+        'The latissimus dorsi—“lats”—are the widest upper-body muscle and the key to the appearance of a powerful V-taper. Besides the trapezius, the lats make up most of the upper back.',
+      function: 'Shoulder adduction, extension, and internal rotation.',
+      exercises: ['Lat Pulldown', 'Pull-Ups', 'Seated Row']
+    },
+    trapezius: {
+      title: 'Trapezius',
+      img: 'trapeze.jpg',
+      description:
+        'The trapezius (“traps”) spans the upper back and neck. Often tricky to feel at first.',
+      function: 'Scapular elevation, retraction, and depression (upper, middle, lower fibers).',
+      exercises: ['Shrugs', 'Face Pulls', 'Bent-Over Rows']
+    },
+    infraspinatus:{
+      title: 'Infraspinatus'
+    },
+    teres:{
+      title:'teres',
+    },
+    iliac:{
+      title:'iliac'
+    },
+    sternocleidomastoid:{
+      title:'Sternocleidomastiod'
+    },
+
+
     deltoid: {
       title: 'Deltoid',
-      img: 'Screenshot 2025-05-27 at 12.16.11 PM.png',
+      img: 'delt.jpg',
       description:
-        "When a person says they're training their shoulders, what they're really referring to is the deltoid. Named after the Greek letter delta (Δ), deltoids are a triangular muscle capping the shoulder.",
+        "When a person says they're training their shoulders, they're really referring their deltoids. Named after the Greek letter delta (Δ), deltoids are a triangular muscle that cap the shoulder.",
+      head:
+        'The deltoid is comprised of three equally-sized heads: anterior (front), lateral (side), and posterior (rear).',
       function:
-        'Comprised of three heads: anterior (front), lateral (side), and posterior (rear).',
-      he:
         'Abduction, flexion, and extension of the shoulder joint. Each head can be biased with raises in its direction (e.g., lateral raises for lateral delts).',
-      exercises: ['Lateral Raise', 'Overhead Press', 'Front Raise']
+      exercises: ['- Shoulder raise variations, such as a front or lateral raise.','Note: There is no rear delt raise due to the limited range of motion of the rotator cuff. However, a reverse delt fly will bias the rear delts while also working parts of the back.', '- Overhead Press', '- Front Raise']
     },
     tricep: {
       title: 'Tricep Brachii',
       img: '400px-Long_head_of_triceps_brachii_muscle_-_Kenhub.png',
       description:
         'Like the bicep, the tricep is named for its number of heads. It makes up roughly two-thirds of the upper arm mass—crucial for thick arms.',
-        head: 'The triceps are composed of three heads: the long and medial heads, located on the back of the arm, and the lateral head, which is the only head to cross the arm laterally.',
+        head: 'The triceps are composed of three heads: the long and medial heads, located on the back of the arm, and the lateral head, which is the only head that crosses the arm laterally.',
       function: 'Elbow extension; the long head also assists in shoulder extension and adduction.',
       exercises: ['Overhead Cable Extension', 'Skullcrushers', 'Cable Pulldown']
     },
@@ -170,39 +224,36 @@ if (toggleBtn && darkSheet && lightSheet) {
       function: 'Elbow flexion and forearm supination; assists in shoulder flexion.',
       exercises: ['Barbell Curl', 'Dumbbell Curl', 'Hammer Curl']
     },
-    latissimus: {
-      title: 'Latissimus Dorsi (Lats)',
-      img: 'biceps_intro.jpg',
-      description:
-        'The latissimus dorsi—“lats”—are the widest upper-body muscle and key to a powerful V-taper.',
-      function: 'Shoulder adduction, extension, and internal rotation.',
-      exercises: ['Lat Pulldown', 'Pull-Ups', 'Seated Row']
+    brachioradialis: {
+      title: 'Brachioradialis',
+      img: 'brachioradialis.jpg',
+      description: 'The Brachioradialis is located in the lateral part of the posterior forearm. It comprises the radial group of forearm muscles, which belong to the superficial layer of posterior forearm muscles. ',
+      head: 'This muscle does not have multiple heads,rather, it is one muscle.',
+      function: 'Forearm pronation; assists elbow flexion.',
+      exercises: ['DB/Hammer Pronation', 'Cable Pronation', 'Band Pronation']
     },
-    trapezius: {
-      title: 'Trapezius',
-      img: 'trapeze.jpg',
-      description:
-        'The trapezius (“traps”) spans the upper back and neck. Often tricky to feel at first.',
-      function: 'Scapular elevation, retraction, and depression (upper, middle, lower fibers).',
-      exercises: ['Shrugs', 'Face Pulls', 'Bent-Over Rows']
+    brachialis:{
+        title:'Brachialis',
+        img: 'brachialis.jpg',
+        description: 'lol idkkk',
     },
-    oblique: {
-      title: 'External Obliques',
-      img: 'oblique.jpg',
-      description:
-        'The external obliques run along the sides of the abdomen and aid in trunk rotation and stability.',
-      function: 'Trunk rotation, lateral flexion, and intra-abdominal pressure.',
-      exercises: ['Cable Woodchop', 'Side Plank', 'Pallof Press']
+    palmaris:{
+        title:'Palmaris Longus',
+        img: 'palmaris.jpg',
+        description: 'lol idkkk',
     },
-    abdominis: {
-      title: 'Abdominis (Abs)',
-      img: 'abs.jpg',
-      description:
-        'Three muscles on the back of the thigh: biceps femoris, semitendinosus, and semimembranosus. They cross the hip and knee.',
-      function:
-        'Hip extension (long heads) and knee flexion; help control tibial rotation.',
-      exercises: ['Romanian Deadlift', 'Nordic Curl', 'Leg Curl']
+    pronator:{
+        title:'Pronator Teres',
+        img: 'pronator.jpg',
+        description: 'lol idkkk',
     },
+    flexor:{
+      title:'Pronator Teres',
+      img: 'pronator.jpg',
+      description: 'lol idkkk',
+    },
+
+
     gluteus: {
       title: 'Gluteus Maximus (Glutes)',
       img: 'glutemax.jpg', // swap to your actual asset
@@ -230,6 +281,9 @@ if (toggleBtn && darkSheet && lightSheet) {
         'Hip extension (long heads) and knee flexion; help control tibial rotation.',
       exercises: ['Romanian Deadlift', 'Nordic Curl', 'Leg Curl']
     },
+    pectineus:{
+      title: 'Pectineus'
+    },
     adductors: {
       title: 'Hip Adductors',
       img: 'adductors.jpg',
@@ -239,22 +293,54 @@ if (toggleBtn && darkSheet && lightSheet) {
         'Hip adduction; some fibers assist hip extension/flexion depending on angle.',
       exercises: ['Copenhagen Plank', 'Cable/Band Adductions', 'Sumo Squat']
     },
-    // add additional muscles here
+    sartorius: {
+      title: 'Satorius',
+    },
+ 
+    gracilis: {
+      title: 'Gracilis',
+    },
+    tensor: {
+      title: 'Tensor fasciae',
+    },
+    gastrocnemius: {
+      title: 'Gastrocnemius (Calves)',
+      img: 'adductors.jpg',
+      description:
+        'Inner-thigh group (adductor magnus/longus/brevis, gracilis, pectineus). Important for change-of-direction and pelvic control.',
+      function:
+        'Hip adduction; some fibers assist hip extension/flexion depending on angle.',
+      exercises: ['Copenhagen Plank', 'Cable/Band Adductions', 'Sumo Squat']
+    },
+    patella: {
+      title:"Patella",
+    },
+    soleus: {
+      title:'Soleus',
+    },
+    tibia: {
+      title:"Tibia",
+    },
+    fibula: {
+      title:"Fibula",
+    },
+    gracilis: {
+      title:'Gracilis',
+    },
   };
 
-  // Helper: open and populate the sidebar for a given key (tabs-aware)
-  function openSidebarWith(key) {
-    const info = MUSCLE_INFO[key];
-    if (!info) return;
+function openSidebarWith(key) {
+  const info = MUSCLE_INFO[key];
+  if (!info) return;
 
-    // Fill the two panels
-    renderMuscleInfo(info);       // uses #muscleName, #muscleImage, #info-desc, #info-func
-    renderMuscleExercises(info);  // uses #exerciseList
+  // populate
+  renderMuscleInfo(info);
+  renderMuscleExercises(info);
 
-    // Open sidebar and default to Info tab
-    const sidebar = document.getElementById('muscleSidebar');
-    if (sidebar) sidebar.classList.add('active');
-    document.body.classList.add('sidebar-open');
+  // open the panel
+  document.body.classList.remove('panel-closed');
+  document.getElementById('mm-panel')?.setAttribute('aria-hidden', 'false');
+  document.getElementById('mmPanelToggle')?.setAttribute('aria-expanded', 'true');
 
     showTab('info');
     // nudge underline after layout
@@ -306,65 +392,6 @@ if (toggleBtn && darkSheet && lightSheet) {
     mmTip.classList.add('show');
   }
   function hideTip() { mmTip.classList.remove('show'); }
-
-  // === Draggable sidebar (smooth delta-based) + remember width (clamped) ===
-  const sidebarEl = document.getElementById('muscleSidebar');
-  const resizer   = sidebarEl?.querySelector('.sidebar-resizer');
-
-  let resizing = false;
-  let startX = 0;
-  let startWidth = 0;
-
-  function setSidebarWidth(px){
-    const min = 300;
-    const max = Math.floor(window.innerWidth * 0.5); // 50vw
-    const w   = Math.max(min, Math.min(max, px));
-    const val = `${Math.round(w)}px`;
-    document.documentElement.style.setProperty('--sidebar-width', val);
-    // no localStorage write: resets to 35vw next reload
-  }
-  
-  function getSidebarWidthPx(){
-    return sidebarEl?.getBoundingClientRect().width || 0;
-  }
-
-  if (resizer) {
-    resizer.addEventListener('pointerdown', (e) => {
-      if (!sidebarEl.classList.contains('active')) return;
-      resizing = true;
-      startX = e.clientX;
-      startWidth = getSidebarWidthPx();
-      resizer.setPointerCapture(e.pointerId);
-      document.body.classList.add('resizing');
-      sidebarEl.classList.add('resizing');
-      controls.enabled = false;
-      e.preventDefault();
-    });
-
-    resizer.addEventListener('pointermove', (e) => {
-      if (!resizing) return;
-      const dx = startX - e.clientX;     // dragging left increases width
-      setSidebarWidth(startWidth + dx);
-    });
-
-    resizer.addEventListener('pointerup', (e) => {
-      if (!resizing) return;
-      resizing = false;
-      resizer.releasePointerCapture(e.pointerId);
-      document.body.classList.remove('resizing');
-      sidebarEl.classList.remove('resizing');
-      controls.enabled = true;
-    });
-
-    // Double-click to snap to a default width
-    resizer.addEventListener('dblclick', () => setSidebarWidth(360));
-
-    // Keep bounds sensible on window resize
-    window.addEventListener('resize', () => {
-      const current = sidebarEl.classList.contains('active') ? getSidebarWidthPx() : 320;
-      setSidebarWidth(current);
-    });
-  }
 
   // 4) Loaders & state
   const texLoader  = new THREE.TextureLoader();
@@ -591,7 +618,6 @@ if (toggleBtn && darkSheet && lightSheet) {
   // Hide tooltip when pointer leaves the viewer
   container.addEventListener('pointerleave', hideTip);
 
-  // 8) Click-to-select + open sidebar using MUSCLE_INFO (+ auto-zoom)
   container.addEventListener('pointerdown', e => {
     if (!model) return;
     const rect = container.getBoundingClientRect();
@@ -620,7 +646,6 @@ if (toggleBtn && darkSheet && lightSheet) {
         currentHover.material.emissive.setHex(0x000000);
       }
 
-      // Open sidebar with the clicked muscle if we can match it
       const meshName = (mesh.name || '').toLowerCase();
       const key = Object.keys(MUSCLE_INFO).find(k => meshName.includes(k));
       if (key) {
