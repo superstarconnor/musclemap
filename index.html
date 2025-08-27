@@ -46,23 +46,31 @@
    aria-controls="mm-panel"
    aria-expanded="true"
    aria-label="Toggle muscle info panel">
-   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" stroke-width="1" viewBox="0 -960 900 960"><path d="M400-720q-33 0-56.5-23.5T320-800t23.5-56.5T400-880t56.5 23.5T480-800t-23.5 56.5T400-720m260 480q42 0 71-29t29-71-29-71-71-29-71 29-29 71 29 71 71 29m96 52q-22 14-46 21t-50 7q-75 0-127.5-52.5T480-340t52.5-127.5T660-520t127.5 52.5T840-340q0 26-7 50t-21 46l80 80q11 11 11 28t-11 28-28 11-28-11zm-316-13q15 24 35.5 44t44.5 36v1q0 17-11.5 28.5T480-80t-28.5-11.5T440-120zm-80-119v200q0 17-11.5 28.5T320-80t-28.5-11.5T280-120v-480q-50-4-99-11t-98-18q-17-4-27.5-19T50-680t20.5-25 32.5-4q73 17 147.5 23t149.5 6 149.5-6T697-709q17-4 32.5 4t20.5 25-5.5 32-27.5 19q-49 11-98 18t-99 11v41q-54 35-87 92.5T400-340v10q0 5 1 10z" fill="currentColor"/></svg>
+   <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24"><path fill="currentColor" d="M20 22H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1ZM8 7v2h8V7H8Zm0 4v2h8v-2H8Zm0 4v2h5v-2H8Z"/></svg>
    </button>
 
    <button id="muscleIndexToggle" class="mm-toggle"
    aria-controls="muscle-index" aria-expanded="false"
    aria-label="Toggle muscle index">
-  <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9"><path d="M21 6H3m7 6H3m7 6H3"/><circle cx="17" cy="15" r="3"/><path d="m21 19l-1.9-1.9"/></g></svg>
+   <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24">
+    <g fill="none">
+        <circle cx="17" cy="16" r="2.5" stroke="currentColor" stroke-width="2"/>
+        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m19 18l2 2"/>
+        <path fill="currentColor" fill-rule="evenodd" d="M2 10.2c0-2.52 0-3.78.49-4.743A4.5 4.5 0 0 1 4.457 3.49C5.42 3 6.68 3 9.2 3h5.6c2.52 0 3.78 0 4.743.49a4.5 4.5 0 0 1 1.967 1.967C22 6.42 22 7.68 22 10.2v3.506A5.5 5.5 0 1 0 14.706 21H5.2c-1.12 0-1.68 0-2.108-.218a2 2 0 0 1-.874-.874C2 19.48 2 18.92 2 17.8zm4-.2a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1m0 4a1 1 0 0 1 1-1h3a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1" clip-rule="evenodd"/>
+    </g>
+</svg>
    </button>
 
    <button 
-   id="termToggle" class="mm-toggle" aria-controls="term-panel" aria-expanded="false" aria-label="Toggle terminology" hidden><svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5"><path d="M4 19V5a2 2 0 0 1 2-2h13.4a.6.6 0 0 1 .6.6v13.114"/><path stroke-linejoin="round" d="M8 3v8l2.5-1.6L13 11V3"/><path d="M6 17h14M6 21h14"/><path stroke-linejoin="round" d="M6 21a2 2 0 1 1 0-4"/></g></svg>
+   id="termToggle" class="mm-toggle" aria-controls="term-panel" aria-expanded="false" aria-label="Toggle terminology" hidden><svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24"><path fill="currentColor" d="M4 4.5A2.5 2.5 0 0 1 6.5 2H18a2.5 2.5 0 0 1 2.5 2.5v14.25a.75.75 0 0 1-.75.75H5.5a1 1 0 0 0 1 1h13.25a.75.75 0 0 1 0 1.5H6.5A2.5 2.5 0 0 1 4 19.5v-15ZM12.25 8a1 1 0 1 0 0-2a1 1 0 0 0 0 2Zm-.75 1.75v5a.75.75 0 0 0 1.5 0v-5a.75.75 0 0 0-1.5 0Z"/></svg>
    </button>
 
    <div class="mm-sep" role="separator"></div>
     
    <a href="references.html" class="mm-item" data-tooltip="Refernces">
-    <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24" stroke-width="1"><path fill="currentColor" fill-rule="evenodd" d="m11.105 4.561l-3.43 3.427l-1.134-1.12l2.07-2.08h-4.8a2.4 2.4 0 1 0 0 4.8h.89v1.6h-.88a4 4 0 0 1 0-7.991h4.8L6.54 1.13L7.675 0l3.43 3.432v1.13zM16.62 24h-9.6l-.8-.8V10.412l.8-.8h9.6l.8.8V23.2l-.8.8zm-8.8-1.6h8V11.212h-8V22.4zm5.6-20.798h9.6l.8.8v12.786l-.8.8h-4v-1.6h3.2V3.2h-8v4.787h-1.6V2.401l.8-.8zm.8 11.186h-4.8v1.6h4.8v-1.6zm-4.8 3.2h4.8v1.6h-4.8v-1.6zm4.8 3.2h-4.8v1.6h4.8v-1.6zm1.6-14.4h4.8v1.6h-4.8v-1.6zm4.8 6.4h-1.6v1.6h1.6v-1.6zm-3.338-3.176v-.024h3.338v1.6h-1.762l-1.576-1.576z" clip-rule="evenodd"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24">
+      <path fill="currentColor" d="m17.275 20.25l3.475-3.45l-1.05-1.05l-2.425 2.375l-.975-.975l-1.05 1.075l2.025 2.025ZM6 9h12V7H6v2Zm12 14q-2.075 0-3.538-1.463T13 18q0-2.075 1.463-3.538T18 13q2.075 0 3.538 1.463T23 18q0 2.075-1.463 3.538T18 23ZM3 22V5q0-.825.588-1.413T5 3h14q.825 0 1.413.588T21 5v6.675q-.7-.35-1.463-.513T18 11H6v2h7.1q-.425.425-.787.925T11.675 15H6v2h5.075q-.05.25-.063.488T11 18q0 1.05.288 2.013t.862 1.837L12 22l-1.5-1.5L9 22l-1.5-1.5L6 22l-1.5-1.5L3 22Z"/>
+  </svg>
    </a>
 </nav> 
 
@@ -74,17 +82,11 @@
 </aside>
 
 <aside id="mm-panel" class="mm-panel" aria-label="Muscle Info">
- <div class="mm-panel-card" id="mm-panel-card">
+
  
 
-    <div class="mm-sep4" role="separator"></div>
 
-     <div class="search-wrap">
-      
-       
-     </div>
-  
-      </div>
+     
     <div class="mm-panel-tabs">
     <header class="tabs" role="tablist" aria-label="Muscle panel tabs">
       <button id="tab-info" class="tab is-active" role="tab" aria-selected="true" aria-controls="panel-info">About <svg width="30" height="30" viewBox="-4 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -200,13 +202,7 @@
 </main>
 </div>
 
-<section class="ssm-section">
-    <div class="slides">
-      <div class="ssm-card">
-        <p>Each of these statements have been evaluated by a Kinesiology PhD at Western Washington University. To view the full list of references and accreditation, see the references tab.</p>
-        <p>This website was created and is hosted by Connor Mausolf — B.S. Psychology.</p>
-      </div>
-    </div>
+<section class="credits">
 </section>
 </body>
 </html>
