@@ -6,9 +6,9 @@
   --mm-brand: #00d5ff;            /* used by focus ring */
   --mm-radius: 0rem;            /* unify rounding */
 
-  --mm-elev-1: #00e1ff23;         /* light (controls/nav) */
+  --mm-elev-1: #08393e;         /* light (controls/nav) */
   --mm-elev-2: #14597b59;         /* hover/active */
-  --mm-border: #5d7175ca;
+  --mm-border: #5d717500;
   --mm-text: #ffffff;
 
   --mm-transition: 0ms cubic-bezier(.2,.6,.2,1);
@@ -27,7 +27,7 @@
 
   
   --mm-bubble-hover-ring: rgba(0, 153, 255, 0.45);/* subtle outline glow */
-  --mm-icontext-base: #cacaca;           /* current gray */
+  --mm-icontext-base: #bebebe;           /* current gray */
   --mm-icontext-on-bubble: #ffffff;      /* true white on hover */
 
   --hud-gap: 5px;
@@ -63,7 +63,7 @@ body.panel-closed.index-closed .mm-content{
   margin-left: var(--mm-nav-w);
 }
 
-.mm-toggle{ color:#cacaca; border-radius:0px;}
+.mm-toggle{ color:#bebebe; border-radius:0px;}
 .mm-toggle[data-active="true"]{
   background: var(--mm-bubble-hover-bg);
   color:#fff;
@@ -74,7 +74,7 @@ body.panel-closed.index-closed .mm-content{
   display:grid; place-items:center;
   border:0; background:transparent; color: var(--mm-text);
   padding:10px;
-  color: #cacaca;
+  color: #bebebe;
   border-radius:0px; cursor:pointer;
   transition: background var(--mm-transition), transform var(--mm-transition);
 }
@@ -104,7 +104,7 @@ body.panel-closed.index-closed .mm-content{
   color: var(--mm-text); text-decoration:none;
   position: relative;
   justify-content: center;
-  transition: background var(--mm-transition); color: #cacaca;
+  transition: background var(--mm-transition); color: #bebebe;
   margin-top: 5px;
 }
 
@@ -124,7 +124,7 @@ body.panel-closed.index-closed .mm-content{
   width: var(--mm-nav-indicator-w, 3px);
   height: var(--mm-icon-size, 45px);
   transform: translateY(-50%);
-  background: var(--mm-indicator, #fff);
+  background: var(--mm-indicator, #ffffff00);
   border-radius: 2px;}
 .mm-item svg{
   width:40px; height:45px; flex:0 0 38px;
@@ -145,66 +145,6 @@ body.panel-closed.index-closed .mm-content{
 /* --------- Main Layout --------- */
 .main{ display:flex; align-items:flex-start; transition: all 0.3s ease; }
 #mainContent{ transition: margin-right .4s ease-in-out; }
-
-/* Search */
-.search-wrap{ position:relative; }
-#muscleSearch{
-  width: 93%;
-  padding: 1rem 3rem 2.5rem 3rem;
-  margin: 1rem;
-  border:none;
-  color: #fff;
-  border-radius: 1rem;
-  background-color: #3c80916e;
-  font-family: inherit; font-size: 1rem; font-weight: 250;
-  box-shadow: 0 0 15px rgba(0,0,0,0);
-  transition:
-    transform 1s ease,
-    box-shadow .2s ease,
-    border-color .5s ease,
-    padding .3s ease; 
-}
-#muscleSearch:hover,
-#muscleSearch:focus{
-  outline: none;
-  border: 3px solid transparent;
-  padding: 1rem 3rem 2.5rem 3rem;
-  background-image:
-    radial-gradient(#000000, #000000),
-    radial-gradient(#324affd1, #00c8ff);
-  box-shadow: 0 0 8px rgba(0, 162, 255, .612);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  background-size: 400% 400%;
-  animation: glowingBorder 5s ease infinite;
-}
-@keyframes glowingBorder{
-  0%{ background-position: 0% 50%; }
-  50%{ background-position: 100% 50%; }
-  100%{ background-position: 0% 50%; }
-}
-
-.search-wrap{ position:relative; } 
-.search-icon{
-  position:absolute;
-  left: 2rem; 
-  top: 8.6%;
-  width:20px; height:20px;
-  transform: translateY(-50%);
-  color:#fefefe; pointer-events:none;
-}
-
-.search-wrap:focus-within .search-icon{ color:#fff; opacity:.95; }
-::placeholder{ color:#cacaca; font-size:1rem; font-weight:250; }
-
-#muscleResults{ list-style:none; margin:0; padding:0; color:#ffffff; }
-#muscleResults .search-item:hover{
-  background:#a4a4a4;
-  margin:0; padding:0; list-style:none;
-  max-height:140px; overflow-y:auto;
-  position:relative; z-index:10;
-} /* removed stray 's0' token */
-
 
 /* Hover tooltip */
 .mm-tooltip{
@@ -264,7 +204,7 @@ body.panel-closed.index-closed .mm-content{
 .viewer-hud .hud-btn{
   pointer-events: auto;
   width:40px; height:30px; border-radius:999px;
-  border:none; background:none; color:#cacaca;
+  border:none; background:none; color:#bebebe;
   display:grid; place-items:center;
   transition: transform 1s ease, box-shadow .5s ease, border-color 1s ease;
 }
@@ -285,7 +225,7 @@ body.panel-closed.index-closed .mm-content{
   left: 16px;
   font-size: 14px;
   display:flex; flex-direction:row; justify-content:center; align-items:center;
-  gap:1rem; margin:0.3rem 0; color:#cacaca; font-weight:200;
+  gap:1rem; margin:0.3rem 0; color:#bebebe; font-weight:200;
 }
 .controls label{ display:flex; align-items:center; }
 .controls input{ margin-right:0.3rem; }
@@ -297,7 +237,7 @@ body.panel-closed.index-closed .mm-content{
   top: 0; bottom: 0;
   left: calc(var(--mm-nav-w) + var(--mm-index-w));
   width: var(--mm-panel-w);
-  background: rgb(0, 21, 26);
+  background: rgb(6, 33, 40);
   border-right: 1px solid var(--mm-border);
   overflow-y: auto;
   z-index: 900;
@@ -320,7 +260,7 @@ body.index-closed .mm-panel{ left: var(--mm-nav-w); }
   cursor: ew-resize;
   user-select: none;
   touch-action: none;
-  background: linear-gradient(90deg, transparent, #37586266, transparent);
+  background: linear-gradient(90deg, transparent, #cbe6f000, transparent);
   opacity: 0;
   transition: opacity var(--mm-transition);
 }
@@ -350,7 +290,7 @@ body.panel-closed .mm-panel{
   }
   .mm-panel-section h3{line-height:1.5;font-size: 17px;  }
   .mm-panel-section p{
-    line-height:1.5; color:#cacaca;  font-size: 14px; font-weight:250; margin-bottom:1rem;
+    line-height:1.5; color:#bebebe;  font-size: 14px; font-weight:250; margin-bottom:1rem;
   }
   .mm-panel:not(.active){ border-left:none; }
   .mm-panel:hover .mm-panel-resizer{ opacity: .9; }
@@ -362,7 +302,7 @@ body.panel-closed .mm-panel{
     position: fixed; inset: 0 auto 0 var(--mm-nav-w);
     width: var(--mm-index-w);
     background: rgb(0, 21, 26);
-    border-right: 1px solid var(--mm-border);
+    border-right: 0px solid var(--mm-border);
     overflow-y: auto; z-index: 950;
     font-size: 14px;
   
@@ -384,23 +324,21 @@ body.panel-closed .mm-panel{
   .muscle-index .mi-search{
     outline: none;
     width:100%; padding:12px; margin-top:2px; margin-bottom:2px; border:0px solid var(--mm-border);
-    border-radius:8px; background:#08313b; color:#fff; font: inherit;
+    border-radius:8px; background:#08313b; color:#ffffff; font: inherit;
+    .placeholder {color: #fff;}
   }
-  .muscle-index .mi-list{
-    list-style:none; margin:0;
-    display:flex; flex-direction:column; gap:0px;
-  }
+  
   .muscle-index .mi-list button{
-    all:unset; width:207px; height: 30px; cursor:pointer; color:#cacaca;
-    display:flex; align-items:center; padding-left:12px;
+    all:unset; width:207px; height: 30px; cursor:pointer; color:#bebebe;
+    display:flex; align-items:center; padding-left:8px;
   }
-  .muscle-index .mi-list button:hover{ background:rgba(0, 195, 255, 0.215); color:#fff; }
+  .muscle-index .mi-list button:hover{ background:rgba(0, 168, 39, 0.215); color:#fff; width:100%;}
   .muscle-index .mi-list button.is-active{
-    position:relative; background:rgb(0, 120, 168); color:#fff;
+    position:relative; background:rgb(0, 168, 39); color:#fff;
   }
   .muscle-index .mi-list button.is-active::before{
-    content:""; position:absolute; right:0px; top:50%;
-    width:4px; height:100%; transform:translateY(-50%);
+    content:""; position:absolute; right:-4px; top:50%;
+    width:5px; height:100%; transform:translateY(-50%);
     background:#fff;
   }
 
@@ -429,7 +367,7 @@ body.panel-closed .mm-panel{
     all: unset;
     display:flex; cursor:pointer;
     align-items: center; 
-    color:#cacaca;
+    color:#bebebe;
     font: inherit; font-size:1rem; line-height:1; font-weight:400;
     font-size:18px;
     padding-left: 2rem;
@@ -481,7 +419,7 @@ body.panel-closed .mm-panel{
 /* --------- Exercise list --------- */
 #exerciseList{ list-style:none; margin:0; padding:0; }
 #exerciseList li{
-  color: #cacaca;  font-size: 14px;
+  color: #bebebe;  font-size: 14px;
   display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;
 }
 #exerciseList li a{ color:#000000; text-decoration:none; }
