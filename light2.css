@@ -3,18 +3,18 @@
 
 :root{
   /* Brand + UI */
-  --mm-brand: #00d5ff;            /* used by focus ring */
+  --mm-brand: #66ff00;            /* used by focus ring */
   --mm-radius: 0rem;            /* unify rounding */
 
-  --mm-elev-1: #08393e;         /* light (controls/nav) */
-  --mm-elev-2: #14597b59;         /* hover/active */
+  --mm-elev-1: rgb(6, 47, 54);      /* light (controls/nav) */
+  --mm-elev-2: rgba(0, 76, 207, 0.227);         /* hover/active */
   --mm-border: #5d717500;
   --mm-text: #ffffff;
 
   --mm-transition: 0ms cubic-bezier(.2,.6,.2,1);
 
-  --mm-nav-w: 70px;
-  --mm-index-w: 220px;
+  --mm-nav-w: 64px;
+  --mm-index-w: 240px;
   --panel-w: var(--mm-panel-w, 420px);
   /* computed at runtime */
   --index-cur: 0px;
@@ -46,6 +46,7 @@ body{
 }
 
 
+
 .mm-content{
   margin-left: calc(var(--mm-nav-w) + var(--mm-index-w) + var(--mm-panel-w));
   transition: margin var(--mm-transition); padding:16px; padding-block:0;
@@ -61,12 +62,6 @@ body.panel-closed .mm-content{
 /* both closed */
 body.panel-closed.index-closed .mm-content{
   margin-left: var(--mm-nav-w);
-}
-
-.mm-toggle{ color:#bebebe; border-radius:0px;}
-.mm-toggle[data-active="true"]{
-  background: var(--mm-bubble-hover-bg);
-  color:#fff;
 }
 
 
@@ -92,7 +87,7 @@ body.panel-closed.index-closed .mm-content{
   background: var(--mm-elev-1);
   border-right: 1px solid var(--mm-border);
   display: flex; flex-direction: column;
-  padding-top: 5px;
+  padding-top: 15px;
   font-weight: 310;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.371);
   z-index: 1000;
@@ -104,7 +99,7 @@ body.panel-closed.index-closed .mm-content{
   color: var(--mm-text); text-decoration:none;
   position: relative;
   justify-content: center;
-  transition: background var(--mm-transition); color: #bebebe;
+  transition: background var(--mm-transition); color: #e3e3e3;
   margin-top: 5px;
 }
 
@@ -113,7 +108,7 @@ body.panel-closed.index-closed .mm-content{
 .mm-item[aria-current="page"]{
   background: transparent !important;
   color: inherit;                 /* no forced blue */
-  margin: 2px;                    /* prevent the 10px jump from old rule */
+  margin:2px;                    /* prevent the 10px jump from old rule */
   position: relative;}
   .mm-item.is-active::after,
 .mm-item[aria-current="page"]::after{
@@ -124,7 +119,7 @@ body.panel-closed.index-closed .mm-content{
   width: var(--mm-nav-indicator-w, 3px);
   height: var(--mm-icon-size, 45px);
   transform: translateY(-50%);
-  background: var(--mm-indicator, #ffffff00);
+  background: var(--mm-indicator, #a7000000);
   border-radius: 2px;}
 .mm-item svg{
   width:40px; height:45px; flex:0 0 38px;
@@ -167,7 +162,7 @@ body.panel-closed.index-closed .mm-content{
 .viewer-box{
   position: relative;
   width: 100%; max-width: 1000px; height: 80vh;
-  background: radial-gradient(#050505, #020202 );
+  background: radial-gradient(rgb(5, 5, 5), #000000 );
   overflow: hidden;
   border-radius: 2rem;
   display:flex; align-items:center; justify-content:center;
@@ -223,12 +218,12 @@ body.panel-closed.index-closed .mm-content{
 .controls{
   position: absolute;
   left: 16px;
-  font-size: 14px;
+  font-size: 15px;
   display:flex; flex-direction:row; justify-content:center; align-items:center;
-  gap:1rem; margin:0.3rem 0; color:#bebebe; font-weight:200;
+  gap:1rem; margin:0.3rem 0; color:#bebebe; font-weight:400;
 }
 .controls label{ display:flex; align-items:center; }
-.controls input{ margin-right:0.3rem; }
+.controls input{ margin-right:10px; }
 
 
 .mm-panel{
@@ -237,7 +232,7 @@ body.panel-closed.index-closed .mm-content{
   top: 0; bottom: 0;
   left: calc(var(--mm-nav-w) + var(--mm-index-w));
   width: var(--mm-panel-w);
-  background: rgb(6, 33, 40);
+  background: rgb(2, 28, 36);
   border-right: 1px solid var(--mm-border);
   overflow-y: auto;
   z-index: 900;
@@ -301,10 +296,12 @@ body.panel-closed .mm-panel{
   .muscle-index{
     position: fixed; inset: 0 auto 0 var(--mm-nav-w);
     width: var(--mm-index-w);
-    background: rgb(0, 21, 26);
+    background: rgb(0, 18, 24);
     border-right: 0px solid var(--mm-border);
     overflow-y: auto; z-index: 950;
     font-size: 14px;
+    box-shadow: 0 5px 1px rgba(0, 0, 0, 0.278);
+ 
   
     transform: translateX(-100%); /* start collapsed */
     opacity: .001; pointer-events: none;
@@ -319,35 +316,36 @@ body.panel-closed .mm-panel{
     border-bottom: 1px solid var(--mm-border);
     padding: 10px 10px 8px;
     opacity: 1;
-    border-top: 15px solid #083442;
+    background-color:#00262c;
+    border-top: 30px solid #001e27;
+    border-bottom: 10px solid #00191e;
   }
   .muscle-index .mi-search{
     outline: none;
     width:100%; padding:12px; margin-top:2px; margin-bottom:2px; border:0px solid var(--mm-border);
     border-radius:8px; background:#08313b; color:#ffffff; font: inherit;
-    .placeholder {color: #fff;}
   }
   
   .muscle-index .mi-list button{
-    all:unset; width:207px; height: 30px; cursor:pointer; color:#bebebe;
+    all:unset; width:227px; height: 30px; cursor:pointer; color:#aaaaaa;
     display:flex; align-items:center; padding-left:8px;
   }
-  .muscle-index .mi-list button:hover{ background:rgba(0, 168, 39, 0.215); color:#fff; width:100%;}
+  .muscle-index .mi-list button:hover{ background:rgba(0, 76, 207, 0.227); color:#fff; width:100%;}
   .muscle-index .mi-list button.is-active{
-    position:relative; background:rgb(0, 168, 39); color:#fff;
+    position:relative; background:rgb(0, 123, 255); color:#ffffff;
   }
   .muscle-index .mi-list button.is-active::before{
     content:""; position:absolute; right:-4px; top:50%;
-    width:5px; height:100%; transform:translateY(-50%);
+    width:3px; height:100%; transform:translateY(-50%);
     background:#fff;
   }
 
   .mm-panel-tabs {
     background: #002930; 
-    border-top: 15px solid #083442;
-    border-bottom: 1px solid #5d7175ca;
+    border-bottom: 12px solid #00191e;
     display: flex;
     justify-content: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.189);
  
     display: block;            /* switch from flex → block */
     text-align: center;        /* center inline content */
@@ -367,14 +365,14 @@ body.panel-closed .mm-panel{
     all: unset;
     display:flex; cursor:pointer;
     align-items: center; 
-    color:#bebebe;
+    color:#aaaaaa;
     font: inherit; font-size:1rem; line-height:1; font-weight:400;
     font-size:18px;
     padding-left: 2rem;
     padding-right: 2rem;
     font-weight: 500;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 32px;
+    margin-bottom: 30px;
   }
 
   .tabs .tab svg {
@@ -398,8 +396,8 @@ body.panel-closed .mm-panel{
     left:0;
     bottom:-16px;                    /* sits against the tabs’ bottom border */
     width:100%;
-    height: var(--mm-tab-underline-h, 4px);
-    background: var(--mm-indicator, #fff);
+    height: var(--mm-tab-underline-h, 5px);
+    background: var(--mm-indicator, rgb(0, 136, 255));
   }
 
   
@@ -424,3 +422,4 @@ body.panel-closed .mm-panel{
 }
 #exerciseList li a{ color:#000000; text-decoration:none; }
 #exerciseList li a:hover{ text-decoration:underline; }
+
