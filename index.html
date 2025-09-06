@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Muscle Map</title>
+  <title>Muscle Map - Demo</title>
+  <link rel="icon" type="image/x-icon" href="MMfavicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Interactive 3D muscle atlas with training tips. Click a muscle to learn function and exercises.">
   <meta property="og:title" content="Muscle Map">
@@ -13,7 +14,7 @@
   <link rel="canonical" href="https://musclemap.org/">
 
   <!-- Main (light) theme only for now -->
-  <link rel="stylesheet" href="light2.css">
+  <link rel="stylesheet" href="light8.css">
 
   
 
@@ -24,46 +25,92 @@
   <!-- Use any Google Font you picked; example below -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
+
+<header class="mm-topbar" role="banner" aria-label="Site">
+
+  <div class="topbar-inner">
+
+    <button
+    id="mmPanelToggle"
+    class="mm-tog"
+    aria-controls="mm-panel"
+    aria-expanded="true"
+    aria-label="Toggle muscle info panel">
+    <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="currentColor"><path d="M184.62-200q-27.62 0-46.12-18.5Q120-237 120-264.62v-430.76q0-27.62 18.5-46.12Q157-760 184.62-760h590.76q27.62 0 46.12 18.5Q840-723 840-695.38v430.76q0 27.62-18.5 46.12Q803-200 775.38-200H184.62Zm483.07-386.08H800v-109.3q0-10.77-6.92-17.7-6.93-6.92-17.7-6.92H667.69v133.92Zm0 172.16H800v-132.16H667.69v132.16ZM184.62-240h443.07v-480H184.62q-10.77 0-17.7 6.92-6.92 6.93-6.92 17.7v430.76q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92Zm483.07 0h107.69q10.77 0 17.7-6.92 6.92-6.93 6.92-17.7v-109.3H667.69V-240Z"/></svg>
+    </button> 
+
+    <a class="brand" href="/">
+      
+    <img id="logo" src="MMlogoLIGHT.png">
+    </a>
+    <div class="mm-sep3" role="separator"></div>
+
+    <nav class="toplinks" aria-label="Primary">
+      
+      <a class="link" href="/">Home</a>
+      <a class="link" href="references.html">References</a>
+      <a class="link" href="about.html">About</a>
+      
+    </nav>
+
+  </div>
+
+  
+</header>
 
 <nav id="mm-nav" class="mm-nav" aria-label="Primary">
 
-   <div class="mm-sep" role="separator"></div>
-
-   <button id="muscleIndexToggle" class="mm-toggle"
-   aria-controls="muscle-index" aria-expanded="false"
-   aria-label="Toggle muscle index">
-   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v242q-15-24-35.5-45.5T800-561v-159H520v159q-54 35-87 93.5T400-340q0 53 19.5 99t53.5 81H160Zm704 80L756-188q-22 13-46 20.5t-50 7.5q-75 0-127.5-52.5T480-340q0-75 52.5-127.5T660-520q75 0 127.5 52.5T840-340q0 26-7.5 50T812-244l108 108-56 56ZM660-240q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29Z"/></svg>
-   </button>
-
-   <button
-   id="mmPanelToggle"
-   class="mm-toggle"
-   aria-controls="mm-panel"
-   aria-expanded="true"
-   aria-label="Toggle muscle info panel">
-   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M128-368.15v-66h312v66H128ZM128-210v-66h312v66H128Zm0-315.85v-66h312v66H128ZM128-684v-66h312v66H128Zm498.62 474q-38.66 0-64.64-25.98Q536-261.96 536-300.62v-358.76q0-38.66 25.98-64.64Q587.96-750 626.62-750h114.76q38.66 0 64.64 25.98Q832-698.04 832-659.38v358.76q0 38.66-25.98 64.64Q780.04-210 741.38-210H626.62Z"/></svg>
-   </button>
+  <button id="muscleIndexToggle" class="mm-item"
+  aria-controls="muscle-index" aria-expanded="false"
+  aria-label="Toggle muscle index">
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M184.62-200q-26.66 0-45.64-18.98T120-264.62v-430.76q0-26.66 18.98-45.64T184.62-760h590.76q26.66 0 45.64 18.98T840-695.38v130.76H550.77V-720H184.62q-10.77 0-17.7 6.92-6.92 6.93-6.92 17.7v430.76q0 10.77 6.92 17.7 6.93 6.92 17.7 6.92H430v40H184.62ZM160-240v-329.23 44.61V-720v480Zm691.69 120L745.23-225.69q-18.15 11.46-38.91 18.57-20.76 7.12-43.24 7.12-56.54 0-96.73-40.19-40.2-40.19-40.2-96.73 0-56.54 40.2-96.73 40.19-40.2 96.73-40.2 56.54 0 96.73 40.2Q800-393.46 800-336.92q0 22.15-6.35 43.46-6.34 21.31-20.11 38.69L880-148.31 851.69-120ZM662.9-240q40.64 0 68.87-28.06Q760-296.11 760-336.75q0-40.63-28.06-68.87-28.05-28.23-68.69-28.23-40.63 0-68.87 28.06-28.23 28.06-28.23 68.69 0 40.64 28.06 68.87Q622.27-240 662.9-240Z"/></svg>
+</button>
 
    <button 
-   id="termToggle" class="mm-toggle" aria-controls="term-panel" aria-expanded="false" aria-label="Toggle terminology" hidden><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M238.62-68q-54.3 0-92.46-37.97T108-197.85v-563.53q0-54.3 37.58-92.46Q183.15-892 237.62-892h440.69v650.31H238.62q-18.54 0-31.58 12.65T194-197.85q0 18.54 13.04 31.2Q220.08-154 238.62-154H766v-658h86v744H238.62Zm21.07-356.62H321l15.85-46.76h111.61l16.23 46.76h62.93l-97.54-270.76h-73.46l-96.93 270.76Zm95.62-102.76 35.61-105.24h3.23l36.24 105.24h-75.08Z"/></svg>
+   class="mm-item"  aria-controls="term-panel" aria-expanded="false" aria-label="Toggle terminology" hidden>
+   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" stroke="#000"><path d="M460-267.23v-392.46q-43.31-30.93-95.46-46.39-52.16-15.46-104.54-15.46-36 0-63.04 4.31t-60.04 16q-9.23 3.08-13.07 8.85-3.85 5.76-3.85 12.69v360.61q0 10.77 7.69 15.77t16.93 1.16q21.92-7.39 50.65-11.85 28.73-4.46 64.73-4.46 52.38 0 101.88 12.04 49.5 12.04 98.12 39.19Zm20 58q-48.77-33.39-104.77-51.31-56-17.92-115.23-17.92-31.23 0-61.35 5.23Q168.54-268 140-256.46q-21.77 8.69-40.88-5.23Q80-275.61 80-300.15v-386.62q0-14.85 7.81-27.54T109.69-732q35.23-15.54 73.31-22.54 38.08-7 77-7 65.54 0 116.38 16.62 50.85 16.61 103.93 49.3 9.46 5.24 14.57 14 5.12 8.77 5.12 20.24v394.15q48.62-27.15 98.12-39.19 49.5-12.04 101.88-12.04 36 0 64.73 4.46 28.73 4.46 50.65 11.85 9.24 3.84 16.93-1.16 7.69-5 7.69-15.77v-417.15q3.46 1.15 6.81 2.54 3.34 1.38 6.57 3.23 13.31 5.77 19.97 17.69 6.65 11.92 6.65 26v386.62q0 24.54-20.65 37.69-20.66 13.15-43.97 4.46-27.76-10.77-56.73-15.62-28.96-4.84-58.65-4.84-59.23 0-115.23 17.92-56 17.92-104.77 51.31ZM607.69-400v-400l124.62-40v400l-124.62 40ZM290-494.38Z"/></svg>
    </button>
-
-   <div class="mm-sep" role="separator"></div>
     
    <a href="references.html" class="mm-item" data-tooltip="Refernces">
-    <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24">
-      <path fill="currentColor" d="m17 21l-2.75-3l1.16-1.16L17 18.43l3.59-3.59l1.16 1.41M12.8 21H5a2 2 0 0 1-2-2V5c0-1.11.89-2 2-2h14a2 2 0 0 1 2 2v7.8c-.88-.51-1.91-.8-3-.8l-1 .08V11H7v2h7.69A5.983 5.983 0 0 0 12 18c0 1.09.29 2.12.8 3m-.8-6H7v2h5m5-10H7v2h10"/>
-  </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M200-200v-560 449.38-81.15V-200Zm24.62 40q-27.62 0-46.12-18.5Q160-197 160-224.62v-510.76q0-27.62 18.5-46.12Q197-800 224.62-800h510.76q27.62 0 46.12 18.5Q800-763 800-735.38v318.46h-40v-318.46q0-9.24-7.69-16.93-7.69-7.69-16.93-7.69H224.62q-9.24 0-16.93 7.69-7.69 7.69-7.69 16.93v510.76q0 9.24 7.69 16.93 7.69 7.69 16.93 7.69h253.84v40H224.62Zm465.53 40L580.46-228.92 609-257.23l81.15 81.15 162.31-162.3 28.31 28.53L690.15-120ZM324.62-449.23q13.15 0 21.96-8.81 8.8-8.81 8.8-21.96t-8.8-21.96q-8.81-8.81-21.96-8.81-13.16 0-21.97 8.81-8.8 8.81-8.8 21.96t8.8 21.96q8.81 8.81 21.97 8.81Zm0-150.77q13.15 0 21.96-8.81 8.8-8.81 8.8-21.96t-8.8-21.96q-8.81-8.81-21.96-8.81-13.16 0-21.97 8.81-8.8 8.81-8.8 21.96t8.8 21.96q8.81 8.81 21.97 8.81Zm123.07 140h215.39v-40H447.69v40Zm0-150.77h215.39v-40H447.69v40Z"/></svg>
    </a>
+
+   <div class="mm-sep" role="separator"></div>
+
+   <a href="https://www.instagram.com/allstarconnor"
+   id="termToggle" class="mm-toggle" aria-controls="term-panel" aria-expanded="false" aria-label="Toggle terminology" hidden>   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000"><path d="m434.62-555.38-320-209.24v420q0 10.77 6.92 17.7 6.92 6.92 17.69 6.92h404.62v40H139.23q-27.61 0-46.11-18.5t-18.5-46.12v-430.76q0-27.62 18.5-46.12 18.5-18.5 46.11-18.5H730q27.62 0 46.12 18.5 18.5 18.5 18.5 46.12v190.76h-40v-180l-320 209.24Zm0-44.62 307.69-200H126.92l307.7 200Zm320 478.46q-54.47 0-92.62-38.15-38.15-38.16-38.15-92.62v-180q0-32 21.69-53.69 21.69-21.69 53.69-21.69 32 0 53.69 21.69 21.7 21.69 21.7 53.69v180h-40v-180q0-14.92-10.24-25.15-10.23-10.23-25.15-10.23-14.92 0-25.15 10.23-10.23 10.23-10.23 25.15v180q0 37.62 26.57 64.19 26.58 26.58 64.2 26.58 37.61 0 64.19-26.58 26.57-26.57 26.57-64.19v-160h40v160q0 54.46-38.15 92.62-38.15 38.15-92.61 38.15Zm-640-643.08V-800v480-444.62Z"/></svg>
+  </a>
+
 </nav> 
 
 <aside id="muscle-index" class="muscle-index" aria-label="Muscle index" aria-hidden="true">
-  <header class="mi-head">
+
+  
+  <div class="mi-head">
+
+    <svg class="mm-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" aria-hidden="true" ><path fill="currentColor" d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/>
+    </svg>
+
     <input id="mi-search" class="mi-search" placeholder="Search muscles…" aria-label="Search muscles">
-  </header>
+  </div>
+
+  <div class="refine-icon" id="refine-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M450-130v-220h60v80h320v60H510v80h-60Zm-320-80v-60h220v60H130Zm160-160v-80H130v-60h160v-80h60v220h-60Zm160-80v-60h380v60H450Zm160-160v-220h60v80h160v60H670v80h-60Zm-480-80v-60h380v60H130Z"/></svg>
+  </div>
+  <div class="mi-filter" id="mi-filter" >
+    <p>
+      
+      Refine search
+    </p>
+  </div>
   <ul id="mi-list" class="mi-list" role="listbox" aria-label="All muscles"></ul>
 </aside>
+
+
 
 <aside id="mm-panel" class="mm-panel" aria-label="Muscle Info">
 
@@ -73,10 +120,10 @@
      
     <div class="mm-panel-tabs">
     <header class="tabs" role="tablist" aria-label="Muscle panel tabs">
-      <button id="tab-info" class="tab is-active" role="tab" aria-selected="true" aria-controls="panel-info">About <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M479.23-185.39q-48.38-35.69-104-55.15Q319.62-260 260-260q-36.61 0-71.92 8.11Q152.77-243.77 120-228q-21.38 9.84-40.69-2.93Q60-243.69 60-267.08v-433.53q0-12.93 6.85-23.89 6.84-10.96 19-15.96 40.61-19.77 84.65-29.65Q214.54-780 260-780q58.38 0 113.69 16.54Q429-746.92 480-716.92v459.38q50.62-32 106.81-47.23Q643-320 700-320q34.46 0 62.81 4.27 28.34 4.27 65.65 15.88 4.23 1.16 7.89.2 3.65-.97 3.65-6.35v-449.23q10.38 3.08 20.27 6.85 9.88 3.77 19.27 9.46 10.23 5 15.34 14.61 5.12 9.62 5.12 20.62v435.84q0 23.39-19.89 35.96-19.88 12.58-42.42 3.12-32.38-15.39-67.11-23.31Q735.85-260 700-260q-60 0-116.38 18.88-56.39 18.89-104.39 55.73ZM560-360v-360l200-200v380L560-360Z"/></svg>
+      <button id="tab-info" class="tab is-active" role="tab" aria-selected="true" aria-controls="panel-info">About
         </button>
-        <div class="mm-sep3"></div>
-      <button id="tab-exercises" class="tab" role="tab" aria-selected="false" aria-controls="panel-exercises">Exercise<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m809-593.61-217-217 17-17q17.61-17.62 43.34-17.31 25.73.31 43.35 17.92l130.92 131.31q17.62 17.62 17.62 42.85T826.61-610L809-593.61ZM349.46-132.46q-17.23 17.23-42.46 17.61-25.23.39-42.46-16.84l-132.08-131.7q-17.61-17.61-17.61-43.03 0-25.43 17.61-43.04l17.93-17.93 217 217-17.93 17.93Zm138.85-15.31q-10.85 10.85-25.31 10.85-14.46 0-25.31-10.85L147.77-437.69q-10.85-10.85-10.85-25.31 0-14.46 10.85-25.31l58.15-58.77q10.85-10.84 25.62-10.84 14.77 0 25.61 10.84l68.77 69.16 156.77-156.77-69.15-68.77q-10.85-10.85-10.85-25.31 0-14.46 10.85-25.31l58.15-59.15q10.85-10.85 25.81-10.85 14.96 0 25.81 10.85l289.92 289.92q10.85 10.85 10.85 25.81 0 14.96-10.85 25.81l-59.15 58.15q-10.85 10.85-25.31 10.85-14.46 0-25.31-10.85l-68.77-69.15-156.77 156.77 69.16 68.77q10.84 10.84 10.84 25.61t-10.84 25.62l-58.77 58.15Z"/></svg>
+        <div class="mm-sep5"></div>
+      <button id="tab-exercises" class="tab" role="tab" aria-selected="false" aria-controls="panel-exercises">Exercise
         </button>
     </header> 
  </div>
@@ -84,18 +131,16 @@
     <!-- Panel: INFO -->
     <section id="panel-info" class="panel" role="tabpanel" aria-labelledby="tab-info">
       <div class="info-columns">
-        <img id="muscleImage" src="" alt="Selected muscle">
         <div class="info-right">
           <div class="mm-panel-header">
-
+            
             <h2 id="muscleName">Muscle Name</h2>
 
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" clip-rule="evenodd" d="M12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21Z" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/> <path d="M12 11V16" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/> <circle cx="12" cy="8" r="1" fill="currentColor"/></svg>
-            
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M8.5 11.5356L11 14.25L15.5 9.75M5.63604 18.364C4.83954 17.5675 5.36783 15.8952 4.96241 14.9154C4.54215 13.8997 3 13.0822 3 12C3 10.9178 4.54216 10.1003 4.96242 9.08459C5.36783 8.10475 4.83954 6.43254 5.63604 5.63604C6.43254 4.83954 8.10476 5.36783 9.0846 4.96241C10.1003 4.54215 10.9178 3 12 3C13.0822 3 13.8997 4.54216 14.9154 4.96242C15.8952 5.36783 17.5675 4.83954 18.364 5.63604C19.1605 6.43254 18.6322 8.10476 19.0376 9.0846C19.4579 10.1003 21 10.9178 21 12C21 13.0822 19.4578 13.8997 19.0376 14.9154C18.6322 15.8952 19.1605 17.5675 18.364 18.364C17.5675 19.1605 15.8952 18.6322 14.9154 19.0376C13.8997 19.4579 13.0822 21 12 21C10.9178 21 10.1003 19.4578 9.08459 19.0376C8.10475 18.6322 6.43254 19.1605 5.63604 18.364Z" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#aaa"><path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
           </div>
 
-          <div class="mm-sep2" role="separator"></div>
+          <img id="muscleImage" src="" alt="Selected muscle">
+
 
           <div class="mm-panel-section">
             <p id="info-desc"></p>
@@ -121,8 +166,12 @@
     <!-- Panel: EXERCISES -->
     <section id="panel-exercises" class="panel is-hidden" role="tabpanel" aria-labelledby="tab-exercises" hidden>
       <div class="mm-panel-section">
+        
+
         <h3>How can I train this muscle?</h3>
         <ul id="exerciseList"></ul>
+
+        <div class="mm-sep2" role="separator"></div>
 
         <div class="mm-panel-section">
           <h3>Why this works</h3>
@@ -149,24 +198,29 @@
 
         <div class="viewer-hud hud-outside">
 
-          <button class="hud-btn" id="btn-reset"   aria-label="Click the model to learn about a muscle!">
-          <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#e3e3e3"><path d="M418-128q-25.35 0-48.14-11.08-22.78-11.07-39.75-31.22L67.15-493 91-520.31q19.54-22.77 51-22.07 31.46.69 59.23 16L307-469.54v-383.23q0-13.5 9.76-23.25t23.27-9.75q13.51 0 23.24 9.75 9.73 9.75 9.73 23.25v404.31h86.92V-733q0-13.5 9.76-23.25t23.27-9.75q13.51 0 23.24 9.75 9.73 9.75 9.73 23.25v284.54h86.93v-203.85q0-13.5 9.75-23.25 9.76-9.75 23.27-9.75t23.25 9.75q9.73 9.75 9.73 23.25v203.85H768V-570q0-13.5 9.76-23.25t23.27-9.75q13.51 0 23.24 9.75Q834-583.5 834-570v289q0 64.31-44.35 108.65Q745.31-128 681-128H418Z"/></svg>
+          <button class="hud-btn" id="btn-reset"   aria-label="Click and drag to rotate the model 360°">
+            <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="#606060"><path d="M480-40q-186 0-313-69.5T40-280q0-69 64-126.5T280-494v82q-73 23-116.5 59T120-280q0 64 108 112t252 48q144 0 252-48t108-112q0-37-43.5-73T680-412v-82q112 30 176 87.5T920-280q0 101-127 170.5T480-40ZM360-200v-440H160v-80h640v80H600v440h-80v-200h-80v200h-80Zm120-560q-33 0-56.5-23.5T400-840q0-33 23.5-56.5T480-920q33 0 56.5 23.5T560-840q0 33-23.5 56.5T480-760Z"/></svg>
           </button>
 
-            <button class="hud-btn" id="btn-reset"   aria-label="This model was created by Alex Ecorcho">
-              <svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -960 960 960" width="26px" fill="#e3e3e3"><path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>
-            </button>
+            <button class="hud-btn" id="btn-reset"aria-label="This model was created by Alex Ecorcho"></button>
         </div>
 
         
         <div class="controls">
 
-            <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#e3e3e3"><path d="M520-360h120q33 0 56.5-23.5T720-440v-80q0-33-23.5-56.5T640-600H520v240Zm60-60v-120h60q8 0 14 6t6 14v80q0 8-6 14t-14 6h-60Zm-320 60h140q17 0 28.5-11.5T440-400v-40q0-17-11.5-28.5T400-480q17 0 28.5-11.5T440-520v-40q0-17-11.5-28.5T400-600H260v60h120v30h-80v60h80v30H260v60ZM160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Z"/></svg>
-
-          <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#e3e3e3"><path d="M240-320h360v-200H240v200Zm420-120h60v-200H360v60h300v140ZM160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#606060"><path d="M520-360h120q33 0 56.5-23.5T720-440v-80q0-33-23.5-56.5T640-600H520v240Zm60-60v-120h60q8 0 14 6t6 14v80q0 8-6 14t-14 6h-60Zm-320 60h140q17 0 28.5-11.5T440-400v-40q0-17-11.5-28.5T400-480q17 0 28.5-11.5T440-520v-40q0-17-11.5-28.5T400-600H260v60h120v30h-80v60h80v30H260v60ZM160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Z"/></svg>
+          </button>
 
              <label><input type="radio" name="texture" value="basic" checked> Standard</label>
-             <label><input type="radio" name="texture" value="advanced"> Color-Coded</label>
+             <label><input type="radio" name="texture" value="advanced">High Contrast</label>
+        </div> 
+      </div>
+    </div>
+</main>
+</div>
+
+</body>
+</html>
         </div> 
       </div>
     </div>
