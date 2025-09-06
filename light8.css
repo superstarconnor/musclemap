@@ -63,7 +63,7 @@ body{ font-family: 'Roboto'; background: #ffffff; color: var(--mm-text);}
 .mm-topbar::after{
   content: "";
   position: absolute;
-  left: 0; right: 0; bottom: 0; height: 5px;
+  left: 0; right: 0; bottom: 0; height: 3px;
   background: linear-gradient(90deg, #014580, #006aff, #00ff33, #014580); 
   box-shadow: 1px 0px 5px #00ff1ebf;/* reversed */
   transform: scaleX(0);                 /* start hidden */
@@ -74,7 +74,7 @@ body{ font-family: 'Roboto'; background: #ffffff; color: var(--mm-text);}
 .mm-topbar:hover::after,
 .mm-topbar:focus-within::after{  
   background: linear-gradient(90deg,#003b6f, #00ff33, #0059ff, #003b6f);  
-  box-shadow: 1px 0px 5px #00ff1e8d;      /* keyboard too */
+  box-shadow: 1px 0px 4px #00ff1e8d;      /* keyboard too */
   transform: scaleX(1);                 /* cover the base line */
 }
 @media (prefers-reduced-motion: reduce){
