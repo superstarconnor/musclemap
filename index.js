@@ -5,10 +5,10 @@ console.info('✅ UI core executing');
 /* 1) Data (extend this with all your real entries) */
 window.MUSCLE_INFO = window.MUSCLE_INFO || {
   trapezius: {
-    title: 'Trapezius (traps)', img: 'trapezius.jpg', description: 'This muscle gets its name from its trapezoid shape. It is a large superficial muscle covering the upper back and neck.', head: 'Upper, middle, and lower fiber regions rather than discrete heads.', function: 'Scapular elevation, retraction, and depression; assists with neck extension and posture.', exercises: ['Barbell Shrug', 'Face Pull', 'Cable Row'], explanation: 'Because this muscle retracts and elevates the scapulae, rowing and shrugging movements keep it under tension through scapular motion and load.'
+    title: 'Trapezius (traps)', img: 'trapezius.jpg', description: 'While the lats are often considered the "back," the traps are equally as important. The traps gets their name from its trapezoid shape. It is a large superficial muscle covering the upper back and neck.', head: 'Upper, middle, and lower fiber regions rather than discrete heads.', function: 'Scapular elevation, retraction, and depression; assists with neck extension and posture.', exercises: ['Barbell Shrug', 'Face Pull', 'Cable Row'], explanation: 'Because this muscle retracts and elevates the scapulae, rowing and shrugging movements keep it under tension through scapular motion and load.'
   },
   deltoid: {
-    title: 'Deltoid (Shoulder)', img: 'deltoid.jpg', description: 'This muscle gets its name from the Greek letter delta (Δ) due to its triangular shape. It is a superficial muscle capping the shoulder.', head: 'Anterior, lateral, and posterior heads.', function: 'Shoulder abduction (lateral), flexion/internal rotation (anterior), extension/external rotation (posterior).', exercises: ['Overhead Press', 'Lateral Raise', 'Rear Delt Fly'], explanation: 'Because this muscle abducts and rotates the shoulder, pressing and raise patterns load specific heads across the range of motion.'
+    title: 'Deltoid (Shoulder)', img: 'delt.jpg', description: "When a person says they're training their shoulders, they're really referring their deltoids. Named after the Greek letter delta (Δ), deltoids are a triangular muscle that cap the shoulder.", head: 'There are three heads of the deltiod: the anterior, lateral, and posterior.', function: 'Shoulder abduction (lateral), flexion/internal rotation (anterior), extension/external rotation (posterior).', exercises: ['Overhead Press', 'Lateral Raise', 'Rear Delt Fly'], explanation: 'Because this muscle abducts and rotates the shoulder, pressing and raise patterns load specific heads across the range of motion.'
 
   }, 
   supraspinatus: {
@@ -27,7 +27,7 @@ window.MUSCLE_INFO = window.MUSCLE_INFO || {
     title: 'Teres Major', img: 'teres_major.jpg', description: 'This muscle gets its name from being a larger rounded muscle near the scapula’s inferior angle.', head: 'No distinct heads; single posterior muscle.', function: 'Shoulder extension, adduction, and internal rotation; assists latissimus.', exercises: ['Lat Pulldown (neutral)', 'Straight-Arm Pulldown', 'Dumbbell Row'], explanation: 'Because this muscle extends and adducts the shoulder, pulldown and row patterns place it under tension through the long arm path.'
   }, 
   pectoralis_major: {
-    title: 'Pectoralis Major (Pecs)', img: 'pecpic.jpg', description: 'This muscle gets its name from the chest (pectoral) region. It is the large superficial chest muscle.', head: 'Clavicular (upper), sternal (middle), and abdominal (lower) heads.', function: 'Horizontal adduction, shoulder flexion (upper), and extension from flexion (lower); internal rotation.', exercises: ['Barbell Bench Press', 'Incline DB Press', 'Cable Fly'], explanation: 'Because this muscle adducts the humerus across the body, pressing and fly motions keep continuous tension through the arc.'
+    title: 'Pectoralis Major', img: 'pecpic.jpg', description: 'Derived from Latin "pectus," meaning breast, your pectoralis major(s) are located just beneath the breast tissue. Together with the pectoralis minor, these muscles make up what we call the chest. It is the large superficial chest muscle.', head: 'Clavicular (upper), sternal (middle), and abdominal (lower) heads.', function: 'Horizontal adduction, shoulder flexion (upper), and extension from flexion (lower); internal rotation.', exercises: ['Barbell Bench Press', 'Incline DB Press', 'Cable Fly'], explanation: 'Because this muscle adducts the humerus across the body, pressing and fly motions keep continuous tension through the arc.'
   }, 
   pectoralis_minor: {
     title: 'Pectoralis Minor', img: 'pecmin.jpg', description: 'This muscle gets its name from being the smaller pectoral muscle beneath pec major.', head: 'No distinct heads; deep chest muscle.', function: 'Scapular protraction and depression; assists with rib elevation in breathing.', exercises: ['Push-Up Plus', 'Cable Press with Protraction', 'Scap Push-Up'], explanation: 'Because this muscle protracts the scapula, cues that reach and round the upper back bias its activation under load.'
@@ -39,10 +39,10 @@ window.MUSCLE_INFO = window.MUSCLE_INFO || {
     title: 'Serratus Anterior', img: 'serratusa.jpg', description: 'This muscle gets its name from its saw-tooth (serrated) appearance along the ribs.', head: 'No distinct heads; series of digitations on the ribs.', function: 'Scapular protraction and upward rotation; stabilizes the scapula against the thorax.', exercises: ['Push-Up Plus', 'Wall Slide (reach)', 'Landmine Press'], explanation: 'Because this muscle protracts and upwardly rotates the scapula, reach-focused presses and plus reps load it well.'
   }, 
   latissimus_dorsi: {
-    title: 'Latissimus Dorsi (lats)', img: 'lats.jpg', description: 'This muscle gets its name from being the “broadest of the back.” It is a large superficial back muscle.', head: 'No distinct heads; broad sheet-like muscle.', function: 'Shoulder extension, adduction, and internal rotation; trunk/ pelvic contribution in powerful pulls.', exercises: ['Pull-Up', 'Lat Pulldown', 'Single-Arm DB Row'], explanation: 'Because this muscle adducts and extends the humerus, vertical pulls and rows keep strong tension along its fibers.'
+    title: 'Latissimus Dorsi (Lats)', img: 'latssimus.jpg', description: 'This muscle gets its name from being the “broadest of the back.” It is a large superficial back muscle.', head: 'No distinct heads; broad sheet-like muscle.', function: 'Shoulder extension, adduction, and internal rotation; trunk/ pelvic contribution in powerful pulls.', exercises: ['Pull-Up', 'Lat Pulldown', 'Single-Arm DB Row'], explanation: 'Because this muscle adducts and extends the humerus, vertical pulls and rows keep strong tension along its fibers.'
   },
   erector_spinae: {
-    title: 'Erector Spinae (spinal erectors)', img: 'erector_spinae.jpg', description: 'This muscle group gets its name from its role in “erecting” (extending) the spine.', head: 'Iliocostalis, longissimus, and spinalis columns.', function: 'Spinal extension and anti-flexion stability; posture control.', exercises: ['Back Extension', 'Romanian Deadlift', 'Good Morning'], explanation: 'Because this group resists spinal flexion, hip hinges and extensions train it isometrically and concentrically.'
+    title: 'Erector Spinae (Spinal erectors)', img: 'erector_spinae.jpg', description: 'This muscle group gets its name from its role in “erecting” (extending) the spine.', head: 'Iliocostalis, longissimus, and spinalis columns.', function: 'Spinal extension and anti-flexion stability; posture control.', exercises: ['Back Extension', 'Romanian Deadlift', 'Good Morning'], explanation: 'Because this group resists spinal flexion, hip hinges and extensions train it isometrically and concentrically.'
   },  
   rectus_abdominis: {
     title: 'Rectus Abdominis (Abs)', img: 'abs.jpg', description: 'This muscle gets its name from its straight (rectus) vertical fiber orientation on the abdomen.', head: 'No distinct heads; tendinous intersections create “six-pack” segments.', function: 'Trunk flexion and posterior pelvic tilt; anti-extension core stability.', exercises: ['Crunch', 'Reverse Crunch', 'Cable Ab Pulldown'], explanation: 'Because this muscle flexes the trunk and resists extension, flexion and anti-extension drills maintain tension effectively.'
@@ -62,8 +62,8 @@ window.MUSCLE_INFO = window.MUSCLE_INFO || {
   brachioradialis: {
     title: 'Brachioradialis', img: 'brachioradialis.jpg', description: 'This muscle gets its name from spanning the arm (brachium) to the radius.', head: 'No distinct heads; superficial forearm flexor.', function: 'Elbow flexion strongest in neutral (thumbs-up) grip; assists pronation/supination to neutral.', exercises: ['Hammer Curl', 'Cable Rope Curl', 'EZ-Bar Curl (neutral)'], explanation: 'Because this muscle favors a neutral grip, hammer-style curls load it through its strongest range.'
   },
-  triceps_brachii: {
-    title: 'Triceps Brachii (triceps)', img: 'triceps_brachii.jpg', description: 'This muscle gets its name from having three heads on the back of the arm.', head: 'Long, lateral, and medial heads.', function: 'Elbow extension; long head assists shoulder extension and adduction.', exercises: ['Cable Pressdown', 'Overhead Triceps Extension', 'Close-Grip Bench'], explanation: 'Because this muscle extends the elbow, pressdowns and overhead extensions keep constant tension across heads.'
+  triceps: {
+    title: 'Triceps Brachii', img: '400px-Long_head_of_triceps_brachii_muscle_-_Kenhub.png', description: 'This muscle gets its name from having three heads on the back of the arm.', head: 'Long, lateral, and medial heads.', function: 'Elbow extension; long head assists shoulder extension and adduction.', exercises: ['Cable Pressdown', 'Overhead Triceps Extension', 'Close-Grip Bench'], explanation: 'Because this muscle extends the elbow, pressdowns and overhead extensions keep constant tension across heads.'
   },
   pronator_teres: {
     title: 'Pronator Teres', img: 'pronator_teres.jpg', description: 'This muscle gets its name from its rounded shape that pronates the forearm.', head: 'Humeral and ulnar heads.', function: 'Forearm pronation and weak elbow flexion.', exercises: ['Cable Pronation', 'Hammer Curl to Pronation', 'Reverse Curl (pronation emphasis)'], explanation: 'Because this muscle pronates the forearm, resisted rotation drills apply targeted tension.'
@@ -117,13 +117,13 @@ window.MUSCLE_INFO = window.MUSCLE_INFO || {
     title: 'Tensor Fasciae Latae (TFL)', img: 'tensor_fasciae_latae.jpg', description: 'This muscle gets its name from “tensing the fascia lata,” on the lateral hip.', head: 'No distinct heads; small lateral hip muscle.', function: 'Hip flexion, abduction, and internal rotation; tensions the IT band.', exercises: ['Banded Hip Abduction (slight flexion)', 'Cable Hip Flexion', 'Monster Walks'], explanation: 'Because this muscle flexes/abducts the hip, abduction with slight flexion biases its line of pull.'
   }, 
   iliopsoas: {
-    title: 'Iliopsoas (hip flexors)', img: 'iliopsoas.jpg', description: 'This muscle group gets its name from the iliacus and psoas major joining to flex the hip.', head: 'Iliacus and psoas major (and psoas minor when present).', function: 'Primary hip flexion; assists trunk flexion.', exercises: ['Hanging Leg Raise (hip flexion)', 'Cable March', 'Seated Knee Raise'], explanation: 'Because this group flexes the hip, knee-raise and high-hip drills load it dynamically.'
+    title: 'Iliopsoas (Hip Flexors)', img: 'iliopsoas.jpg', description: 'This muscle group gets its name from the iliacus and psoas major joining to flex the hip.', head: 'Iliacus and psoas major (and psoas minor when present).', function: 'Primary hip flexion; assists trunk flexion.', exercises: ['Hanging Leg Raise (hip flexion)', 'Cable March', 'Seated Knee Raise'], explanation: 'Because this group flexes the hip, knee-raise and high-hip drills load it dynamically.'
   },
   piriformis: {
     title: 'Piriformis', img: 'piriformis.jpg', description: 'This muscle gets its name from its pear-like shape (piri = pear).', head: 'No distinct heads; deep external rotator.', function: 'Hip external rotation; abduction in flexed hip.', exercises: ['Clamshell', 'Band External Rotation', 'Cable Hip ER'], explanation: 'Because this muscle externally rotates the hip, ER drills with bands or cables create targeted tension.'
   },
   adductor_longus: {
-    title: 'Adductor Longus (adductors)', img: 'adductors.jpg', description: 'This muscle gets its name from its long belly that adducts the thigh.', head: 'No distinct heads; superficial adductor.', function: 'Hip adduction and flexion; assists medial stabilization.', exercises: ['Adductor Machine', 'Copenhagen Plank', 'Cable Hip Adduction'], explanation: 'Because this muscle adducts the hip, inward-draw motions and isometric planks load it effectively.'
+    title: 'Adductor Longus (Adductors)', img: 'adductors.jpg', description: 'This muscle gets its name from its long belly that adducts the thigh.', head: 'No distinct heads; superficial adductor.', function: 'Hip adduction and flexion; assists medial stabilization.', exercises: ['Adductor Machine', 'Copenhagen Plank', 'Cable Hip Adduction'], explanation: 'Because this muscle adducts the hip, inward-draw motions and isometric planks load it effectively.'
   },
   adductor_magnus: {
     title: 'Adductor Magnus', img: 'adductor_magnus.jpg', description: 'This muscle gets its name from being the great/large (magnus) adductor of the thigh.', head: 'Adductor portion and hamstring portion.', function: 'Hip adduction; posterior fibers assist hip extension.', exercises: ['Sumo Deadlift', 'Cable Hip Adduction', 'Wide-Stance Squat'], explanation: 'Because this muscle adducts and can extend the hip, wide pulling and adduction create tension across its portions.'
@@ -266,6 +266,28 @@ window.MUSCLE_INFO = window.MUSCLE_INFO || {
     });
   })();
   
+
+
+  const topbar = document.querySelector('.mm-topbar');
+
+topbar.addEventListener('mouseenter', () => {
+  topbar.classList.remove('is-leaving');
+  topbar.classList.add('is-armed');        // grow L→R
+});
+
+topbar.addEventListener('mouseleave', () => {
+  // run exit: keep armed, add leaving so it slides off to the right
+  topbar.classList.add('is-leaving');
+
+  // after the transform transition finishes, reset to initial (hidden)
+  const onEnd = (e) => {
+    if (e.propertyName !== 'transform') return;
+    topbar.classList.remove('is-armed', 'is-leaving');
+    topbar.removeEventListener('transitionend', onEnd);
+  };
+  topbar.addEventListener('transitionend', onEnd);
+});
+
   
   /* 4) Build the muscle index (list + search). If the viewer later
         sends a full mesh-name list, we’ll merge any missing entries. */
