@@ -88,6 +88,127 @@ document.addEventListener('DOMContentLoaded', () => {
   const raycaster  = new THREE.Raycaster();
   const pointer    = new THREE.Vector2();
   let model        = null;
+  const loader = new THREE.TextureLoader();
+  const boneTex = loader.load('Ecorche_Bones.png', t => {
+  t.encoding = THREE.sRGBEncoding;  // match your color workflow
+  t.wrapS = t.wrapT = THREE.RepeatWrapping; // keep default if atlas
+});
+
+// Keep a global so you can toggle later
+const BoneOverlay = { enabled: false, mix: 1.0, mode: 'multiply' }; // mix 0..1
+
+function addBoneOverlay(mat) {
+  if (!mat || mat.userData._hasBoneOverlay) return;
+
+  mat.onBeforeCompile = (shader) => {
+    // uniforms we can tweak later
+    shader.uniforms.uBoneTex = { value: boneTex };
+    shader.uniforms.uBoneMix = { value: BoneOverlay.enabled ? BoneOverlay.mix : 0.0 };
+    shader.uniforms.uBoneMode = { value: 0 }; // 0=multiply, 1=overlay, 2=add
+
+    // add a sampler + helper at the top of fragment shader
+    shader.fragmentShader = shader.fragmentShader
+      .replace(
+        '#include <common>',
+        `
+        #include <common>
+        uniform sampler2D uBoneTex;
+        uniform float uBoneMix;
+        uniform int uBoneMode;
+
+        vec3 blendOverlay(vec3 base, vec3 blend) {
+          return mix(2.0*base*blend, 1.0 - 2.0*(1.0-base)*(1.0-blend), step(0.5, base));
+        }
+        `
+      )
+      // right after diffuse color is computed, mix in bone texture using the same UVs
+      .replace(
+        '#include <map_fragment>',
+        `
+        #include <map_fragment>
+        vec3 boneRGB = texture2D(uBoneTex, vMapUv).rgb;
+        #if defined( USE_MAP )
+          // baseColor = texelColor.xyz already computed by <map_fragment>
+          vec3 mixed;
+          if (uBoneMode == 0) {
+            mixed = diffuseColor.rgb * boneRGB;                // multiply
+          } else if (uBoneMode == 1) {
+            mixed = blendOverlay(diffuseColor.rgb, boneRGB);   // overlay
+          } else {
+            mixed = diffuseColor.rgb + boneRGB - 1.0;          // add
+          }
+          diffuseColor.rgb = mix(diffuseColor.rgb, mixed, uBoneMix);
+        #endif
+        `
+      );
+
+    // stash so we can update later
+    mat.userData.shader = shader;
+  };
+
+  mat.needsUpdate = true;
+  mat.userData._hasBoneOverlay = true;
+}
+
+function setBoneOverlayEnabled(on) {
+  BoneOverlay.enabled = on;
+  scene.traverse(o => {
+    if (o.isMesh) {
+      const mats = Array.isArray(o.material) ? o.material : [o.material];
+      mats.forEach(m => {
+        if (!m?.userData?.shader) return;
+        m.userData.shader.uniforms.uBoneMix.value = on ? BoneOverlay.mix : 0.0;
+      });
+    }
+  });
+}
+
+function setBoneOverlayMix(x) { // 0..1
+  BoneOverlay.mix = x;
+  scene.traverse(o => {
+    if (o.isMesh) {
+      const mats = Array.isArray(o.material) ? o.material : [o.material];
+      mats.forEach(m => {
+        if (!m?.userData?.shader) return;
+        m.userData.shader.uniforms.uBoneMix.value = x;
+      });
+    }
+  });
+}
+
+// Example bindings:
+document.querySelector('#toggle-bones').addEventListener('change', (e) => {
+  setBoneOverlayEnabled(e.target.checked);
+});
+
+document.querySelector('#bones-mix').addEventListener('input', (e) => {
+  setBoneOverlayMix(parseFloat(e.target.value)); // 0..1 range
+});
+
+// Optional: switch blend mode (multiply/overlay/add)
+function setBoneBlendMode(mode) {
+  // 0=multiply, 1=overlay, 2=add
+  const modeIdx = { multiply:0, overlay:1, add:2 }[mode] ?? 0;
+  BoneOverlay.mode = mode;
+  scene.traverse(o => {
+    if (!o.isMesh) return;
+    const mats = Array.isArray(o.material) ? o.material : [o.material];
+    mats.forEach(m => m?.userData?.shader && (m.userData.shader.uniforms.uBoneMode.value = modeIdx));
+  });
+}
+
+
+// Apply to all textured meshes you want to support
+scene.traverse(o => {
+  if (o.isMesh) {
+    const mats = Array.isArray(o.material) ? o.material : [o.material];
+    mats.forEach(m => {
+      if (m && (m.map || m.userData.forceOverlay)) addBoneOverlay(m);
+    });
+  }
+});
+
+
 
   // Selection state (persistent highlight)
   let selectedMesh = null;
@@ -173,17 +294,53 @@ document.addEventListener('DOMContentLoaded', () => {
     err => console.error('OBJ load error', err)
   );
 
-  // Texture toggle (and save choice)
-  document.querySelectorAll('input[name="texture"]').forEach(radio => {
-    radio.addEventListener('change', e => {
-      const choice = e.target.value;            // 'advanced' | 'basic'
-      localStorage.setItem(TEX_KEY, choice);    // remember it
-      const url = choice === 'advanced'
-        ? 'Ecorche_Muscles_Color_Codes.png'
-        : 'Ecorche_Muscles.png';
-      applyTexture(url);
-    });
+// ADD THIS BLOCK TO SCRIPT.JS:
+
+  // ---------- Texture Toggle Logic ----------
+  const textureToggleBtn = document.getElementById('texture-toggle');
+  const textureLabel = document.getElementById('texture-label');
+  const iconOutline = document.getElementById('texture-icon-outline');
+  const iconFilled = document.getElementById('texture-icon-filled');
+  const TEXKEY = 'mm_tex_choice'; // Ensure this key is available globally or defined here
+
+  // Helper function to update the UI visuals (icons/text)
+  function updateTextureUI(isAdvanced) {
+    if (iconOutline) iconOutline.classList.toggle('hidden', isAdvanced);
+    if (iconFilled) iconFilled.classList.toggle('hidden', !isAdvanced);
+    if (textureLabel) textureLabel.textContent = isAdvanced ? 'High-Contrast' : 'Default';
+    if (textureToggleBtn) textureToggleBtn.setAttribute('aria-pressed', String(isAdvanced));
+  }
+
+  // Primary function to set the state and apply the texture
+  function setTextureChoice(choice) {
+    localStorage.setItem(TEX_KEY, choice);
+    const isAdvanced = choice === 'advanced';
+    
+    const url = isAdvanced
+      ? 'Ecorche_Muscles_Color_Codes.png'
+      : 'Ecorche_Muscles.png';
+    
+    // Note: applyTexture is assumed to be defined elsewhere in script.js
+    if (typeof applyTexture === 'function') {
+        applyTexture(url);
+    } else {
+        console.warn("applyTexture function not found. Texture change not applied to model.");
+    }
+    updateTextureUI(isAdvanced);
+  }
+
+  // Restore initial state on load
+  const initialTex = localStorage.getItem(TEX_KEY) || 'basic';
+  setTextureChoice(initialTex);
+  
+  // Event Listener for the new toggle button
+  textureToggleBtn?.addEventListener('click', () => {
+    const currentChoice = localStorage.getItem(TEX_KEY) || 'basic';
+    const nextChoice = currentChoice === 'basic' ? 'advanced' : 'basic';
+    setTextureChoice(nextChoice);
   });
+
+  // ---------- End Texture Toggle Logic ----------
 
 
 
