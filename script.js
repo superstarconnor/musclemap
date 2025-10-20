@@ -163,27 +163,11 @@ function setBoneOverlayEnabled(on) {
   });
 }
 
-function setBoneOverlayMix(x) { // 0..1
-  BoneOverlay.mix = x;
-  scene.traverse(o => {
-    if (o.isMesh) {
-      const mats = Array.isArray(o.material) ? o.material : [o.material];
-      mats.forEach(m => {
-        if (!m?.userData?.shader) return;
-        m.userData.shader.uniforms.uBoneMix.value = x;
-      });
-    }
-  });
-}
-
 // Example bindings:
 document.querySelector('#toggle-bones').addEventListener('change', (e) => {
   setBoneOverlayEnabled(e.target.checked);
 });
 
-document.querySelector('#bones-mix').addEventListener('input', (e) => {
-  setBoneOverlayMix(parseFloat(e.target.value)); // 0..1 range
-});
 
 // Optional: switch blend mode (multiply/overlay/add)
 function setBoneBlendMode(mode) {
@@ -215,6 +199,48 @@ scene.traverse(o => {
   let selectedPrevEmissive = 0x000000;
   const HOVER_COLOR  = 0x777777;   // tweak if you want lighter/darker
   const SELECT_COLOR = 0x66ccff;
+    // --- ISOLATION MODE ---
+    let isIsolationActive = false;
+    const isolateBtn = document.getElementById('isolate-btn');
+  
+    function isolateMesh(meshToIsolate) {
+      if (!model) return;
+      model.traverse((child) => {
+        if (child.isMesh) {
+          child.material.transparent = true;
+          child.material.opacity = (child === meshToIsolate) ? 1.0 : 0.15;
+          child.material.needsUpdate = true;
+        }
+      });
+    }
+  
+    function clearIsolation() {
+      if (!model) return;
+      model.traverse((child) => {
+        if (child.isMesh) {
+          child.material.transparent = false;
+          child.material.opacity = 1.0;
+          child.material.needsUpdate = true;
+        }
+      });
+    }
+  
+    isolateBtn?.addEventListener('click', () => {
+      isIsolationActive = !isIsolationActive;
+      isolateBtn.classList.toggle('is-active', isIsolationActive);
+      
+      if (isIsolationActive) {
+        if (selectedMesh) {
+          isolateMesh(selectedMesh);
+        } else {
+          // If nothing is selected, don't stay in isolation mode
+          isIsolationActive = false; 
+          isolateBtn.classList.remove('is-active');
+        }
+      } else {
+        clearIsolation();
+      }
+    });
 
   // --- Preload textures & cache ---
   const textureURLs = ['Ecorche_Muscles.png','Ecorche_Muscles_Color_Codes.png'];
@@ -294,52 +320,49 @@ scene.traverse(o => {
     err => console.error('OBJ load error', err)
   );
 
-// ADD THIS BLOCK TO SCRIPT.JS:
-
+// MODIFIED BLOCK TO FIX ID CONFLICT
   // ---------- Texture Toggle Logic ----------
-  const textureToggleBtn = document.getElementById('texture-toggle');
-  const textureLabel = document.getElementById('texture-label');
-  const iconOutline = document.getElementById('texture-icon-outline');
-  const iconFilled = document.getElementById('texture-icon-filled');
-  const TEXKEY = 'mm_tex_choice'; // Ensure this key is available globally or defined here
+  const textureToggleBtn = document.getElementById('texture-toggle-btn'); // New, unique ID for the button
+  const textureLabel = document.getElementById('texture-label');     // New, unique ID for the text
+  const TEXKEY = 'mm_tex_choice';
 
-  // Helper function to update the UI visuals (icons/text)
+  // Helper to update the UI (label text and button's ARIA state)
   function updateTextureUI(isAdvanced) {
-    if (iconOutline) iconOutline.classList.toggle('hidden', isAdvanced);
-    if (iconFilled) iconFilled.classList.toggle('hidden', !isAdvanced);
-    if (textureLabel) textureLabel.textContent = isAdvanced ? 'High-Contrast' : 'Default';
-    if (textureToggleBtn) textureToggleBtn.setAttribute('aria-pressed', String(isAdvanced));
+    if (textureLabel) {
+      textureLabel.textContent = isAdvanced ? 'High-Contrast Model' : 'Striated Model';
+    }
+    if (textureToggleBtn) {
+      textureToggleBtn.setAttribute('aria-pressed', String(isAdvanced));
+    }
   }
 
-  // Primary function to set the state and apply the texture
+  // Sets the texture state, saves it, and updates the model/UI
   function setTextureChoice(choice) {
-    localStorage.setItem(TEX_KEY, choice);
+    localStorage.setItem(TEXKEY, choice);
     const isAdvanced = choice === 'advanced';
     
     const url = isAdvanced
       ? 'Ecorche_Muscles_Color_Codes.png'
       : 'Ecorche_Muscles.png';
     
-    // Note: applyTexture is assumed to be defined elsewhere in script.js
     if (typeof applyTexture === 'function') {
         applyTexture(url);
     } else {
-        console.warn("applyTexture function not found. Texture change not applied to model.");
+        console.warn("applyTexture function not found.");
     }
     updateTextureUI(isAdvanced);
   }
 
-  // Restore initial state on load
-  const initialTex = localStorage.getItem(TEX_KEY) || 'basic';
+  // Restore state from localStorage on page load
+  const initialTex = localStorage.getItem(TEXKEY) || 'basic';
   setTextureChoice(initialTex);
   
-  // Event Listener for the new toggle button
+  // Attach the click event listener ONLY to the button
   textureToggleBtn?.addEventListener('click', () => {
-    const currentChoice = localStorage.getItem(TEX_KEY) || 'basic';
+    const currentChoice = localStorage.getItem(TEXKEY) || 'basic';
     const nextChoice = currentChoice === 'basic' ? 'advanced' : 'basic';
     setTextureChoice(nextChoice);
   });
-
   // ---------- End Texture Toggle Logic ----------
 
 
@@ -365,6 +388,15 @@ scene.traverse(o => {
     if (selectedMesh?.material?.emissive) {
       selectedPrevEmissive = selectedMesh.material.emissive.getHex();
       selectedMesh.material.emissive.setHex(SELECT_COLOR);
+    }
+     // If isolation mode is active when a new mesh is selected, update the isolation
+     if (isIsolationActive && selectedMesh) {
+      isolateMesh(selectedMesh);
+    } else if (isIsolationActive && !selectedMesh) {
+      // If we de-select, turn off isolation
+      isIsolationActive = false;
+      isolateBtn.classList.remove('is-active');
+      clearIsolation();
     }
   }
   function selectMeshByKey(key) {
@@ -469,22 +501,10 @@ scene.traverse(o => {
     if (hits.length) {
       const mesh = hits[0].object;
 
-      // Clear previous selection
-      if (selectedMesh && selectedMesh.material?.emissive) {
-        selectedMesh.material.emissive.setHex(selectedPrevEmissive);
-      }
+      // This is a click, not just a selection change.
+      // We manage the selection state inside highlightMesh.
+      highlightMesh(mesh);
 
-      // Store and mark new selection
-      selectedMesh = mesh;
-      if (mesh.material?.emissive) {
-        selectedPrevEmissive = mesh.material.emissive.getHex();
-        mesh.material.emissive.setHex(SELECT_COLOR); // selection color
-      }
-
-      // Ensure hover doesn't override selection
-      if (currentHover && currentHover !== selectedMesh && currentHover.material?.emissive) {
-        currentHover.material.emissive.setHex(0x000000);
-      }
 
       const meshName = (mesh.name || '').toLowerCase();
       const key = Object.keys(MUSCLE_INFO).find(k => meshName.includes(k));
@@ -495,6 +515,21 @@ scene.traverse(o => {
       }
     }
   });
+
+  // ---- Zoom Button Logic ----
+  const zoomInBtn = document.getElementById('zoom-in-btn');
+  const zoomOutBtn = document.getElementById('zoom-out-btn');
+  
+  zoomInBtn?.addEventListener('click', () => {
+    controls.dollyOut(1.2); 
+    controls.update();
+  });
+  
+  zoomOutBtn?.addEventListener('click', () => {
+    controls.dollyIn(1.2);
+    controls.update();
+  });
+
 
   // ---- Handle resize for renderer/camera ----
   window.addEventListener('resize', () => {
