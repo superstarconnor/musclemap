@@ -119,7 +119,7 @@ window.MUSCLE_INFO = window.MUSCLE_INFO || {
     title: 'Extensor Pollicis Longus', img: 'extensor_pollicis_longus.jpg', description: 'This muscle gets its name from extending the thumb with a long tendon.', head: 'No distinct heads; deep forearm extensor.', function: 'Extends thumb interphalangeal joint; assists wrist extension.', exercises: ['Thumb Extension Band', 'Cable Thumb Lift', 'Isometric Thumb Raise'], explanation: 'Because this muscle extends the thumb, isolated thumb-lift and band work target it precisely.'
   },
   abductor_pollicis_longus: {
-    title: 'Abductor Pollicis Longus', img: 'abductor_pollicis_longus.jpg', description: 'This muscle gets its name from abducting the thumb with a long tendon.', head: 'No distinct heads; deep forearm muscle.', function: 'Thumb abduction at the carpometacarpal joint; assists wrist radial deviation.', exercises: ['Band Thumb Abduction', 'Cable Thumb Out', 'Isometric Thumb Spread'], explanation: 'Because this muscle abducts the thumb, lateral thumb-out drills keep its tendon under tension.'
+    title: 'Abductor Pollicis Longus', img: 'abductor_pollicis_longus.jpg', description: 'This muscle gets its name from abducting the thumb with a long tendon.', head: 'No distinct heads; deep forearm muscle.', function: 'Thumb abduction at the carpometacral joint; assists wrist radial deviation.', exercises: ['Band Thumb Abduction', 'Cable Thumb Out', 'Isometric Thumb Spread'], explanation: 'Because this muscle abducts the thumb, lateral thumb-out drills keep its tendon under tension.'
   },
   gluteus_maximus: {
     title: 'Gluteus Maximus (glutes)', img: '640px-Gluteus_maximus_3D.gif', description: 'This muscle gets its name from being the largest (maximus) gluteal muscle of the buttock.', head: 'Upper and lower fiber regions; broad single muscle.', function: 'Hip extension and external rotation; powerful hip drive.', exercises: ['Barbell Hip Thrust', 'Back Squat', 'Romanian Deadlift'], explanation: 'Because this muscle extends the hip, hinges, squats, and bridges keep continuous tension through hip drive.'
@@ -212,6 +212,9 @@ window.MUSCLE_INFO = window.MUSCLE_INFO || {
     const ul = document.getElementById('exerciseList');
     if (!ul) return;
     ul.innerHTML = (info.exercises||[]).map(x=>`<li>${x}</li>`).join('') || `<li>No exercises yet.</li>`;
+
+    const explanation = document.getElementById('explanation');
+    if(explanation) explanation.textContent = info.explanation || '';
   }
   
   /* 3) Open the info panel for a given key */
@@ -224,70 +227,11 @@ window.MUSCLE_INFO = window.MUSCLE_INFO || {
     renderMuscleInfo(data);
     renderMuscleExercises(data);
   
-    // Show panel and default to About tab
-    document.body.classList.remove('panel-closed');
-    document.getElementById('mm-panel')?.setAttribute('aria-hidden','false');
-    document.getElementById('mmPanelToggle')?.setAttribute('aria-expanded','true');
-    document.getElementById('panel-info')?.classList.remove('is-hidden');
-    document.getElementById('panel-exercises')?.classList.add('is-hidden');
-  
     // Let the viewer know (to highlight/zoom)
     window.dispatchEvent(new CustomEvent('mm:selected', { detail:{ name:key }}));
   };
 
-  /* === Tabs: auto-wire by data-panel / aria-controls ===================== */
-(function tabsAutoWire(){
-    document.querySelectorAll('.tabs').forEach(tabsEl => {
-      const buttons   = tabsEl.querySelectorAll('.tab');
-      const underline = tabsEl.querySelector('.tab-underline');
-      const panels    = new Map();
   
-      tabsEl.setAttribute('role','tablist');
-  
-      buttons.forEach(btn => {
-        const targetId = btn.dataset.panel || btn.getAttribute('aria-controls');
-        const panel = targetId ? document.getElementById(targetId) : null;
-        if (panel) panels.set(btn, panel);
-        btn.setAttribute('role','tab');
-        if (targetId) btn.setAttribute('aria-controls', targetId);
-        btn.setAttribute('tabindex','-1');
-      });
-  
-      function positionUnderline(btn){
-        if (!underline || !btn) return;
-        underline.style.width = `${btn.offsetWidth}px`;
-        underline.style.transform = `translateX(${btn.offsetLeft}px)`;
-      }
-  
-      function activate(btn){
-        buttons.forEach(b => {
-          const active = b === btn;
-          const panel  = panels.get(b);
-          b.classList.toggle('is-active', active);
-          b.setAttribute('aria-selected', String(active));
-          b.setAttribute('tabindex', active ? '0' : '-1');
-          if (panel){
-            panel.hidden = !active;
-            panel.classList.toggle('is-hidden', !active); // harmless if you use this class
-          }
-        });
-        positionUnderline(btn);
-      }
-  
-      // events
-      buttons.forEach(btn => btn.addEventListener('click', () => activate(btn)));
-      window.addEventListener('resize', () => {
-        const current = tabsEl.querySelector('.tab.is-active') || buttons[0];
-        positionUnderline(current);
-      });
-  
-      // initial state: use .is-active if present, else first tab
-      activate(tabsEl.querySelector('.tab.is-active') || buttons[0]);
-    });
-  })();
-  
-
-
   const topbar = document.querySelector('.mm-topbar');
 
 topbar.addEventListener('mouseenter', () => {
@@ -309,83 +253,111 @@ topbar.addEventListener('mouseleave', () => {
 });
 
   
-  /* 4) Build the muscle index (list + search). If the viewer later
-        sends a full mesh-name list, we’ll merge any missing entries. */
-  (function buildIndex(){
-    const UL = document.getElementById('mi-list');
-    const Q  = document.getElementById('mi-search');
-    if (!UL) return;
-  
-    const titleOf = (k,m)=>(m?.title)||k.replace(/[_-]/g,' ').replace(/\b\w/g,m=>m.toUpperCase());
-    function allItems(){
-      return Object.entries(window.MUSCLE_INFO||{})
-        .map(([key,m]) => ({ key, title: titleOf(key,m) }))
-        .sort((a,b)=>a.title.localeCompare(b.title));
+  /* 4) Build the muscle index (list + search). */
+(function buildIndex(){
+  const UL = document.getElementById('mi-list');
+  const Q  = document.getElementById('mi-search');
+  if (!UL) return;
+
+  const titleOf = (k,m)=>(m?.title)||k.replace(/[_-]/g,' ').replace(/\b\w/g,m=>m.toUpperCase());
+  function allItems(){
+    return Object.entries(window.MUSCLE_INFO||{})
+      .map(([key,m]) => ({ key, title: titleOf(key,m) }))
+      .sort((a,b)=>a.title.localeCompare(b.title));
+  }
+
+  function render(list){
+    UL.innerHTML = '';
+    const frag = document.createDocumentFragment();
+    for (const it of list){
+      const li  = document.createElement('li');
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = it.title;
+      btn.dataset.key = it.key;
+      btn.addEventListener('click', () => openSidebarWith(it.key));
+      li.appendChild(btn); frag.appendChild(li);
     }
-  
-    function render(list){
-      UL.innerHTML = '';
-      const frag = document.createDocumentFragment();
-      for (const it of list){
-        const li  = document.createElement('li');
-        const btn = document.createElement('button');
-        btn.className = 'mm-list-item';
-        btn.type = 'button';
-        btn.textContent = it.title;
-        btn.dataset.key = it.key;
-        btn.addEventListener('click', () => openSidebarWith(it.key));
-        li.appendChild(btn); frag.appendChild(li);
-      }
-      UL.appendChild(frag);
+    UL.appendChild(frag);
+  }
+
+  function filter(q, items){
+    const s = q.trim().toLowerCase();
+    return !s ? items : items.filter(n => n.title.toLowerCase().includes(s));
+  }
+
+  // initial draw
+  let ITEMS = allItems();
+  render(ITEMS);
+
+  // search
+  Q?.addEventListener('input',(e)=>render(filter(e.target.value, ITEMS)));
+
+  // keep highlight in sync
+  addEventListener('mm:selected',(e)=>{
+    const key = e.detail?.name;
+    UL.querySelectorAll('button.is-active').forEach(el => el.classList.remove('is-active'));
+    const match = [...UL.querySelectorAll('button')].find(b => b.dataset.key === key);
+    if (match) {
+      match.classList.add('is-active');
+      match.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     }
+  });
   
-    function filter(q, items){
-      const s = q.trim().toLowerCase();
-      return !s ? items : items.filter(n => n.title.toLowerCase().includes(s));
+  // Keyboard navigation for the index
+  document.addEventListener('keydown', (e) => {
+    const isSearchFocused = document.activeElement === Q;
+    if (isSearchFocused && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+      e.preventDefault();
+      const firstItem = UL.querySelector('button');
+      if (firstItem) firstItem.focus();
+      return;
     }
-  
-    // initial draw
-    let ITEMS = allItems();
-    render(ITEMS);
-  
-    // search
-    Q?.addEventListener('input',(e)=>render(filter(e.target.value, ITEMS)));
-  
-    // keep highlight in sync
-    addEventListener('mm:selected',(e)=>{
-      const key = e.detail?.name;
-      UL.querySelectorAll('.mm-list-item.is-active').forEach(el => el.classList.remove('is-active'));
-      const match = [...UL.querySelectorAll('.mm-list-item')].find(b => b.dataset.key === key);
-      match?.classList.add('is-active');
-      match?.scrollIntoView({ block:'nearest', behavior:'smooth' });
-    });
-  
-    // Viewer can send us all mesh names; we merge any we’re missing and rebuild once.
-    window.addEventListener('mm:meshList', (e) => {
-      const names = e.detail?.names || [];
-      let added = 0;
-      for (const raw of names){
-        const k = raw.toLowerCase().replace(/[^a-z]/g,''); // normalized key
-        if (!window.MUSCLE_INFO[k]){
-          window.MUSCLE_INFO[k] = { title: titleOf(k) };
-          added++;
-        }
+    
+    if (document.activeElement.parentElement?.parentElement === UL || !isSearchFocused) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const current = document.activeElement;
+        const next = current.parentElement.nextElementSibling?.querySelector('button');
+        if (next) next.focus();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const current = document.activeElement;
+        const prev = current.parentElement.previousElementSibling?.querySelector('button');
+        if (prev) prev.focus();
+        else if (!isSearchFocused) Q.focus();
+      } else if (e.key === 'Enter' && document.activeElement.dataset.key) {
+        openSidebarWith(document.activeElement.dataset.key);
       }
-      if (added){
-        ITEMS = allItems();
-        render(ITEMS);
-        console.info(`📚 index merged ${added} new item(s) from model`);
+    }
+  });
+
+
+  // Viewer can send us all mesh names; we merge any we’re missing and rebuild once.
+  window.addEventListener('mm:meshList', (e) => {
+    const names = e.detail?.names || [];
+    let added = 0;
+    for (const raw of names){
+      const k = raw.toLowerCase().replace(/[^a-z]/g,''); // normalized key
+      if (!window.MUSCLE_INFO[k]){
+        window.MUSCLE_INFO[k] = { title: titleOf(k) };
+        added++;
       }
-    });
-  
-    console.info(`📚 muscle index rendered: ${ITEMS.length} items`);
-  })();
-  
+    }
+    if (added){
+      ITEMS = allItems();
+      render(filter(Q.value, ITEMS));
+      console.info(`📚 index merged ${added} new item(s) from model`);
+    }
+  });
+
+  console.info(`📚 muscle index rendered: ${ITEMS.length} items`);
+})();
 
 (() => {
   const root  = document.documentElement;
   const body  = document.body;
-  const panel = document.getElementById('mm-panel');       // info sidebar
+  const panel = document.getElementById('mm-panel');
 
   /* ---------------- panel width helpers (CSS var: --mm-panel-w) --------- */
   function varPx(name, fallback=0){
@@ -406,33 +378,10 @@ topbar.addEventListener('mouseleave', () => {
     dispatchEvent(new Event('resize'));
   }
 
-  // expose for quick console tests: __mm.setPanelWidth(520)
   window.__mm = Object.assign(window.__mm || {}, { setPanelWidth });
 
-  // restore saved width (if any)
   try { const saved = localStorage.getItem('mm.panel.width'); if (saved) root.style.setProperty('--mm-panel-w', saved); } catch {}
 
-  /* ---------------- info panel open/close (hamburger) ------------------- */
-  (function(){
-    const toggle = document.getElementById('mmPanelToggle');
-    const isOpen = () => !body.classList.contains('panel-closed');
-    function setOpen(open){
-      body.classList.toggle('panel-closed', !open);
-      panel?.setAttribute('aria-hidden', String(!open));
-      toggle?.setAttribute('aria-expanded', String(open));
-    }
-    let startOpen = !body.classList.contains('panel-closed');
-    try { const saved = localStorage.getItem('mm.panel.open'); if (saved) startOpen = saved === '1'; } catch {}
-    setOpen(startOpen);
-
-    toggle?.addEventListener('click', () => {
-      const next = !isOpen();
-      setOpen(next);
-      try { localStorage.setItem('mm.panel.open', next ? '1' : '0'); } catch {}
-    });
-    document.querySelector('#mm-panel .close-btn')?.addEventListener('click', () => setOpen(false));
-    document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') setOpen(false); });
-  })();
 
   /* ---------------- late-bound resizer binding -------------------------- */
   function bindResizer(){
@@ -453,13 +402,12 @@ topbar.addEventListener('mouseleave', () => {
       e.preventDefault?.();
     }
     function onMove(e){
-      if (active) setPanelWidth(startW - (e.clientX - startX)); // was startW + (…)
+      if (active) setPanelWidth(startW - (e.clientX - startX));
     }
     function onUp(){ active = false; panel.classList.remove('is-resizing'); removeEventListener('pointermove', onMove); }
 
     handle.addEventListener('pointerdown', onDown);
 
-    // keyboard nudge (←/→)
     handle.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowLeft' || e.key === 'ArrowRight'){
         const cur = panel.getBoundingClientRect().width;
@@ -473,90 +421,5 @@ topbar.addEventListener('mouseleave', () => {
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', bindResizer, { once:true });
   } else { bindResizer(); }
-
-  /* ---------------- muscle index toggle (middle rail) ------------------- */
-  (function(){
-    const idxPanel = document.getElementById('muscle-index');
-    const btn      = document.getElementById('muscleIndexToggle');
-    if (!btn || !idxPanel) return;
-
-    const setOpen = (open) => {
-      body.classList.toggle('index-open', open);
-      body.classList.toggle('index-closed', !open);
-      idxPanel.setAttribute('aria-hidden', String(!open));
-      btn.setAttribute('aria-expanded', String(open));
-      btn.dataset.active = open ? 'true' : 'false';
-      try { localStorage.setItem('mm.index.open', open ? '1' : '0'); } catch {}
-      dispatchEvent(new Event('resize'));
-    };
-    let open = true;
-    try { const saved = localStorage.getItem('mm.index.open'); if (saved) open = saved === '1'; } catch {}
-    setOpen(open);
-
-    btn.addEventListener('click', () => setOpen(!body.classList.contains('index-open')));
-    document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') setOpen(false); });
-  })();
-
-  /* ---------------- muscle index builder (from MUSCLE_INFO) ------------- */
-  function buildMuscleIndex(){
-    const UL = document.getElementById('mi-list');
-    const Q  = document.getElementById('mi-search');
-    if (!UL) return; // might be on another page
-
-    // Use global MUSCLE_INFO if provided by your app; else a tiny sample so you see something
-    const SRC = (typeof window.MUSCLE_INFO === 'object' && window.MUSCLE_INFO) ? window.MUSCLE_INFO : {
-      pectoralis:{ title:'Pectoralis Major' },
-      deltoid:{ title:'Deltoid' },
-      bicep:{ title:'Biceps Brachii' },
-      tricep:{ title:'Triceps Brachii' },
-      quadriceps:{ title:'Quadriceps' },
-      hamstrings:{ title:'Hamstrings' },
-    };
-
-    const ALL = Object.entries(SRC).map(([key, m]) => ({
-      key,
-      title: (m && (m.title || m.name || key))
-    })).sort((a,b) => a.title.localeCompare(b.title));
-
-    function render(list){
-      UL.innerHTML = '';
-      const frag = document.createDocumentFragment();
-      for (const it of list){
-        const li  = document.createElement('li');
-        const btn = document.createElement('button');
-        btn.className = 'mm-list-item';
-        btn.type = 'button';
-        btn.textContent = it.title;
-        btn.dataset.key = it.key;
-        btn.addEventListener('click', () => {
-          setActive(it.key);
-          if (window.openSidebarWith) window.openSidebarWith(it.key);
-          dispatchEvent(new CustomEvent('mm:select', { detail:{ name: it.key } }));
-        });
-        li.appendChild(btn); frag.appendChild(li);
-      }
-      UL.appendChild(frag);
-    }
-    function setActive(key){
-      UL.querySelectorAll('.mm-list-item.is-active').forEach(el => el.classList.remove('is-active'));
-      const match = [...UL.querySelectorAll('.mm-list-item')].find(b => b.dataset.key === key);
-      match?.classList.add('is-active');
-      match?.scrollIntoView({ block:'nearest', behavior:'smooth' });
-    }
-
-    render(ALL);
-
-    Q?.addEventListener('input', (e) => {
-      const q = e.target.value.trim().toLowerCase();
-      render(!q ? ALL : ALL.filter(n => n.title.toLowerCase().includes(q)));
-    });
-
-    addEventListener('mm:selected', (e) => setActive(e.detail?.name));
-
-    console.info(`📚 muscle index rendered: ${ALL.length} items`);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', buildMuscleIndex, { once:true });
-  } else { buildMuscleIndex(); }
 })();
+
