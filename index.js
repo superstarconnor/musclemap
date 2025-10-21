@@ -35,7 +35,10 @@ window.MUSCLE_INFO = window.MUSCLE_INFO || {
   }, 
   pectoralis_major: {
     title: 'Pectoralis Major', img: 'pecpic.jpg', 
-    description: 'Derived from Latin "pectus," meaning breast, your pectoralis major(s) are located just beneath the breast tissue. Together with the pectoralis minor, these muscles make up what we call the chest. It is the large superficial chest muscle.', head: 'Clavicular (upper), sternal (middle), and abdominal (lower) heads.', function: 'Horizontal adduction, shoulder flexion (upper), and extension from flexion (lower); internal rotation.', exercises: ['Barbell, or dumbell, bench press, (Inclined (15-45%) or flat)', 'Incline DB Press', 'Pec fly (dumbell or cable)'], explanation: 'The pectoralis adduct the humerus across the body, pressing and fly motions keep continuous tension through the arc.'
+    description: 'Derived from Latin "pectus," meaning breast, your pectoralis major are located just beneath the breast tissue. Together with the pectoralis minor, these muscles make up what we call the chest.', head: 'The pectoralis major is comprised of two heads: the Clavicluar, (upper), and the Sternocostal (lower)', function: 'Pectoralis major are responsible for horizontal adduction, shoulder flexion, and extension from flexion; internal rotation.', exercises: 
+    ['Flar Bench press (Dumbbell, barbell, machine)', 
+      'Incline (15% - 45%) Bench Press (Dumbbell, barbell, machine)', 
+      'Pec fly (Dumbbell, cable, machine'], explanation: 'Because the pectoralis adducts the humerus across the body, pressing and fly motions keep continuous tension through the movement.'
   }, 
   pectoralis_minor: {
     title: 'Pectoralis Minor', img: '640px-Pectoralis_minor_muscle_frontal.png', 
@@ -63,10 +66,19 @@ window.MUSCLE_INFO = window.MUSCLE_INFO || {
     title: 'Transversus Abdominis (deep core)', img: 'transversus_abdominis.jpg', description: 'This muscle gets its name from its transverse (horizontal) fibers encircling the abdomen.', head: 'No distinct heads; deepest abdominal layer.', function: 'Abdominal bracing and spinal stability; compresses abdominal contents.', exercises: ['Dead Bug', 'Pallof Press', 'Plank (bracing focus)'], explanation: 'Because this muscle braces the core, isometric anti-movement drills create sustained tension for stability.'
   },
   biceps_brachii: {
-    title: 'Biceps Brachii', img: 'Biceps_brachii_muscle06.png', description: 'Aptly named, the bicep is called such for its two  heads, which split vertically on the inner arm. The biceps lie parallel to the torso.', head: 'The bicep has a long head on the outside (red), and a short head on the inside (green), pictured above.', function: 'Biceps are designed for flexion and forearm supination; assists shoulder flexion.', exercises: ['Bicep Curl (Dumbell, cable, barbell, etc.', 'Hammer Curl', 'Pull-ups (Favors the back while still working biceps)'], explanation: 'Because this muscle flexes the elbow and supinates, curling with supination and long-lever positions maintains tension.'
+    title: 'Biceps Brachii', img: 'Biceps_brachii_muscle06.png', 
+    description: 'Aptly named, the bicep is a fusiform muscle with two heads splitting vertically along on the inner arm. The biceps lie parallel to the torso.', 
+    head: 'The bicep has one long head on the outside (red), and one short head on the inside (green).', 
+    function: 'The biceps brachii supinate the forarm, and are its primary flexor.', 
+    exercises: ['Bicep Curl (Dumbell, Cable, Barbell, etc.)', 'Hammer Curl', 'Peacher Curl', 'Chin-ups', 'Pull-ups (Favors the back)'], 
+    explanation: 'Because this muscle flexes the elbow and supinates, curling with supination and long-lever positions maintains tension.'
   },
   brachialis: {
-    title: 'Brachialis', img: 'Brachialis_muscle02.png', description: 'This muscle gets its name from its location on the arm (brachium), deep to the biceps.', head: 'No distinct heads; deep elbow flexor.', function: 'Primary elbow flexor regardless of forearm position.', exercises: ['Hammer Curl', 'Reverse Curl', 'Cable Curl (neutral)'], explanation: 'Because this muscle flexes the elbow independent of grip, neutral and pronated curls bias it strongly.'
+    title: 'Brachialis', img: 'Brachialis_muscle02.png', 
+    description: 'The brachialis muscle gets its name from its location on the arm (brachium). It can be found in the anteroinferior area of the arm and lies deeper than the biceps brachialis muscle.',
+    head: 'No distinct heads; deep elbow flexor.', 
+    function: 'The brachialis is an important flexor muscle of the forearm at the elbow.The brachialis provides elbow flexion at any positions, making it a "pure flexor" of the forearm.', 
+    exercises: ['Hammer Curl', 'Reverse Curl', 'Cable Curl (neutral)'], explanation: 'Because this muscle flexes the elbow independent of grip, neutral and pronated curls bias it strongly.'
   },
   brachioradialis: {
     title: 'Brachioradialis', img: 'brachioradialis.jpg', 
