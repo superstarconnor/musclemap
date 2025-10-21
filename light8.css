@@ -2,7 +2,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root{
-  --mm-topbar-h: 68px;
+  --mm-topbar-h: 66px;
   --mm-topbar-background: #001936;
 
   --mm-border: #ccc; 
@@ -10,16 +10,16 @@
   --max-width: 1400px;
 
   --mm-nav-w: 0px;
-  --mm-index-w: 210px;
+  --mm-index-w: 190px;
 
   --big-text: #303030;
-  --lil-text: #505050; font-size: 13px; font-weight: 400;
+  --lil-text: #505050; font-size: 12px; font-weight: 400;
 
   --mm-select: #066eff;
   --mm-highlight: #2890ff22;
 }
 
-body{ font-family: 'Roboto'; background: #ebebeb; color: var(--mm-text);}
+body{ font-family: 'Roboto'; background: #eaeaea; color: var(--mm-text);}
 
 .mm-topbar{
   position: fixed;
@@ -67,57 +67,57 @@ body{ font-family: 'Roboto'; background: #ebebeb; color: var(--mm-text);}
 
 .mm-topbar .topbar-inner{ width: var(--max-width);
   margin: 0 auto;
-  display: flex; align-items: center; gap: 30px;
-  padding-right: 1rem;
-  padding-left: 1rem;
+  display: flex; align-items: center; gap: 20px;
+  padding-left: 2rem; padding-right: 2rem;
 }
 
 .mm-topbar .brand{ display:flex; align-items:center; text-decoration:none;position: relative;}
 .mm-topbar .brand img{height:36px; margin-bottom: 3px; width: auto; display:block; }
 .mm-topbar .brand2{ display:flex; align-items:center; text-decoration:none; position: relative;}
 .mm-topbar .brand2 img{ height: 30px; margin-bottom: 1px; width: auto; display:block; }
-.mm-topbar .toplinks{ display:flex; gap:16px; font-size: 13px; font-weight: 400;}
+.mm-topbar .toplinks{ display:flex; gap:40px; font-size: 12px; font-weight: 400;}
 
-.mm-topbar .toplinks .link{ padding: 8px; text-decoration: none;
-  color:#ddd;
+.mm-topbar .toplinks .link{ padding: 8px; text-decoration: none; margin-left: -12px;margin-right: -10px;
+  color:#bbb;
   border: 0px solid #0d2644;
-  border-radius: 8px;
 }
 .mm-topbar .toplinks .link:hover{
-  color: var(--mm-select); font-weight: 400; background-color: var(--mm-highlight); padding: 8px; border-radius: 16px;
+  color: var(--mm-select); font-weight: 400; background-color: var(--mm-highlight); padding: 8px; border-radius: 12px;
 }
 .mm-topbar .toplinks .link {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap:6px;
 }
 
 /* Main content area */
 .mm-content{
   padding-top: var(--mm-topbar-h);
   margin: 0 auto;
+  max-width: var(--max-width);
+  background-color: #f8f8f8;
 }
 .layout-wrapper {
-  max-width: var(--max-width);
-  padding-top: 3rem;
+  padding:2rem;
   margin: 0 auto;
+  justify-content: center;
   display: flex;
   align-items: flex-start;
-  gap: 1rem;
-  padding-bottom: 2rem;
+  gap: 1.4rem;
 }
 
 /* Separator */
-.mm-sep1{ height:1px; background:#bcbcbc;   max-width: var(--max-width); margin: 0 auto;
-margin-bottom: 2rem;}
-.mm-sep2{ height:1px; background:#cecece; margin: 10px 0px;}
-.mm-sep3{ flex: 0 0 1px; height: 38px; align-self: center; background: #ffffff1f;}
+.mm-sep1{ height:1px; background: var(--mm-border);   max-width: var(--max-width); margin: 0 auto;
+margin-bottom: 1rem;}
+.mm-sep2{ height:1px; background:#eee; margin: 10px 0px;}
+.mm-sep3{ flex: 0 0 1px; height: 26px; align-self: center; background: #ffffff1f;}
+.mm-sep4{ flex: 0 0 1px; height: 16px; align-self: center; background: var(--mm-border);}
 
 /* Hover tooltip */
 .mm-tooltip{
   position: fixed; pointer-events:none;
   background: #ffffff; color: var(--lil-text);
-  font-size: 13px; 
+  font-size: 12px; 
   font-weight:400; 
   padding:.7rem;
   border:1px solid var(--mm-border); 
@@ -130,20 +130,49 @@ margin-bottom: 2rem;}
 /* --------- Viewer --------- */
 .viewer-container{
   flex: 1 1 0;
-  min-width: 400px;
-  max-width: 700px;
+  min-width: 300px;
+  max-width: 600px;
   display:flex; flex-direction:column; align-items:center;
   transition:flex .3s ease;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
 }
 .viewer-box{
   position: relative;
-  width: 100%; height:75vh;
+  width: 100%;
+  height: 640px;
   background: #080808;
   overflow: hidden;
-  border-radius: 4px 4px 0px 0px;
+  border-radius: 3px 3px 0px 0px;
   border: 0px solid var(--mm-border);
   display:flex; align-items:center; justify-content:center;
+}
+.viewer-attribution{
+  bottom: 0.4rem;
+  background-color: #efefef;
+  border: 1px solid var(--mm-border);
+  border-bottom: 0px;
+  left: 0.4rem;
+  font-size: 10px;
+  width: 600px;
+  color: var(--lil-text);
+  font-weight: 400;
+  text-align: left;
+  padding: 0.5rem;
+  pointer-events: auto;
+}
+.viewer-attribution a{
+  bottom: 0.4rem;
+  left: 0.4rem;
+  color: var(--mm-select);
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 400;
+  border-radius: 3px;
+  pointer-events: auto;
+}
+.viewer-attribution p{
+  display:flex; align-items:center; justify-content:left;
+  gap: 0.3rem;
 }
 
 .viewer-frame{
@@ -193,41 +222,54 @@ cursor: pointer;
 /* --------- Controls --------- */
 .controls{
   background-color: #ffffff;
-  border-radius: 0px 0px 4px 4px;
   position: sticky;
-  padding: 0.4rem;
-  padding-left: 0.6rem;
+  padding: 0.6rem;
+  padding-left: 0.8rem;
+  gap: 0.4rem;
+  
   border: solid 1px var(--mm-border);
   color: var(--lil-text);
   display:flex; flex-direction:row; justify-content:left; align-items:center;
-  gap:0.7rem; color:var(--lil-text); font: weight 38px;
+  color:var(--lil-text); font: weight 38px;
+  font-size: 12px;
+  border-radius: 0px 0px 3px 3px;
 }
+.controls p{
+  gap: 0.4rem;
+  display:flex; flex-direction:row; justify-content:left; align-items:center;
+  font-size: 12px;
+}
+
 .controls label{ display:flex; align-items:left; }
 .controls input{ margin-right:10px; }
 
 .controls-right{
-  border-radius: 0px 0px 4px 4px;
   position: absolute;
-  right: 0rem;
+  display: grid;
+  right: 0.1rem;
   padding: 0.4rem;
-  padding-right: 0.6rem;
+  padding-right: 0.8rem;
   color: var(--lil-text);
   display:flex; flex-direction:row; justify-content:right; align-items:center;
-  gap:0.7rem; color: var(--lil-text); font: weight 38px;
+  color: var(--lil-text); font: weight 38px;
 }
 
 /* --- Texture Toggle Styles --- */
 .viewer-hud-left {
   position: absolute;
-  bottom: 0.4rem;
-  left: 0.4rem;
+  bottom: 0.1rem;
+  left: 0.1rem;
   color: #ffffff;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 400;
   background:none;
   padding: 7px 7px;
-  border-radius: 4px;
+  border-radius: 3px;
+  font-size: 12px;
   pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .panel-group {
@@ -246,7 +288,7 @@ cursor: pointer;
   box-shadow: -3px 1px 10px rgba(0,0,0,0.08); 
   z-index: 900;
   border: 1px solid var(--mm-border);
-  border-radius: 4px 0px 0px 4px;
+  border-radius: 3px 3px 3px 3px;
   
   opacity: 1;
   pointer-events: auto;
@@ -255,10 +297,14 @@ cursor: pointer;
   display: flex;
   flex-direction: column;
 }
+.anatomy{
+  padding-left: 0.4rem;
+  color: #ccc;
+}
 
 /* New Grid Layout for Panel Content */
 .panel-content {
-  margin-top: 3.6rem;
+  margin-top:50px;
   padding: 1.4rem;
   overflow-y: auto;
   flex-grow: 1;
@@ -291,37 +337,39 @@ cursor: pointer;
   color: var(--lil-text);
   position:absolute;
   padding-left: 0.5rem;
-  border-radius: 4px 0px 0px 0px;
+  border-radius: 3px 3px 0px 0px;
   border-bottom: 1px solid var(--mm-border);
   border-right: 1px solid #153b63;
 }
 
 .mm-panel-header{ 
-  padding: 0.6rem;
-  padding-left: 0.1rem;
+  padding: 1rem;
+  height: 50px;
   display: flex;
-  gap: 0.4rem;
+  gap: 0.6rem;
   align-items: center;
   justify-content: flex-start;
+  text-align: left;
 }
-.citation-icon{ 
-  color: var(--mm-select);
-  background: none;
-  cursor: pointer;
-  padding: 0.4rem;
-}
-
-.citation-icon:hover{ 
-  color: var(--mm-select);
-  background-color: var(--mm-highlight);
-  padding: 0.4rem;
-  border-radius: 999px;
-  cursor: pointer;
+.link-explain{
+  margin: -1.4rem;
+  font-size: 10px; color: var(--lil-text); 
+  padding: 0.2rem;
+  padding-left: 1rem;
+  text-align: left;
+  align-items: center;
+  align-content:center;
+  gap: 0.2rem;
+  display: flex;
+  background-color: #eeeeee;
+  border-bottom: 1px solid var(--mm-border);
+  margin-bottom: 1.4rem;
 }
 
 .mm-panel-header h2 {font-size: 20px;font-weight:600; margin: 0; color:#ffffff}
 
-.mm-panel-section h3{line-height:1.5;font-size: 20px; color:var(--big-text); font-weight: 600;}
+.mm-panel-section h3{line-height:1.4;font-size: 20px; color:var(--big-text); font-weight: 600;}
+.mm-panel h4{  font-size: 20px; color: var(--big-text); }
 .mm-panel-section p{ line-height:1.5; color: var(--lil-text);}
 #exerciseList{ list-style:none; margin:0; padding:0; }
 #exerciseList li{ color: var(--lil-text); display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;}
@@ -337,7 +385,7 @@ html, body { overflow-x: hidden;}
   height: 50px;
   align-content:center;
   align-items: center;
-  border-radius: 0px 4px 0px 0px;
+  border-radius: 3px 3px 0px 0px;
   border-bottom: 1px solid var(--mm-border);
   border-right: 1px solid var(--mm-border);
 }
@@ -354,17 +402,17 @@ html, body { overflow-x: hidden;}
 
 .muscle-index {
   width: var(--mm-index-w);
-  background: #f7f7f7;
+  background: #f5f5f5;
   border: 1px solid var(--mm-border);
-  border-radius: 0px 4px 4px 0px;
-  border-left: 0px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-radius: 3px 3px 3px 3px;
+  
+  margin-left: 0.4rem;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.08);
   height: 100%;
   overflow-y: auto;
 }
 .mi-list {
-  padding: 0;
-  margin: 0;
+  margin-top: 50px;
   list-style: none;
 }
 .mi-list button {
@@ -374,10 +422,11 @@ html, body { overflow-x: hidden;}
   height: 32px;
   cursor: pointer;
   font-weight: 400;
+  font-size: 12px;
   color: var(--lil-text);
   display: flex;
   align-items: center;
-  padding-left: 10px;
+  padding-left: 8px;
   opacity: 1;
   border-bottom: 1px solid #e5e5e5;
 }
@@ -400,9 +449,10 @@ html, body { overflow-x: hidden;}
 .mi-search{
   opacity: 1;
   width: 100%; /* CHANGE this from 53% to 100% */
-  padding: 10px;
+  padding: 12px;
   border: 0px solid var(--mm-border);   
   padding-left: 37px;   
+  margin-bottom: 2px;
   border-radius: 8px; background:#ffffff20;
   box-shadow: 1px 1px 4px #00000000;
   transition: 0.2s ease;
@@ -413,7 +463,7 @@ html, body { overflow-x: hidden;}
   display: flex;
   align-items: center;
   justify-content: center; /* DELETE this line */
-  width: 53%; /* ADD this line */
+  width: 100%; /* ADD this line */
 }
 /* Replace your old rule (line 404) with this */
 .searchy:focus-within .mm-search-icon { 
@@ -422,7 +472,8 @@ html, body { overflow-x: hidden;}
 .mi-search:hover{
   outline: none;
   opacity: 1;
-  padding:10px;
+  padding:12px;
+  margin-bottom: 2px;
   border:1px solid var(--mm-select);   
   padding-left: 37px;  
   border-radius:8px; background: #fff;
@@ -433,8 +484,8 @@ html, body { overflow-x: hidden;}
 /* Replace the old rule (line 425) with this */
 .mm-search-icon{
   position: absolute;
-  left: 10px; /* Positions it 10px from the left of the wrapper */
-  top: 50%; /* Centers it vertically */
+  left: 14px; 
+  top: 48%; /* Centers it vertically */
   transform: translateY(-50%); /* ...perfectly */
   pointer-events: none; /* Lets you click 'through' the icon */
   color: #aaa; /* A muted color for the icon */
@@ -444,40 +495,45 @@ html, body { overflow-x: hidden;}
 }
 
 .instructions{
-  font-size: 13px; color: var(--lil-text); line-height: 1.4rem; 
-  margin: 0 auto; padding: 3rem;
+  font-size: var(--lil-text); color: var(--lil-text); line-height: 1.4rem; 
+  margin: 0 auto; padding:2.4rem;
   justify-content: left;
   max-width: var(--max-width);
-  border-top: 1px solid var(--mm-border);
-  background-color: #f7f7f7;
+  border-top:1px solid var(--mm-border);
+  background-color: #f8f8f8;
   text-align: left;
-  padding-bottom: 5rem;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
-
 }
-.instructions-content{
+.instructions a{ color: var(--mm-select);
+  text-decoration: none;}
+.instructions-wrapper {
   display: grid;
-  padding-left: 14rem;
-  padding-right: 14rem;
+  grid-template-columns: 1fr 1fr; /* 60/40 split for left/right columns */
+  gap: 6rem; /* Space between the columns */
+  padding-left: 6rem;
+  padding-right: 6rem;
   max-width: var(--max-width);
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.4rem 1rem;
+  margin: 0 auto;
 }
-
-
-
-.instructions-label{
-  font-weight: 600; color: var(--big-text);
-  margin-bottom: 1.4rem;
+.disclaimer{
+  font-size: 11px; color: var(--lil-text); 
+  margin: 0 auto; padding:0.4rem ;
+  justify-content: left;
+  max-width: var(--max-width);
+  text-align: left;
+  border: 1px solid var(--mm-border);
+  background-color: #e7e7e7;
+  justify-content: center;
 }
-.instructions-label p{
+.disclaimer p{
   align-content:center;
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.6rem;
-  gap: 0.4rem;
+  display: flex; gap: 0.4rem;
+padding-left: 1.7rem}
+.instructions-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Creates the 2 columns */
+  gap: 1rem 2rem; /* Keeps your 1.4rem vertical gap and adds a 2rem horizontal gap */
 }
-
 .instructions dt{
   align-content:center;
   display: flex;
@@ -485,6 +541,16 @@ html, body { overflow-x: hidden;}
 
   gap: 0.4rem;
   font-weight: 600; color: var(--big-text);
+}
+
+.soapbox {
+  font-size: var(--lil-text); 
+  color: var(--lil-text); 
+  line-height: 1.4rem; 
+  text-align: left; /* This is the key change */
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem; /* This adds space between your paragraphs */
 }
 
 
