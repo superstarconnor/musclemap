@@ -434,4 +434,3 @@ topbar.addEventListener('mouseleave', () => {
     document.addEventListener('DOMContentLoaded', bindResizer, { once:true });
   } else { bindResizer(); }
 })();
-
